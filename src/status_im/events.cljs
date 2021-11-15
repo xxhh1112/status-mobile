@@ -58,6 +58,7 @@
             status-im.browser.permissions
             status-im.chat.models.transport
             status-im.notifications-center.core
+            status-im.wallet-connect.core
             [status-im.navigation :as navigation]))
 
 (re-frame/reg-fx

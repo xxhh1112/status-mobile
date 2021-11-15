@@ -260,6 +260,10 @@
 (reg-root-key-sub :bug-report/description-error :bug-report/description-error)
 (reg-root-key-sub :bug-report/details :bug-report/details)
 
+;; wallet connect
+(reg-root-key-sub :wallet-connect/proposal-metadata :wallet-connect/proposal-metadata)
+(reg-root-key-sub :wallet-connect/enabled? :wallet-connect/enabled?)
+
 (re-frame/reg-sub
  :communities
  :<- [:raw-communities]
