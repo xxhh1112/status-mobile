@@ -8,7 +8,8 @@
             [status-im.utils.wallet-connect :as wallet-connect]
             [status-im.browser.core :as browser]
             [taoensso.timbre :as log]
-            [status-im.async-storage.core :as async-storage]))
+            [status-im.async-storage.core :as async-storage]
+            [status-im.ethereum.json-rpc :as json-rpc]))
 
 (fx/defn switch-wallet-connect-enabled
   {:events [:multiaccounts.ui/switch-wallet-connect-enabled]}
@@ -114,13 +115,28 @@
     {:dispatch [:bottom-sheet/hide]
      :db (assoc db :wallet-connect/sessions "session data here")}))
 
+;; (defn post-message
+;;   [{:keys [message on-success on-error]}]
+;;   (json-rpc/call {:method     "waku_post"
+;;                   :params     [{}]
+;;                   :on-success on-success
+;;                   :on-error   on-error}))
+
 (fx/defn pair-session
   {:events [:wallet-connect/pair]}
   [{:keys [db]} {:keys [data]}]
   (let [client (get db :wallet-connect/client)]
-    (.pair client (clj->js {:uri data}))
+    ;; (.pair client (clj->js {:uri data}))
     {:dispatch [:navigate-back]
-     :db (assoc db :wallet-connect/scanned-uri data)}))
+     :db (assoc db :wallet-connect/scanned-uri data)
+     ::json-rpc/call [{:method     "post_waku_v2_relay_v1_message"
+                       :params     ["4359dacd96d28c70f797e9448a06267523a8d3951287efb26e5dbac920a91d16"
+                                    {:payload (clj->js {:metadata default-metadata
+                                                        :signal {:method "uri" :params {:uri data}}
+                                                        :permissions {:jsonrpc {:methods "wc_sessionPropose"}
+                                                                      :notifications {:types []}}})}]
+                       :on-error   #(println "failed to post to waku:" %)
+                       :on-success #(println %)}]}))
 
 (fx/defn wallet-connect-client-initate
   {:events [:wallet-connect/client-init]}

@@ -101,5 +101,5 @@
   [{:keys [db]} uri]
   {::router/handle-uri {:chain (ethereum/chain-keyword db)
                         :chats (get db :chats)
-                        :uri   uri
+                        :uri   "wc:4359dacd96d28c70f797e9448a06267523a8d3951287efb26e5dbac920a91d16@2?controller=false&publicKey=128ca5ba76d20b131f5558aa9faeb9d1210599854bdfd6089ce402667389e50d&relay=%7B%22protocol%22%3A%22waku%22%7D"
                         :cb    #(re-frame/dispatch [::match-scanned-value %])}})

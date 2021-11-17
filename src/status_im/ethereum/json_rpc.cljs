@@ -37,6 +37,7 @@
    "waku_generateSymKeyFromPassword" {}
    "waku_getSymKey" {}
    "waku_markTrustedPeer" {}
+   "waku_post" {}
    "wakuext_post" {}
    "wakuext_requestAllHistoricMessages" {}
    "wakuext_editMessage" {}
