@@ -241,7 +241,8 @@
    "mailservers_getChatRequestRanges" {}
    "mailservers_deleteChatRequestRange" {}
    "appmetrics_saveAppMetrics" {}
-   "appmetrics_getAppMetrics" {}})
+   "appmetrics_getAppMetrics" {}
+   "visualidentity_colorHashOf" {}})
 
 (defn on-error-retry
   [call-method {:keys [method number-of-retries delay on-error] :as arg}]
