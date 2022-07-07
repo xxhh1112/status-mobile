@@ -209,3 +209,9 @@
 
 (defn theme-colors [light dark]
   (if (theme/dark?) dark light))
+
+;;;;Customisation
+
+;;Solid
+(def purple-50 "#8052bb")
+(def purple-60 "#563c82")
