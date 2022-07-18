@@ -4,7 +4,6 @@
             [status-im.ui.screens.chat.styles.photos :as style]
             [status-im.profile.db :as profile.db]
             [status-im.multiaccounts.core :as multiaccounts]
-            [status-im.utils.image :as utils.image]
             [quo.design-system.colors :as colors]
             [status-im.ui.components.fast-image :as fast-image]))
 
@@ -13,7 +12,7 @@
    (fn [photo-path size accessibility-label _]
      (let [identicon? (when photo-path (profile.db/base64-png? photo-path))]
        [react/view {:style (style/photo-container size)}
-        [fast-image/fast-image {:source              (utils.image/source photo-path)
+        [fast-image/fast-image {:source              {:uri photo-path}
                                 :style               (style/photo size)
                                 :accessibility-label (or accessibility-label :chat-icon)}]
         (when identicon?
