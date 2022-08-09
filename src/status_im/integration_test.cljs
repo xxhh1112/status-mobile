@@ -5,7 +5,6 @@
             status-im.events
             [status-im.transport.core :as transport]
             [status-im.utils.test :as utils.test]))
-
 (def password "testabc")
 
 (utils.test/init!)
