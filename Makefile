@@ -289,6 +289,12 @@ lint: ##@test Run code style checks
 	TARGETS=$$(git diff --diff-filter=d --cached --name-only src && echo src) && \
 	clojure -Scp "$$CLASS_PATH" -m cljfmt.main check --indents indentation.edn $$TARGETS
 
+generate-visual-test: export TARGET := clojure
+generate-visual-test: ##@test Run code style checks
+	touch visual-test-config.json && touch visual-test.json && \
+	 yarn clj-kondo --config .clj-kondo/config.edn --lint src/quo2/screens/main.cljs  \
+	 >visual-test.json \
+	 && X=$$(grep -o '{"findings".*}' visual-test.json) && echo $$X >> visual-test-config.json
 lint-fix: export TARGET := clojure
 lint-fix: ##@test Run code style checks and fix issues
 	clojure -Scp "$$CLASS_PATH" -m cljfmt.main fix src --indents indentation.edn

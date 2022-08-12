@@ -15,8 +15,8 @@
   (= password confirm))
 
 (defn screen []
-  (let [password    (reagent/atom nil)
-        confirm     (reagent/atom nil)
+  (let [password    (reagent/atom "password")
+        confirm     (reagent/atom  "password")
         processing? (reagent/atom nil)
         show-error  (reagent/atom nil)
         confirm-ref (atom nil)]
@@ -56,7 +56,8 @@
                                                      (some-> ^js @confirm-ref .focus))}]]
            [rn/view {:style {:padding 16
                              :opacity (if-not valid-password 0.33 1)}}
-            [quo/text-input {:secure-text-entry   true
+            [quo/text-input {
+                              :secure-text-entry   true
                              :get-ref             #(reset! confirm-ref %)
                              :auto-capitalize     :none
                              :show-cancel         false

@@ -1,0 +1,603 @@
+{
+    "findings": [],
+    "summary": {
+        "error": 0,
+        "warning": 0,
+        "info": 0,
+        "type": "summary",
+        "duration": 16
+    },
+    "analysis": {
+        "namespace-definitions": [
+            {
+                "filename": "src/quo2/screens/main.cljs",
+                "row": 1,
+                "col": 1,
+                "name": "quo2.screens.main"
+            }
+        ],
+        "namespace-usages": [
+            {
+                "filename": "src/quo2/screens/main.cljs",
+                "row": 2,
+                "col": 14,
+                "from": "quo2.screens.main",
+                "to": "quo.react-native",
+                "alias": "rn"
+            },
+            {
+                "filename": "src/quo2/screens/main.cljs",
+                "row": 3,
+                "col": 14,
+                "from": "quo2.screens.main",
+                "to": "quo.theme",
+                "alias": "theme"
+            },
+            {
+                "filename": "src/quo2/screens/main.cljs",
+                "row": 4,
+                "col": 14,
+                "from": "quo2.screens.main",
+                "to": "quo.design-system.colors",
+                "alias": "colors"
+            },
+            {
+                "filename": "src/quo2/screens/main.cljs",
+                "row": 5,
+                "col": 14,
+                "from": "quo2.screens.main",
+                "to": "re-frame.core",
+                "alias": "re-frame"
+            },
+            {
+                "filename": "src/quo2/screens/main.cljs",
+                "row": 6,
+                "col": 14,
+                "from": "quo2.screens.main",
+                "to": "quo2.screens.button",
+                "alias": "button"
+            },
+            {
+                "filename": "src/quo2/screens/main.cljs",
+                "row": 7,
+                "col": 14,
+                "from": "quo2.screens.main",
+                "to": "quo2.screens.text",
+                "alias": "text"
+            },
+            {
+                "filename": "src/quo2/screens/main.cljs",
+                "row": 8,
+                "col": 14,
+                "from": "quo2.screens.main",
+                "to": "quo2.screens.tabs",
+                "alias": "tabs"
+            },
+            {
+                "filename": "src/quo2/screens/main.cljs",
+                "row": 9,
+                "col": 14,
+                "from": "quo2.screens.main",
+                "to": "quo2.screens.status-tags",
+                "alias": "status-tags"
+            },
+            {
+                "filename": "src/quo2/screens/main.cljs",
+                "row": 10,
+                "col": 14,
+                "from": "quo2.screens.main",
+                "to": "quo2.screens.context-tags",
+                "alias": "context-tags"
+            },
+            {
+                "filename": "src/quo2/screens/main.cljs",
+                "row": 11,
+                "col": 14,
+                "from": "quo2.screens.main",
+                "to": "quo2.screens.group-avatar",
+                "alias": "group-avatar"
+            },
+            {
+                "filename": "src/quo2/screens/main.cljs",
+                "row": 12,
+                "col": 14,
+                "from": "quo2.screens.main",
+                "to": "quo2.screens.activity-logs",
+                "alias": "activity-logs"
+            },
+            {
+                "filename": "src/quo2/screens/main.cljs",
+                "row": 13,
+                "col": 14,
+                "from": "quo2.screens.main",
+                "to": "quo2.screens.counter",
+                "alias": "counter"
+            },
+            {
+                "filename": "src/quo2/screens/main.cljs",
+                "row": 14,
+                "col": 14,
+                "from": "quo2.screens.main",
+                "to": "quo2.screens.segmented",
+                "alias": "segmented"
+            },
+            {
+                "filename": "src/quo2/screens/main.cljs",
+                "row": 15,
+                "col": 14,
+                "from": "quo2.screens.main",
+                "to": "quo.components.safe-area",
+                "alias": "safe-area"
+            },
+            {
+                "filename": "src/quo2/screens/main.cljs",
+                "row": 16,
+                "col": 14,
+                "from": "quo2.screens.main",
+                "to": "quo.core",
+                "alias": "quo"
+            }
+        ],
+        "var-definitions": [
+            {
+                "filename": "src/quo2/screens/main.cljs",
+                "row": 18,
+                "col": 1,
+                "ns": "quo2.screens.main",
+                "name": "screens"
+            },
+            {
+                "filename": "src/quo2/screens/main.cljs",
+                "row": 46,
+                "col": 1,
+                "ns": "quo2.screens.main",
+                "name": "theme-switcher",
+                "fixed-arities": [
+                    0
+                ]
+            },
+            {
+                "filename": "src/quo2/screens/main.cljs",
+                "row": 69,
+                "col": 1,
+                "ns": "quo2.screens.main",
+                "name": "main-screen",
+                "fixed-arities": [
+                    0
+                ]
+            },
+            {
+                "filename": "src/quo2/screens/main.cljs",
+                "row": 86,
+                "col": 1,
+                "ns": "quo2.screens.main",
+                "name": "main-screens"
+            }
+        ],
+        "var-usages": [
+            {
+                "fixed-arities": [
+                    1,
+                    3,
+                    2
+                ],
+                "name": "def",
+                "filename": "src/quo2/screens/main.cljs",
+                "from": "quo2.screens.main",
+                "macro": true,
+                "col": 2,
+                "arity": 2,
+                "row": 18,
+                "to": "cljs.core"
+            },
+            {
+                "filename": "src/quo2/screens/main.cljs",
+                "row": 20,
+                "col": 27,
+                "from": "quo2.screens.main",
+                "to": "quo2.screens.text",
+                "name": "preview-text",
+                "from-var": "screens"
+            },
+            {
+                "filename": "src/quo2/screens/main.cljs",
+                "row": 23,
+                "col": 27,
+                "from": "quo2.screens.main",
+                "to": "quo2.screens.button",
+                "name": "preview-button",
+                "from-var": "screens"
+            },
+            {
+                "filename": "src/quo2/screens/main.cljs",
+                "row": 26,
+                "col": 27,
+                "from": "quo2.screens.main",
+                "to": "quo2.screens.status-tags",
+                "name": "preview-status-tags",
+                "from-var": "screens"
+            },
+            {
+                "filename": "src/quo2/screens/main.cljs",
+                "row": 29,
+                "col": 27,
+                "from": "quo2.screens.main",
+                "to": "quo2.screens.context-tags",
+                "name": "preview-context-tags",
+                "from-var": "screens"
+            },
+            {
+                "filename": "src/quo2/screens/main.cljs",
+                "row": 32,
+                "col": 27,
+                "from": "quo2.screens.main",
+                "to": "quo2.screens.group-avatar",
+                "name": "preview-group-avatar",
+                "from-var": "screens"
+            },
+            {
+                "filename": "src/quo2/screens/main.cljs",
+                "row": 35,
+                "col": 27,
+                "from": "quo2.screens.main",
+                "to": "quo2.screens.activity-logs",
+                "name": "preview-activity-logs",
+                "from-var": "screens"
+            },
+            {
+                "filename": "src/quo2/screens/main.cljs",
+                "row": 38,
+                "col": 27,
+                "from": "quo2.screens.main",
+                "to": "quo2.screens.tabs",
+                "name": "preview-tabs",
+                "from-var": "screens"
+            },
+            {
+                "filename": "src/quo2/screens/main.cljs",
+                "row": 41,
+                "col": 27,
+                "from": "quo2.screens.main",
+                "to": "quo2.screens.segmented",
+                "name": "preview-segmented",
+                "from-var": "screens"
+            },
+            {
+                "filename": "src/quo2/screens/main.cljs",
+                "row": 44,
+                "col": 27,
+                "from": "quo2.screens.main",
+                "to": "quo2.screens.counter",
+                "name": "preview-counter",
+                "from-var": "screens"
+            },
+            {
+                "filename": "src/quo2/screens/main.cljs",
+                "row": 47,
+                "col": 4,
+                "from": "quo2.screens.main",
+                "to": "quo.react-native",
+                "name": "view",
+                "from-var": "theme-switcher"
+            },
+            {
+                "filename": "src/quo2/screens/main.cljs",
+                "row": 53,
+                "col": 5,
+                "from": "quo2.screens.main",
+                "to": "quo.react-native",
+                "name": "touchable-opacity",
+                "from-var": "theme-switcher"
+            },
+            {
+                "filename": "src/quo2/screens/main.cljs",
+                "row": 57,
+                "col": 39,
+                "from": "quo2.screens.main",
+                "to": "quo.theme",
+                "name": "set-theme",
+                "arity": 1,
+                "from-var": "theme-switcher"
+            },
+            {
+                "filename": "src/quo2/screens/main.cljs",
+                "row": null,
+                "col": null,
+                "from": "quo2.screens.main",
+                "to": "cljs.core",
+                "name": "fn*",
+                "arity": 2,
+                "from-var": "theme-switcher"
+            },
+            {
+                "filename": "src/quo2/screens/main.cljs",
+                "row": 58,
+                "col": 6,
+                "from": "quo2.screens.main",
+                "to": "quo.core",
+                "name": "text",
+                "from-var": "theme-switcher"
+            },
+            {
+                "filename": "src/quo2/screens/main.cljs",
+                "row": 59,
+                "col": 5,
+                "from": "quo2.screens.main",
+                "to": "quo.react-native",
+                "name": "view",
+                "from-var": "theme-switcher"
+            },
+            {
+                "name": "defn",
+                "filename": "src/quo2/screens/main.cljs",
+                "from": "quo2.screens.main",
+                "macro": true,
+                "col": 2,
+                "arity": 3,
+                "varargs-min-arity": 2,
+                "row": 46,
+                "to": "cljs.core"
+            },
+            {
+                "filename": "src/quo2/screens/main.cljs",
+                "row": 50,
+                "col": 48,
+                "from": "quo2.screens.main",
+                "to": "quo.design-system.colors",
+                "name": "theme",
+                "from-var": "theme-switcher"
+            },
+            {
+                "filename": "src/quo2/screens/main.cljs",
+                "row": 52,
+                "col": 48,
+                "from": "quo2.screens.main",
+                "to": "quo.design-system.colors",
+                "name": "theme",
+                "from-var": "theme-switcher"
+            },
+            {
+                "filename": "src/quo2/screens/main.cljs",
+                "row": 62,
+                "col": 5,
+                "from": "quo2.screens.main",
+                "to": "quo.react-native",
+                "name": "touchable-opacity",
+                "from-var": "theme-switcher"
+            },
+            {
+                "filename": "src/quo2/screens/main.cljs",
+                "row": 66,
+                "col": 39,
+                "from": "quo2.screens.main",
+                "to": "quo.theme",
+                "name": "set-theme",
+                "arity": 1,
+                "from-var": "theme-switcher"
+            },
+            {
+                "filename": "src/quo2/screens/main.cljs",
+                "row": null,
+                "col": null,
+                "from": "quo2.screens.main",
+                "to": "cljs.core",
+                "name": "fn*",
+                "arity": 2,
+                "from-var": "theme-switcher"
+            },
+            {
+                "filename": "src/quo2/screens/main.cljs",
+                "row": 67,
+                "col": 6,
+                "from": "quo2.screens.main",
+                "to": "quo.core",
+                "name": "text",
+                "from-var": "theme-switcher"
+            },
+            {
+                "filename": "src/quo2/screens/main.cljs",
+                "row": 61,
+                "col": 41,
+                "from": "quo2.screens.main",
+                "to": "quo.design-system.colors",
+                "name": "theme",
+                "from-var": "theme-switcher"
+            },
+            {
+                "filename": "src/quo2/screens/main.cljs",
+                "row": 71,
+                "col": 6,
+                "from": "quo2.screens.main",
+                "to": "quo.components.safe-area",
+                "name": "consumer",
+                "from-var": "main-screen"
+            },
+            {
+                "filename": "src/quo2/screens/main.cljs",
+                "row": 73,
+                "col": 9,
+                "from": "quo2.screens.main",
+                "to": "quo.react-native",
+                "name": "scroll-view",
+                "from-var": "main-screen"
+            },
+            {
+                "filename": "src/quo2/screens/main.cljs",
+                "row": 78,
+                "col": 10,
+                "from": "quo2.screens.main",
+                "to": "quo2.screens.main",
+                "name": "theme-switcher",
+                "fixed-arities": [
+                    0
+                ],
+                "from-var": "main-screen"
+            },
+            {
+                "filename": "src/quo2/screens/main.cljs",
+                "row": 79,
+                "col": 10,
+                "from": "quo2.screens.main",
+                "to": "quo.react-native",
+                "name": "view",
+                "from-var": "main-screen"
+            },
+            {
+                "filename": "src/quo2/screens/main.cljs",
+                "row": 80,
+                "col": 31,
+                "from": "quo2.screens.main",
+                "to": "quo2.screens.main",
+                "name": "screens",
+                "from-var": "main-screen"
+            },
+            {
+                "filename": "src/quo2/screens/main.cljs",
+                "row": 82,
+                "col": 13,
+                "from": "quo2.screens.main",
+                "to": "quo.react-native",
+                "name": "touchable-opacity",
+                "from-var": "main-screen"
+            },
+            {
+                "filename": "src/quo2/screens/main.cljs",
+                "row": 82,
+                "col": 47,
+                "from": "quo2.screens.main",
+                "to": "re-frame.core",
+                "name": "dispatch",
+                "arity": 1,
+                "from-var": "main-screen"
+            },
+            {
+                "filename": "src/quo2/screens/main.cljs",
+                "row": null,
+                "col": null,
+                "from": "quo2.screens.main",
+                "to": "cljs.core",
+                "name": "fn*",
+                "arity": 2,
+                "from-var": "main-screen"
+            },
+            {
+                "filename": "src/quo2/screens/main.cljs",
+                "row": 83,
+                "col": 14,
+                "from": "quo2.screens.main",
+                "to": "quo.react-native",
+                "name": "view",
+                "from-var": "main-screen"
+            },
+            {
+                "filename": "src/quo2/screens/main.cljs",
+                "row": 84,
+                "col": 15,
+                "from": "quo2.screens.main",
+                "to": "quo.core",
+                "name": "text",
+                "from-var": "main-screen"
+            },
+            {
+                "fixed-arities": [
+                    0,
+                    1
+                ],
+                "name": "str",
+                "filename": "src/quo2/screens/main.cljs",
+                "from": "quo2.screens.main",
+                "col": 25,
+                "from-var": "main-screen",
+                "arity": 2,
+                "varargs-min-arity": 1,
+                "row": 84,
+                "to": "cljs.core"
+            },
+            {
+                "fixed-arities": [
+                    2
+                ],
+                "name": "for",
+                "filename": "src/quo2/screens/main.cljs",
+                "from": "quo2.screens.main",
+                "macro": true,
+                "col": 11,
+                "from-var": "main-screen",
+                "arity": 2,
+                "row": 80,
+                "to": "cljs.core"
+            },
+            {
+                "name": "fn",
+                "filename": "src/quo2/screens/main.cljs",
+                "from": "quo2.screens.main",
+                "macro": true,
+                "col": 7,
+                "from-var": "main-screen",
+                "arity": 2,
+                "varargs-min-arity": 0,
+                "row": 72,
+                "to": "cljs.core"
+            },
+            {
+                "name": "fn",
+                "filename": "src/quo2/screens/main.cljs",
+                "from": "quo2.screens.main",
+                "macro": true,
+                "col": 4,
+                "from-var": "main-screen",
+                "arity": 2,
+                "varargs-min-arity": 0,
+                "row": 70,
+                "to": "cljs.core"
+            },
+            {
+                "name": "defn",
+                "filename": "src/quo2/screens/main.cljs",
+                "from": "quo2.screens.main",
+                "macro": true,
+                "col": 2,
+                "arity": 3,
+                "varargs-min-arity": 2,
+                "row": 69,
+                "to": "cljs.core"
+            },
+            {
+                "filename": "src/quo2/screens/main.cljs",
+                "row": 77,
+                "col": 62,
+                "from": "quo2.screens.main",
+                "to": "quo.design-system.colors",
+                "name": "theme",
+                "from-var": "main-screen"
+            },
+            {
+                "fixed-arities": [
+                    1,
+                    3,
+                    2
+                ],
+                "name": "def",
+                "filename": "src/quo2/screens/main.cljs",
+                "from": "quo2.screens.main",
+                "macro": true,
+                "col": 2,
+                "arity": 2,
+                "row": 86,
+                "to": "cljs.core"
+            },
+            {
+                "filename": "src/quo2/screens/main.cljs",
+                "row": 88,
+                "col": 32,
+                "from": "quo2.screens.main",
+                "to": "quo2.screens.main",
+                "name": "main-screen",
+                "fixed-arities": [
+                    0
+                ],
+                "from-var": "main-screens"
+            }
+        ]
+    }
+}{"findings":[],"summary":{"error":0,"warning":0,"info":0,"type":"summary","duration":15},"analysis":{"namespace-definitions":[{"filename":"src/quo2/screens/main.cljs","row":1,"col":1,"name":"quo2.screens.main"}],"namespace-usages":[{"filename":"src/quo2/screens/main.cljs","row":2,"col":14,"from":"quo2.screens.main","to":"quo.react-native","alias":"rn"},{"filename":"src/quo2/screens/main.cljs","row":3,"col":14,"from":"quo2.screens.main","to":"quo.theme","alias":"theme"},{"filename":"src/quo2/screens/main.cljs","row":4,"col":14,"from":"quo2.screens.main","to":"quo.design-system.colors","alias":"colors"},{"filename":"src/quo2/screens/main.cljs","row":5,"col":14,"from":"quo2.screens.main","to":"re-frame.core","alias":"re-frame"},{"filename":"src/quo2/screens/main.cljs","row":6,"col":14,"from":"quo2.screens.main","to":"quo2.screens.button","alias":"button"},{"filename":"src/quo2/screens/main.cljs","row":7,"col":14,"from":"quo2.screens.main","to":"quo2.screens.text","alias":"text"},{"filename":"src/quo2/screens/main.cljs","row":8,"col":14,"from":"quo2.screens.main","to":"quo2.screens.tabs","alias":"tabs"},{"filename":"src/quo2/screens/main.cljs","row":9,"col":14,"from":"quo2.screens.main","to":"quo2.screens.status-tags","alias":"status-tags"},{"filename":"src/quo2/screens/main.cljs","row":10,"col":14,"from":"quo2.screens.main","to":"quo2.screens.context-tags","alias":"context-tags"},{"filename":"src/quo2/screens/main.cljs","row":11,"col":14,"from":"quo2.screens.main","to":"quo2.screens.group-avatar","alias":"group-avatar"},{"filename":"src/quo2/screens/main.cljs","row":12,"col":14,"from":"quo2.screens.main","to":"quo2.screens.activity-logs","alias":"activity-logs"},{"filename":"src/quo2/screens/main.cljs","row":13,"col":14,"from":"quo2.screens.main","to":"quo2.screens.counter","alias":"counter"},{"filename":"src/quo2/screens/main.cljs","row":14,"col":14,"from":"quo2.screens.main","to":"quo2.screens.segmented","alias":"segmented"},{"filename":"src/quo2/screens/main.cljs","row":15,"col":14,"from":"quo2.screens.main","to":"quo.components.safe-area","alias":"safe-area"},{"filename":"src/quo2/screens/main.cljs","row":16,"col":14,"from":"quo2.screens.main","to":"quo.core","alias":"quo"}],"var-definitions":[{"filename":"src/quo2/screens/main.cljs","row":18,"col":1,"ns":"quo2.screens.main","name":"screens"},{"filename":"src/quo2/screens/main.cljs","row":46,"col":1,"ns":"quo2.screens.main","name":"theme-switcher","fixed-arities":[0]},{"filename":"src/quo2/screens/main.cljs","row":69,"col":1,"ns":"quo2.screens.main","name":"main-screen","fixed-arities":[0]},{"filename":"src/quo2/screens/main.cljs","row":86,"col":1,"ns":"quo2.screens.main","name":"main-screens"}],"var-usages":[{"fixed-arities":[1,3,2],"name":"def","filename":"src/quo2/screens/main.cljs","from":"quo2.screens.main","macro":true,"col":2,"arity":2,"row":18,"to":"cljs.core"},{"filename":"src/quo2/screens/main.cljs","row":20,"col":27,"from":"quo2.screens.main","to":"quo2.screens.text","name":"preview-text","from-var":"screens"},{"filename":"src/quo2/screens/main.cljs","row":23,"col":27,"from":"quo2.screens.main","to":"quo2.screens.button","name":"preview-button","from-var":"screens"},{"filename":"src/quo2/screens/main.cljs","row":26,"col":27,"from":"quo2.screens.main","to":"quo2.screens.status-tags","name":"preview-status-tags","from-var":"screens"},{"filename":"src/quo2/screens/main.cljs","row":29,"col":27,"from":"quo2.screens.main","to":"quo2.screens.context-tags","name":"preview-context-tags","from-var":"screens"},{"filename":"src/quo2/screens/main.cljs","row":32,"col":27,"from":"quo2.screens.main","to":"quo2.screens.group-avatar","name":"preview-group-avatar","from-var":"screens"},{"filename":"src/quo2/screens/main.cljs","row":35,"col":27,"from":"quo2.screens.main","to":"quo2.screens.activity-logs","name":"preview-activity-logs","from-var":"screens"},{"filename":"src/quo2/screens/main.cljs","row":38,"col":27,"from":"quo2.screens.main","to":"quo2.screens.tabs","name":"preview-tabs","from-var":"screens"},{"filename":"src/quo2/screens/main.cljs","row":41,"col":27,"from":"quo2.screens.main","to":"quo2.screens.segmented","name":"preview-segmented","from-var":"screens"},{"filename":"src/quo2/screens/main.cljs","row":44,"col":27,"from":"quo2.screens.main","to":"quo2.screens.counter","name":"preview-counter","from-var":"screens"},{"filename":"src/quo2/screens/main.cljs","row":47,"col":4,"from":"quo2.screens.main","to":"quo.react-native","name":"view","from-var":"theme-switcher"},{"filename":"src/quo2/screens/main.cljs","row":53,"col":5,"from":"quo2.screens.main","to":"quo.react-native","name":"touchable-opacity","from-var":"theme-switcher"},{"filename":"src/quo2/screens/main.cljs","row":57,"col":39,"from":"quo2.screens.main","to":"quo.theme","name":"set-theme","arity":1,"from-var":"theme-switcher"},{"filename":"src/quo2/screens/main.cljs","row":null,"col":null,"from":"quo2.screens.main","to":"cljs.core","name":"fn*","arity":2,"from-var":"theme-switcher"},{"filename":"src/quo2/screens/main.cljs","row":58,"col":6,"from":"quo2.screens.main","to":"quo.core","name":"text","from-var":"theme-switcher"},{"filename":"src/quo2/screens/main.cljs","row":59,"col":5,"from":"quo2.screens.main","to":"quo.react-native","name":"view","from-var":"theme-switcher"},{"name":"defn","filename":"src/quo2/screens/main.cljs","from":"quo2.screens.main","macro":true,"col":2,"arity":3,"varargs-min-arity":2,"row":46,"to":"cljs.core"},{"filename":"src/quo2/screens/main.cljs","row":50,"col":48,"from":"quo2.screens.main","to":"quo.design-system.colors","name":"theme","from-var":"theme-switcher"},{"filename":"src/quo2/screens/main.cljs","row":52,"col":48,"from":"quo2.screens.main","to":"quo.design-system.colors","name":"theme","from-var":"theme-switcher"},{"filename":"src/quo2/screens/main.cljs","row":62,"col":5,"from":"quo2.screens.main","to":"quo.react-native","name":"touchable-opacity","from-var":"theme-switcher"},{"filename":"src/quo2/screens/main.cljs","row":66,"col":39,"from":"quo2.screens.main","to":"quo.theme","name":"set-theme","arity":1,"from-var":"theme-switcher"},{"filename":"src/quo2/screens/main.cljs","row":null,"col":null,"from":"quo2.screens.main","to":"cljs.core","name":"fn*","arity":2,"from-var":"theme-switcher"},{"filename":"src/quo2/screens/main.cljs","row":67,"col":6,"from":"quo2.screens.main","to":"quo.core","name":"text","from-var":"theme-switcher"},{"filename":"src/quo2/screens/main.cljs","row":61,"col":41,"from":"quo2.screens.main","to":"quo.design-system.colors","name":"theme","from-var":"theme-switcher"},{"filename":"src/quo2/screens/main.cljs","row":71,"col":6,"from":"quo2.screens.main","to":"quo.components.safe-area","name":"consumer","from-var":"main-screen"},{"filename":"src/quo2/screens/main.cljs","row":73,"col":9,"from":"quo2.screens.main","to":"quo.react-native","name":"scroll-view","from-var":"main-screen"},{"filename":"src/quo2/screens/main.cljs","row":78,"col":10,"from":"quo2.screens.main","to":"quo2.screens.main","name":"theme-switcher","fixed-arities":[0],"from-var":"main-screen"},{"filename":"src/quo2/screens/main.cljs","row":79,"col":10,"from":"quo2.screens.main","to":"quo.react-native","name":"view","from-var":"main-screen"},{"filename":"src/quo2/screens/main.cljs","row":80,"col":31,"from":"quo2.screens.main","to":"quo2.screens.main","name":"screens","from-var":"main-screen"},{"filename":"src/quo2/screens/main.cljs","row":82,"col":13,"from":"quo2.screens.main","to":"quo.react-native","name":"touchable-opacity","from-var":"main-screen"},{"filename":"src/quo2/screens/main.cljs","row":82,"col":47,"from":"quo2.screens.main","to":"re-frame.core","name":"dispatch","arity":1,"from-var":"main-screen"},{"filename":"src/quo2/screens/main.cljs","row":null,"col":null,"from":"quo2.screens.main","to":"cljs.core","name":"fn*","arity":2,"from-var":"main-screen"},{"filename":"src/quo2/screens/main.cljs","row":83,"col":14,"from":"quo2.screens.main","to":"quo.react-native","name":"view","from-var":"main-screen"},{"filename":"src/quo2/screens/main.cljs","row":84,"col":15,"from":"quo2.screens.main","to":"quo.core","name":"text","from-var":"main-screen"},{"fixed-arities":[0,1],"name":"str","filename":"src/quo2/screens/main.cljs","from":"quo2.screens.main","col":25,"from-var":"main-screen","arity":2,"varargs-min-arity":1,"row":84,"to":"cljs.core"},{"fixed-arities":[2],"name":"for","filename":"src/quo2/screens/main.cljs","from":"quo2.screens.main","macro":true,"col":11,"from-var":"main-screen","arity":2,"row":80,"to":"cljs.core"},{"name":"fn","filename":"src/quo2/screens/main.cljs","from":"quo2.screens.main","macro":true,"col":7,"from-var":"main-screen","arity":2,"varargs-min-arity":0,"row":72,"to":"cljs.core"},{"name":"fn","filename":"src/quo2/screens/main.cljs","from":"quo2.screens.main","macro":true,"col":4,"from-var":"main-screen","arity":2,"varargs-min-arity":0,"row":70,"to":"cljs.core"},{"name":"defn","filename":"src/quo2/screens/main.cljs","from":"quo2.screens.main","macro":true,"col":2,"arity":3,"varargs-min-arity":2,"row":69,"to":"cljs.core"},{"filename":"src/quo2/screens/main.cljs","row":77,"col":62,"from":"quo2.screens.main","to":"quo.design-system.colors","name":"theme","from-var":"main-screen"},{"fixed-arities":[1,3,2],"name":"def","filename":"src/quo2/screens/main.cljs","from":"quo2.screens.main","macro":true,"col":2,"arity":2,"row":86,"to":"cljs.core"},{"filename":"src/quo2/screens/main.cljs","row":88,"col":32,"from":"quo2.screens.main","to":"quo2.screens.main","name":"main-screen","fixed-arities":[0],"from-var":"main-screens"}]}}

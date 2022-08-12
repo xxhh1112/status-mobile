@@ -148,7 +148,7 @@
     (fn [{:keys [label multiline error style input-style keyboard-type before after
                  cancel-label on-focus on-blur show-cancel accessibility-label
                  bottom-value secure-text-entry container-style get-ref on-cancel
-                 monospace auto-complete-type auto-correct]
+                 monospace auto-complete-type auto-correct placeholder-text]
           :or  {cancel-label "Cancel"}
           :as  props}]
       {:pre [(check-spec ::text-input props)]}
@@ -205,7 +205,9 @@
            (when before
              [accessory-element before])
            [rn/text-input
-            (merge {:style                   (text-input-style multiline input-style monospace before after)
+            (merge {
+                    :test-id placeholder-text
+                    :style                   (text-input-style multiline input-style monospace before after)
                     :ref                     (fn [r]
                                                (reset! ref r)
                                                (when get-ref (get-ref r)))
