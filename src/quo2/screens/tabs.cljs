@@ -3,15 +3,13 @@
             [quo.design-system.colors :as colors]
             [quo.previews.preview :as preview]
             [quo2.components.tabs :as quo2]
-            [reagent.core :as reagent]))
+            [cljs.tools.reader.edn :as edn]
+            [reagent.core :as reagent])
+            (:require-macros  [status-im.utils.slurp :refer [slurp]])
+            )
 
-(def descriptor [{:label   "Size:"
-                  :key     :size
-                  :type    :select
-                  :options [{:key   32
-                             :value "32"}
-                            {:key   24
-                             :value "24"}]}])
+(def descriptor (edn/read-string (slurp "./src/quo2/screens/tabs-options.edn")))
+
 
 (defn cool-preview []
   (let [state  (reagent/atom {:size  32})]

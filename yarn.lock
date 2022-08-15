@@ -3536,10 +3536,10 @@ cliui@^7.0.2:
     strip-ansi "^6.0.0"
     wrap-ansi "^7.0.0"
 
-clj-kondo@^2020.1.13:
-  version "2020.1.13"
-  resolved "https://registry.yarnpkg.com/clj-kondo/-/clj-kondo-2020.1.13.tgz#bffe0dde83169f3b7a605f459f835cbf90ef9347"
-  integrity sha512-hLKi4toY3UFe1WnuX/HGr2e3PWEt4++7286Jiv/nyBoy1zcEopz7k+e0XnjX5GkxFUgXv1KrIyHQ3eM4+iW2dw==
+clj-kondo@^2022.08.03:
+  version "2022.8.3"
+  resolved "https://registry.yarnpkg.com/clj-kondo/-/clj-kondo-2022.8.3.tgz#1dc333f40dd54e5a3972f0fd88f3cf6398ec2efb"
+  integrity sha512-VwgqE5UrOUVGDpsYhqyBW7Me/q02SugmGf0PpS6C4MJF8CNHe6OX3qWborV4Ao3yuqcWyGPQGriL+H7XVIuZIQ==
   dependencies:
     binwrap "^0.2.2"
     request "^2.88.0"
@@ -4233,6 +4233,11 @@ ecc-jsbn@~0.1.1:
   dependencies:
     jsbn "~0.1.0"
     safer-buffer "^2.1.0"
+
+edn-data@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/edn-data/-/edn-data-1.0.0.tgz#1851973fcc21c841ecac3c81d5971f22926ccf15"
+  integrity sha512-APhRwwveKvsK193tw4ZBxCU6HRgBtuZ3sXt1G+czxZImNVOqYUWdQDIs4CpRFWfSQh//mPwgyBB0Qv7aUDmoFA==
 
 ee-first@1.1.1:
   version "1.1.1"

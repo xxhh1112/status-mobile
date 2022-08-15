@@ -1,0 +1,7 @@
+[{:label   "Size:"
+                  :key     :size
+                  :type    :select
+                  :options [{:key   32
+                             :value "32"}
+                            {:key   24
+                             :value "24"}]}]

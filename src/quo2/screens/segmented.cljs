@@ -2,16 +2,13 @@
   (:require [quo.react-native :as rn]
             [quo.design-system.colors :as colors]
             [quo.previews.preview :as preview]
+            [cljs.tools.reader.edn :as edn]
             [quo2.components.segmented-control :as quo2]
-            [reagent.core :as reagent]))
+            [reagent.core :as reagent])
+            (:require-macros  [status-im.utils.slurp :refer [slurp]])
+            )
 
-(def descriptor [{:label   "Size:"
-                  :key     :size
-                  :type    :select
-                  :options [{:key   28
-                             :value "28"}
-                            {:key   20
-                             :value "20"}]}])
+(def descriptor (edn/read-string (slurp "./src/quo2/screens/segmented-options.edn")))
 
 (defn cool-preview []
   (let [state  (reagent/atom {:size  32})]

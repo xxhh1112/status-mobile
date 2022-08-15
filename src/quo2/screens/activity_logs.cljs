@@ -1,53 +1,16 @@
 (ns quo2.screens.activity-logs
   (:require [reagent.core :as reagent]
             [quo.react-native :as rn]
+            [cljs.tools.reader.edn :as edn]
             [quo.previews.preview :as preview]
             [quo2.foundations.colors :as colors]
             [quo2.screens.status-tags :as status-tags]
-            [quo2.components.activity-logs :as activity-logs]))
+            [quo2.components.activity-logs :as activity-logs])
+              (:require-macros  [status-im.utils.slurp :refer [slurp]])
+            )
 
-(def descriptor [{:label "Unread:"
-                  :key   :unread
-                  :type  :boolean}
-                 {:label "Icon"
-                  :key   :icon
-                  :type  :select
-                  :options [{:key :placeholder
-                             :value :placeholder}]}
-                 {:label "Title"
-                  :key   :title
-                  :type  :text}
-                 {:label :message
-                  :key   :message
-                  :type  :text}
-                 {:label "Timestamp"
-                  :key :timestamp
-                  :type :text}
-                 {:label "Button 1 type"
-                  :key :button-1-type
-                  :type :select
-                  :options [{:value "Danger"
-                             :key :danger}
-                            {:value "Primary"
-                             :key :primary}
-                            {:value "Success"
-                             :key :success}]}
-                 {:label "Button 1 label"
-                  :key :button-1-label
-                  :type :text}
-                 {:label "Button 2 type"
-                  :key :button-2-type
-                  :type :select
-                  :options [{:value "Danger"
-                             :key :danger}
-                            {:value "Primary"
-                             :key :primary}
-                            {:value "Success"
-                             :key :success}]}
-                 {:label "Button 2 label"
-                  :key :button-2-label
-                  :type :text}
-                 status-tags/status-tags-options])
+(def descriptor (edn/read-string (slurp "./src/quo2/screens/activity-logs-options.edn")))
+
 
 (defn preview []
   (let [state  (reagent/atom {:title "Activity Title"

@@ -1,8 +1,12 @@
 {:output {
     :analysis {
-    :var-definition true
-    :namespace-definitions true
-    :namespace-usages true
-    :var-usages :meta
-    :keywords true}
+        :var-definition true
+        :namespace-definitions false
+        :namespace-usages false
+        :var-usages {
+            :private true
+            :macro true
+            :meta true
+            :dispatch-val-str true
+        }}
     :format :json}}

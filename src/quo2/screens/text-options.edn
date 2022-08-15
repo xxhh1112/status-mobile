@@ -1,0 +1,24 @@
+[{:label   "Size:"
+                  :key     :size
+                  :type    :select
+                  :options [{:key   :heading-1
+                             :value "Heading 1"}
+                            {:key   :heading-2
+                             :value "Heading 2"}
+                            {:key   :paragraph-1
+                             :value "Paragraph 1"}
+                            {:key   :paragraph-2
+                             :value "Paragraph 2"}
+                            {:key   :label
+                             :value "Label"}]}
+                 {:label   "Weight:"
+                  :key     :weight
+                  :type    :select
+                  :options [{:key   :regular
+                             :value "Regular"}
+                            {:key   :medium
+                             :value "Medium"}
+                            {:key   :semi-bold
+                             :value "Semi-bold"}
+                            {:key   :monospace
+                             :value "Monospace"}]}]

@@ -1,0 +1,8 @@
+[status-tags-options
+                 {:label "Size"
+                  :key :size
+                  :type :select
+                  :options [{:value "Small"
+                             :key :small}
+                            {:value "Large"
+                             :key :large}]}]

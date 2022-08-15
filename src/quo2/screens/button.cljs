@@ -3,52 +3,12 @@
             [quo.react-native :as rn]
             [quo.previews.preview :as preview]
             [quo.design-system.colors :as colors]
-            [quo2.components.button :as quo2]))
+            [cljs.tools.reader.edn :as edn]
+            [quo2.components.button :as quo2])
+            (:require-macros  [status-im.utils.slurp :refer [slurp]])
+            )
 
-(def descriptor [{:label   "Type:"
-                  :key     :type
-                  :type    :select
-                  :options [{:key   :primary
-                             :value "Primary"}
-                            {:key   :secondary
-                             :value "Secondary"}
-                            {:key   :grey
-                             :value "Grey"}
-                            {:key   :outline
-                             :value "Outline"}
-                            {:key   :ghost
-                             :value "Ghost"}
-                            {:key   :danger
-                             :value "Danger"}]}
-                 {:label   "Size:"
-                  :key     :size
-                  :type    :select
-                  :options [{:key   56
-                             :value "56"}
-                            {:key   40
-                             :value "40"}
-                            {:key   32
-                             :value "32"}
-                            {:key   24
-                             :value "24"}]}
-                 {:label "Icon:"
-                  :key   :icon
-                  :type  :boolean}
-                 {:label "Above icon:"
-                  :key   :above
-                  :type  :boolean}
-                 {:label "After icon:"
-                  :key   :after
-                  :type  :boolean}
-                 {:label "Before icon:"
-                  :key   :before
-                  :type  :boolean}
-                 {:label "Disabled:"
-                  :key   :disabled
-                  :type  :boolean}
-                 {:label "Label"
-                  :key   :label
-                  :type  :text}])
+(def descriptor (edn/read-string (slurp "./src/quo2/screens/button-options.edn")))
 
 (defn cool-preview []
   (let [state  (reagent/atom {:label "Press Me"

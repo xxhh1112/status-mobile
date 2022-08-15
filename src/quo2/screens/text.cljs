@@ -3,36 +3,19 @@
             [quo.previews.preview :as preview]
             [reagent.core :as reagent]
             [quo2.components.text :as quo2]
-            [quo.design-system.colors :as colors]))
+            [cljs.tools.reader.edn :as edn]
+            [quo.design-system.colors :as colors])
+            (:require-macros  [status-im.utils.slurp :refer [slurp]])
+            )
 
-(def descriptor [{:label   "Size:"
-                  :key     :size
-                  :type    :select
-                  :options [{:key   :heading-1
-                             :value "Heading 1"}
-                            {:key   :heading-2
-                             :value "Heading 2"}
-                            {:key   :paragraph-1
-                             :value "Paragraph 1"}
-                            {:key   :paragraph-2
-                             :value "Paragraph 2"}
-                            {:key   :label
-                             :value "Label"}]}
-                 {:label   "Weight:"
-                  :key     :weight
-                  :type    :select
-                  :options [{:key   :regular
-                             :value "Regular"}
-                            {:key   :medium
-                             :value "Medium"}
-                            {:key   :semi-bold
-                             :value "Semi-bold"}
-                            {:key   :monospace
-                             :value "Monospace"}]}])
+(def descriptor (edn/read-string (slurp "./src/quo2/screens/text-options.edn")))
 
 (defn cool-preview []
   (let [state     (reagent/atom {})]
     (fn []
+    ;;  (js/console.log descriptor)
+     (js/console.log descriptor )
+
       [rn/view {:margin-bottom 50
                 :padding       16}
        [preview/customizer state descriptor]

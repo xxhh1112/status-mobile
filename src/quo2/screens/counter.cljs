@@ -2,24 +2,13 @@
   (:require [quo.react-native :as rn]
             [quo.previews.preview :as preview]
             [reagent.core :as reagent]
+            [cljs.tools.reader.edn :as edn]
             [quo2.components.counter :as quo2]
-            [quo.design-system.colors :as colors]))
+            [quo.design-system.colors :as colors])
+            (:require-macros  [status-im.utils.slurp :refer [slurp]])
+            )
 
-(def descriptor [{:label   "Type:"
-                  :key     :type
-                  :type    :select
-                  :options [{:key   :default
-                             :value "Default"}
-                            {:key   :secondary
-                             :value "Secondary"}
-                            {:key   :grey
-                             :value "Gray"}]}
-                 {:label "Outline?:"
-                  :key   :outline
-                  :type  :boolean}
-                 {:label "Value"
-                  :key   :value
-                  :type  :text}])
+(def descriptor (edn/read-string (slurp "./src/quo2/screens/counter-options.edn")))
 
 (defn cool-preview []
   (let [state (reagent/atom {:value 5 :type :default})]

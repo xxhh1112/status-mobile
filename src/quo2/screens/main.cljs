@@ -15,31 +15,31 @@
             [quo.components.safe-area :as safe-area]
             [quo.core :as quo]))
 
-(def screens [{:name      :quo2-texts
+(def screens [{:name      :preview-text
                :insets    {:top false}
                :component text/preview-text}
-              {:name      :quo2-button
+              {:name      :preview-button
                :insets    {:top false}
                :component button/preview-button}
-              {:name      :quo2-status-tags
+              {:name      :preview-status-tags
                :insets    {:top false}
                :component status-tags/preview-status-tags}
-              {:name      :quo2-context-tags
+              {:name      :preview-context-tags
                :insets    {:top false}
                :component context-tags/preview-context-tags}
-              {:name      :quo2-group-avatar
+              {:name      :preview-group-avatar
                :insets    {:top false}
                :component group-avatar/preview-group-avatar}
-              {:name      :quo2-activity-logs
+              {:name      :preview-activity-logs
                :insets    {:top false}
                :component activity-logs/preview-activity-logs}
-              {:name      :quo2-tabs
+              {:name      :preview-tabs
                :insets    {:top false}
                :component tabs/preview-tabs}
-              {:name      :quo2-segmented
+              {:name      :preview-segmented
                :insets    {:top false}
                :component segmented/preview-segmented}
-              {:name      :quo2-counter
+              {:name      :preview-counter
                :insets    {:top false}
                :component counter/preview-counter}])
 
@@ -81,7 +81,7 @@
            ^{:key name}
            [rn/touchable-opacity {:on-press #(re-frame/dispatch [:navigate-to name])}
             [rn/view {:style {:padding-vertical 8}}
-             [quo/text (str "Preview " name)]]])]])]))
+             [quo/text (str name)]]])]])]))
 
 (def main-screens [{:name      :quo2-preview
                     :insets    {:top false}

@@ -1,0 +1,51 @@
+[{:label "Unread:"
+                  :key   :unread
+                  :type  :boolean}
+                 {:label "Icon"
+                  :key   :icon
+                  :type  :select
+                  :options [{:key :placeholder
+                             :value :placeholder}]}
+                 {:label "Title"
+                  :key   :title
+                  :type  :text}
+                 {:label :message
+                  :key   :message
+                  :type  :text}
+                 {:label "Timestamp"
+                  :key :timestamp
+                  :type :text}
+                 {:label "Button 1 type"
+                  :key :button-1-type
+                  :type :select
+                  :options [{:value "Danger"
+                             :key :danger}
+                            {:value "Primary"
+                             :key :primary}
+                            {:value "Success"
+                             :key :success}]}
+                 {:label "Button 1 label"
+                  :key :button-1-label
+                  :type :text}
+                 {:label "Button 2 type"
+                  :key :button-2-type
+                  :type :select
+                  :options [{:value "Danger"
+                             :key :danger}
+                            {:value "Primary"
+                             :key :primary}
+                            {:value "Success"
+                             :key :success}]}
+                 {:label "Button 2 label"
+                  :key :button-2-label
+                  :type :text}
+                 {:label "Status"
+   :key :status
+   :type :select
+   :options [{:value "Positive"
+              :key :positive}
+             {:value "Negative"
+              :key :negative}
+             {:value "Pending"
+              :key :pending}]}
+                 ]

@@ -4,8 +4,11 @@
             [status-im.multiaccounts.core :as multiaccounts]
             [quo.react-native :as rn]
             [quo.previews.preview :as preview]
+            [cljs.tools.reader.edn :as edn]
             [quo2.foundations.colors :as colors]
-            [quo2.components.context-tags :as quo2]))
+            [quo2.components.context-tags :as quo2])
+            (:require-macros  [status-im.utils.slurp :refer [slurp]])
+            )
 
 (def group-avatar-default-params
   {:size :small
@@ -13,15 +16,8 @@
 
 (def example-pk "0x04fcf40c526b09ff9fb22f4a5dbd08490ef9b64af700870f8a0ba2133f4251d5607ed83cd9047b8c2796576bc83fa0de23a13a4dced07654b8ff137fe744047917")
 
-(def descriptor [{:label "Type"
-                  :key   :type
-                  :type  :select
-                  :options [{:key :public-key
-                             :value "Public key"}
-                            {:key :avatar
-                             :value "Avatar"}
-                            {:key :group-avatar
-                             :value "Group avatar"}]}])
+(def descriptor (edn/read-string (slurp "./src/quo2/screens/context-tags-options.edn")))
+
 
 (defn cool-preview []
   (let [state (reagent/atom {:label "Name"

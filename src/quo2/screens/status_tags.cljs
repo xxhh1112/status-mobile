@@ -3,7 +3,10 @@
             [quo.react-native :as rn]
             [quo.previews.preview :as preview]
             [quo2.foundations.colors :as colors]
-            [quo2.components.status-tags :as quo2]))
+            [cljs.tools.reader.edn :as edn]
+            [quo2.components.status-tags :as quo2])
+            (:require-macros  [status-im.utils.slurp :refer [slurp]])
+            )
 
 (def status-tags-options
   {:label "Status"

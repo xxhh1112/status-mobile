@@ -1,0 +1,9 @@
+[{:label "Type"
+                  :key   :type
+                  :type  :select
+                  :options [{:key :public-key
+                             :value "Public key"}
+                            {:key :avatar
+                             :value "Avatar"}
+                            {:key :group-avatar
+                             :value "Group avatar"}]}]

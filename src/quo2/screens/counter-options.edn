@@ -1,0 +1,15 @@
+[{:label   "Type:"
+                  :key     :type
+                  :type    :select
+                  :options [{:key   :default
+                             :value "Default"}
+                            {:key   :secondary
+                             :value "Secondary"}
+                            {:key   :grey
+                             :value "Gray"}]}
+                 {:label "Outline?:"
+                  :key   :outline
+                  :type  :boolean}
+                 {:label "Value"
+                  :key   :value
+                  :type  :text}]

@@ -1,0 +1,20 @@
+[{:label "Size"
+                  :key :size
+                  :type :select
+                  :options [{:key :small
+                             :value "Small"}
+                            {:key :medium
+                             :value "Medium"}
+                            {:key :large
+                             :value "Large"}]}
+                 {:label "Color"
+                  :key   :color
+                  :type  :select
+                  :options
+                  (map
+                   (fn [c]
+                     {:key c
+                      :value c})
+                   (-> colors/customization
+                       :light
+                       keys))}]

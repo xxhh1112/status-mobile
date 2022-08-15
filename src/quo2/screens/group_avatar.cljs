@@ -3,28 +3,12 @@
             [quo.react-native :as rn]
             [quo.previews.preview :as preview]
             [quo2.foundations.colors :as colors]
-            [quo2.components.group-avatar :as quo2]))
+            [cljs.tools.reader.edn :as edn]
+            [quo2.components.group-avatar :as quo2])
+            (:require-macros  [status-im.utils.slurp :refer [slurp]])
+            )
 
-(def descriptor [{:label "Size"
-                  :key :size
-                  :type :select
-                  :options [{:key :small
-                             :value "Small"}
-                            {:key :medium
-                             :value "Medium"}
-                            {:key :large
-                             :value "Large"}]}
-                 {:label "Color"
-                  :key   :color
-                  :type  :select
-                  :options
-                  (map
-                   (fn [c]
-                     {:key c
-                      :value c})
-                   (-> colors/customization
-                       :light
-                       keys))}])
+(def descriptor (edn/read-string (slurp "./src/quo2/screens/group-avatar-options.edn")))
 
 (defn cool-preview []
   (let [state (reagent/atom {:theme :light

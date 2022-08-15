@@ -1,5 +1,6 @@
 // @ts-nocheck
 const data = require('./visual-tests.json')
+
 const waitToNavigate = duration => new Promise(resolve => setTimeout(() => resolve(), duration));
 
 
@@ -46,11 +47,11 @@ describe('Example (hello)', () => {
     });
 
 
-    for (item of data) {
+    for (const item of data) {
         it(`${item} page should match snapshot`, async () => {
-            await element(by.text(`Preview : quo2 - ${item}`)).tap();
+            await element(by.text(`:${item}`)).tap();
             await waitToNavigate(800);
-            await jestExpect(item).toMatchImageSnapshot();
+            const res = await jestExpect(item).toMatchImageSnapshot();
         })
     }
 
