@@ -55,7 +55,7 @@
 (defn customizer-boolean
   [{:keys [label key state]}]
   (let [state* (reagent/cursor state [key])]
-    [rn/view {:style container}
+    [rn/view {:style container } 
      [rn/view {:style label-style}
       [quo/text label]]
      [rn/view {:style {:flex-direction   :row
@@ -65,6 +65,7 @@
                        :border-width     1
                        :border-color     (:ui-02 @colors/theme)}}
       [rn/touchable-opacity {:style    (touchable-style)
+                              :test-ID (str key "true")
                              :on-press #(reset! state* true)}
        [quo/text {:color (if  @state* :link :secondary)}
         "True"]]
@@ -72,6 +73,7 @@
                 :margin-vertical  4
                 :background-color (:ui-02 @colors/theme)}]
       [rn/touchable-opacity {:style    (touchable-style)
+                             :test-ID (str key "false")
                              :on-press #(reset! state* false)}
        [quo/text {:color (if (not @state*) :link :secondary)}
         "False"]]]]))
@@ -82,7 +84,7 @@
     [rn/view {:style container}
      [rn/view {:style label-style}
       [quo/text label]]
-     [rn/view {:style {:flex 0.6}}
+     [rn/view {:style {:flex 0.6} :test-ID key}
       [quo/text-input {:value          @state*
                        :show-cancel    false
                        :style          {:border-radius 4
@@ -104,7 +106,7 @@
         [rn/view {:style container}
          [rn/view {:style label-style}
           [quo/text label]]
-         [rn/view {:style {:flex 0.6}}
+         [rn/view {:style {:flex 0.6} :test-ID key }
           [rn/modal {:visible              @open
                      :on-request-close     #(reset! open false)
                      :statusBarTranslucent true
@@ -116,7 +118,8 @@
               (doall
                (for [{:keys [key value]} options]
                  ^{:key key}
-                 [rn/touchable-opacity {:style    (select-option-style (= @state* key))
+                 [rn/touchable-opacity {:test-ID "select-modal"
+                                        :style    (select-option-style (= @state* key))
                                         :on-press #(do
                                                      (reset! open false)
                                                      (reset! state* key))}

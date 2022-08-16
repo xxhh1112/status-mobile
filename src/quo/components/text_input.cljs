@@ -44,6 +44,7 @@
 
 (s/def ::text-input (s/keys :opt-un
                             [::label
+                             ::key
                              ::multiline
                              ::error
                              ::style
@@ -148,7 +149,7 @@
     (fn [{:keys [label multiline error style input-style keyboard-type before after
                  cancel-label on-focus on-blur show-cancel accessibility-label
                  bottom-value secure-text-entry container-style get-ref on-cancel
-                 monospace auto-complete-type auto-correct placeholder-text]
+                 monospace auto-complete-type auto-correct placeholder-text key]
           :or  {cancel-label "Cancel"}
           :as  props}]
       {:pre [(check-spec ::text-input props)]}
@@ -206,7 +207,7 @@
              [accessory-element before])
            [rn/text-input
             (merge {
-                    :test-id placeholder-text
+                    :test-ID key
                     :style                   (text-input-style multiline input-style monospace before after)
                     :ref                     (fn [r]
                                                (reset! ref r)

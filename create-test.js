@@ -10,11 +10,9 @@ const screenNames = data["var-usages"].filter((
     usage => usage["from-var"] && usage["from-var"] == "screens" && usage["from"] == "quo2.screens.main"
 )).map(({ name }) => name)
 
-
-
 const getOptions = async (fileNames) => {
     const acc = {}
-    const names = ["preview-button"] // revert to fileNames
+    const names = ["preview-tabs","preview-segmented","preview-counter"] // revert to fileNames
     for await (const fileName of names) {
         const value = new Promise((res) => {
             const fileNameWithoutPreview = fileName.substring(8)
@@ -30,138 +28,50 @@ const getOptions = async (fileNames) => {
     return acc
 }
 
-// [] =>
-// [{},{}]
-
-// {
-//     "label": "Size:",
-//     "key": "size",
-//     "type": "select",
-//     "options": [
-//         {
-//             "key": "heading-1",
-//             "value": "Heading 1"
-//         },
-//         {
-//             "key": "heading-2",
-//             "value": "Heading 2"
-//         },
-//     ]
-// },
-// => 
-// [{
-//     "size":{
-//     "type": "select",
-//     "value": "Heading 1"
-//     },
-//     {
-//         "size":{
-//         "type": "select",
-//         "value": "Heading 2"
-//         },
-//     ]
-
 const getFlattenedVariants = (variant) => {
     if (variant['type'] == "select") {
         return variant['options'].map(({ value }) => ({
-            [variant['key']]: {
-                "type": "select",
-                "value": value
-            }
+            "key": variant['key'],
+            "type": "select",
+            "value": value,
+            label: variant['label']
         }))
     }
     if (variant['type'] == "boolean") {
         return [
             {
-                [variant['key']]: {
-                    "type": "boolean",
-                    "value": "True"
-                }
+                "key": variant['key'],
+                "type": "boolean",
+                "value": "true",
+                label: variant['label']
             },
             {
-                [variant['key']]: {
-                    "type": "boolean",
-                    "value": "False"
-                }
+                "key": variant['key'],
+                "type": "boolean",
+                "value": "false",
+                label: variant['label']
             },
         ]
     }
     if (variant['type'] == "text") {
         return [
             {
-                [variant['key']]: {
-                    "type": "boolean",
-                    "value": "Test Data"
-                }
+                "key": variant['key'],
+                "type": "text",
+                "value": "Test Data",
+                label: variant['label']
+            },
+            {
+                "key": variant['key'],
+                "type": "text",
+                "value": "123",
+                label: variant['label']
             },
         ]
     }
 
     return []
 }
-
-
-// [
-//     { size: { type: 'select', value: 'Heading 1' } },
-//     { size: { type: 'select', value: 'Heading 2' } },
-//     { size: { type: 'select', value: 'Paragraph 1' } },
-//     { size: { type: 'select', value: 'Paragraph 2' } },
-//     { size: { type: 'select', value: 'Label' } },
-
-// { weight: { type: 'select', value: 'Regular' } },
-// { weight: { type: 'select', value: 'Medium' } },
-// { weight: { type: 'select', value: 'Semi-bold' } },
-// { weight: { type: 'select', value: 'Monospace' } }
-//   ]
-
-// variants - 2
-//  [
-//   [
-//     { type: { type: 'select', value: 'Ghost' } },
-//     { type: { type: 'select', value: 'Danger' } }
-//   ],
-//   [
-//     { size: { type: 'select', value: '32' } },
-//     { size: { type: 'select', value: '24' } }
-//   ],
-//   [
-//     { icon: { type: 'boolean', value: 'True' } },
-//     { icon: { type: 'boolean', value: 'False' } }
-//    ]
-//  ]
-
-//       [
-//     { type: { type: 'select', value: 'Ghost' } },
-//     { type: { type: 'select', value: 'Danger' } }
-//   ],
-//   [
-//     { size: { type: 'select', value: '32' } },
-//     { size: { type: 'select', value: '24' } }
-//   ],
-
-// [
-//     { size: { type: 'select', value: '32' } },
-//     { size: { type: 'select', value: '24' } }
-//   ]
-// 
-// [
-//     [
-//         {
-//             "type": {
-//                 "type": "select",
-//                 "value": "Primary"
-//             }
-//         },
-//         {
-//             "size": {
-//                 "type": "select",
-//                 "value": "32"
-//             }
-//         }
-//     ],
-
-// ]
-
 
 const getPermutations = (allOptions) => Object.entries(allOptions).reduce((acc, [fileName, options]) => {
     const variants = options.map((option) => getFlattenedVariants(option))
@@ -171,9 +81,6 @@ const getPermutations = (allOptions) => Object.entries(allOptions).reduce((acc, 
 
         return acc.flatMap(a => cur.map(c => [...a, c]))
     }, initialVariant)
-
-
-    console.log(o.length)
     return {
         [fileName]: o,
         ...acc
