@@ -294,7 +294,8 @@ generate-visual-test: ##@test Run code style checks
 	touch visual-test-config.json && touch visual-test.json && \
 	 yarn clj-kondo --config .clj-kondo/config.edn --lint src/quo2/screens/main.cljs  \
 	 >visual-test.json \
-	 && X=$$(grep -o '{"findings".*}' visual-test.json) && echo $$X > visual-test-config.json
+	 && X=$$(grep -o '{"findings".*}' visual-test.json) && echo $$X > visual-test-config.json \
+	 && node ./create-test.js && rm visual-test.json 
 
 lint-fix: export TARGET := clojure
 lint-fix: ##@test Run code style checks and fix issues
