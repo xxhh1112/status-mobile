@@ -58,10 +58,9 @@ This is what's used in the Detox implementation but it's possible to have anothe
 #### Appium
 https://appium.io/
 
+The status mobile repo is already using appium for visual tests. It might be convenient to use this approach for visual testing too as they are quite similar in the approach.
+
 https://www.velotio.com/engineering-blog/test-automation-in-react-native-apps-using-appium-and-webdriverio
-
-#### Selenium
-
 
 #### BackstopJS
 This toolset is mostly for web based applications however we can use their diffing app 
@@ -85,6 +84,7 @@ https://applitools.com/
 I didn't look into Applitools considering the model is a bit different and there is pricing involved. However it is another possible solution to this issue that can be considered.
 
 
+
 ### Automatic Test Generation
 We can bring this tooling one step further by using static tooling in the codebase to automatically generate these visual test when a developer adds or updates a new component. 
 
@@ -93,8 +93,7 @@ This comes at some tradeoff as to get this data we have to standardise some thin
 #### getting the data
 To get the data for the visual tests I had to parse the screens files in the quo2 component library. From this the test suite can navigate to those pages and then use the data to know which component to select and then what prop value to set for each permutation.
 
-In my branch - https://github.com/status-im/status-mobile/tree/jcaprani/visual-test
-it's possible to see how I have achieved one implementation of this.
+In this branch i's possible to see how I have achieved one implementation of this.
 
 There are two methods used here for demonstration purpose.
 1 - using the linting tool clj-kondo analysis - https://cljdoc.org/d/clj-kondo/clj-kondo/2022.06.22/doc/analysis-data
