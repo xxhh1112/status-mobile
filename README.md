@@ -1,6 +1,6 @@
 # Visual Testing
 
-To get this branch working, see: https://github.com/status-im/status-mobile/blob/jcaprani/visual-test/create-test.js#L15
+To get this branch working, see: https://github.com/status-im/status-mobile/blob/jcaprani/visual-test/setup-branch.md
 
 What are visual tests?
 
@@ -182,6 +182,8 @@ detox build --configuration ios.sim.debug
 
 To add more automatic tests:
 Update create-test.js (line 16) and add in the other file names.
+https://github.com/status-im/status-mobile/blob/jcaprani/visual-test/create-test.js#L15
+
 
 Alternatively add other features in `./src/quo2/screens/${filename}-options.edn`
 
