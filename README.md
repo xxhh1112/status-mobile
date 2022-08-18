@@ -135,8 +135,11 @@ It's worth watching this video to get some insight into the tool
 https://www.youtube.com/watch?v=cSNOd0RTprI&t=4417s
 
 #### Jest Image Snapshots
-https://github.com/storybookjs/storybook/tree/main/addons/storyshots/storyshots-puppeteer#imagesnapshots
+https://github.com/americanexpress/jest-image-snapshot
+
 This is what's used in the Detox implementation but it's possible to have another tool to use as a selector and implement the testing with Jest Image Snapshots.
+
+also worth looking at: https://github.com/storybookjs/storybook/tree/main/addons/storyshots/storyshots-puppeteer#imagesnapshots
 
 #### Appium
 https://appium.io/
