@@ -1,6 +1,6 @@
 # Visual Testing
 
-
+To get this branch working, see: https://github.com/status-im/status-mobile/blob/jcaprani/visual-test/create-test.js#L15
 
 What are visual tests?
 
