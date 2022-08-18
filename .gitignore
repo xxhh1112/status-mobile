@@ -4,7 +4,7 @@
 .projectile
 .cljs_rhino_repl/
 .#*
-
+/artifacts
 # Xcode
 #
 result/
