@@ -30,61 +30,6 @@ Using these tests in our CI/CD pipeline means then the developers can merge thei
 
 Further, given the simple nature of visual tests there is potential to automate the generation of our visual tests. This will be discussed shortly.
 
-
-### What tools are there to use
-For this I researched a few different tools that work with React-Native.
-
-#### Detox 
-https://wix.github.io/Detox/
-
-This tool is well established and even recommended by React Native as the best option for e2e testing. To use Detox for visual testing takes some small tweaks which I achieved by following this blog.
-https://hughmccamphill.com/visual-regression-testing-react-native-apps-with-detox-and-jest
-
-
-#### React Native Owl 
-https://formidable.com/open-source/react-native-owl/
-
-This is a very lightweight and relatively new solution. 
-Overall it seems really good from the videos and docs I saw however I did run into issues getting this to build. 
-
-From some research it seems possible to use React Native Owl and Detox together. 
-It's worth watching this video to get some insight into the tool
-https://www.youtube.com/watch?v=cSNOd0RTprI&t=4417s
-
-#### Jest Image Snapshots
-https://github.com/storybookjs/storybook/tree/main/addons/storyshots/storyshots-puppeteer#imagesnapshots
-This is what's used in the Detox implementation but it's possible to have another tool to use as a selector and implement the testing with Jest Image Snapshots.
-
-#### Appium
-https://appium.io/
-
-The status mobile repo is already using appium for visual tests. It might be convenient to use this approach for visual testing too as they are quite similar in the approach.
-
-https://www.velotio.com/engineering-blog/test-automation-in-react-native-apps-using-appium-and-webdriverio
-
-#### BackstopJS
-This toolset is mostly for web based applications however we can use their diffing app 
-to improve how we compare the images. It has a nice UI and some good tools to help visualize where the changes are, particularly when the changes are subtle.
-https://github.com/garris/BackstopJS/tree/master/compare
-
-#### Other options
-These tools require using a browser so unless we are considering some implementation of using the component library in reaft-native-web
-NB - I haven't fully researched it's possible to use the following tools, just some options I encountered that seemed interesting.
-
-##### Loki
-https://loki.js.org/getting-started.html
-
-##### Chromatic 
-https://www.chromatic.com/
-Chromatic is a highly developed tool and is recommend by the creators of Storybook. However it requires in browser use, and has a pricing model beyond a certain size. 
-Aside from that it has a nice UI which can be integrated into the CI/CD process to help the dev/designer communicate about the UI.
-
-##### Applitools
-https://applitools.com/
-I didn't look into Applitools considering the model is a bit different and there is pricing involved. However it is another possible solution to this issue that can be considered.
-
-
-
 ### Automatic Test Generation
 We can bring this tooling one step further by using static tooling in the codebase to automatically generate these visual test when a developer adds or updates a new component. 
 
@@ -161,9 +106,66 @@ The visual test images are now marked as *to spec* by the design team.
 - consider how to maintain CI/CD effectiveness while adding a lot of tests.
 
 ## Resources
+Some articles worth reading on this area:
+
 https://dev.to/jenc/storybook-and-chromatic-for-visual-regression-testing-37lg
 
 https://applitools.com/automated-visual-testing-best-practices-guide/#localization-testing
+
+
+
+### What tools are there to use
+For this I researched a few different tools that work with React-Native.
+
+#### Detox 
+https://wix.github.io/Detox/
+
+This tool is well established and even recommended by React Native as the best option for e2e testing. To use Detox for visual testing takes some small tweaks which I achieved by following this blog.
+https://hughmccamphill.com/visual-regression-testing-react-native-apps-with-detox-and-jest
+
+
+#### React Native Owl 
+https://formidable.com/open-source/react-native-owl/
+
+This is a very lightweight and relatively new solution. 
+Overall it seems really good from the videos and docs I saw however I did run into issues getting this to build. 
+
+From some research it seems possible to use React Native Owl and Detox together. 
+It's worth watching this video to get some insight into the tool
+https://www.youtube.com/watch?v=cSNOd0RTprI&t=4417s
+
+#### Jest Image Snapshots
+https://github.com/storybookjs/storybook/tree/main/addons/storyshots/storyshots-puppeteer#imagesnapshots
+This is what's used in the Detox implementation but it's possible to have another tool to use as a selector and implement the testing with Jest Image Snapshots.
+
+#### Appium
+https://appium.io/
+
+The status mobile repo is already using appium for visual tests. It might be convenient to use this approach for visual testing too as they are quite similar in the approach.
+
+https://www.velotio.com/engineering-blog/test-automation-in-react-native-apps-using-appium-and-webdriverio
+
+#### BackstopJS
+This toolset is mostly for web based applications however we can use their diffing app 
+to improve how we compare the images. It has a nice UI and some good tools to help visualize where the changes are, particularly when the changes are subtle.
+https://github.com/garris/BackstopJS/tree/master/compare
+
+#### Other options
+These tools require using a browser so unless we are considering some implementation of using the component library in reaft-native-web
+NB - I haven't fully researched it's possible to use the following tools, just some options I encountered that seemed interesting.
+
+##### Loki
+https://loki.js.org/getting-started.html
+
+##### Chromatic 
+https://www.chromatic.com/
+Chromatic is a highly developed tool and is recommend by the creators of Storybook. However it requires in browser use, and has a pricing model beyond a certain size. 
+Aside from that it has a nice UI which can be integrated into the CI/CD process to help the dev/designer communicate about the UI.
+
+##### Applitools
+https://applitools.com/
+I didn't look into Applitools considering the model is a bit different and there is pricing involved. However it is another possible solution to this issue that can be considered.
+
 
 
 
