@@ -74,14 +74,14 @@
            {:height "100%"
             :border-radius   20}
       }
-       [react/view (styles/community-page-cover-container)
+       [react/view (styles/community-cover-container  {:height 148})
         [react/image {:source      cover
                       :style  {
                               :height 180
                               :flex 1
                                }}]]
-       [react/view (styles/card-view-content-container 148)
-        [react/view (styles/card-view-chat-icon 80)
+       [react/view (styles/card-view-content-container {:padding-horizontal 20})
+        [react/view (styles/card-view-chat-icon {:top -40 :left 20})
          [communities.icon/community-icon-redesign community 80]]
         (when (= status :gated)
           [react/view (styles/permission-tag-styles)

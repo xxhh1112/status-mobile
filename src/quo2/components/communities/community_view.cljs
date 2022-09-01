@@ -39,13 +39,13 @@
                   (styles/card-stats-container)
                   (styles/list-stats-container))
      [community-stats {:icon       :main-icons2/group
-                       :count      630000
+                       :count      "629.2K"
                        :icon-color icon-color}]
      [community-stats {:icon       :main-icons2/lightning
-                       :count      3300
+                       :count      "112.1K"
                        :icon-color icon-color}]
      [community-stats {:icon       :main-icons2/placeholder
-                       :count      63
+                       :count      4
                        :icon-color icon-color}]]))
 
 (defn community-tags [tags]
@@ -62,7 +62,7 @@
         :resource    resource}]])])
 
 (defn community-title [{:keys [title description size] :or {size :small}}]
-  [react/view (styles/community-title-description-container)
+  [react/view (styles/community-title-description-container {:margin-top (if (= size :large) 56 32)})
    (when title
      [text/text
       {:accessibility-label :chat-name-text
@@ -78,7 +78,7 @@
        :ellipsize-mode      :tail
        :weight  :regular
        :size    :paragraph-1
-       :style (if (= size :large) {:margin-top 8} {})
+       :style {:margin-top (if (= size :large) 8 2)} 
        }
       description])])
 

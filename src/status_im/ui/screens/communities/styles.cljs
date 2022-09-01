@@ -30,10 +30,6 @@
 (defn card-stats-container []
   {:flex-direction :row
   :margin-top 12
-  ;;  :position       :absolute
-  ;;  :top            116
-  ;;  :left           12
-  ;;  :right          12
    })
 
 (defn list-stats-container []
@@ -42,34 +38,23 @@
 
 (defn community-tags-container  []
   {:flex-direction :row
-  :margin-top 16
-  ;;  :position  :absolute
-  ;;  :top       154
-})
+  :margin-top 16})
 
-(defn card-view-content-container [top]
+(defn card-view-content-container [{:keys [padding-horizontal]}]
   {:flex               1
-  :height 200
-  :padding-left 20
-  :padding-right 20
-  ;;  :position           :absolute
-  ;;  :top                top
-  ;;  :left               0
-  ;;  :right              0
-  ;;  :bottom             0
+  :height 20
+  :padding-left padding-horizontal
+  :padding-right padding-horizontal
    :border-radius      16
-  ;;  :padding-horizontal 12
    :background-color (colors/theme-colors
                       colors/white
                       colors/neutral-90)})
 
-(defn card-view-chat-icon [icon-height]
+(defn card-view-chat-icon [{:keys [top left]}]
   {:border-radius    48
-   :border-width 3
-   :border-color :white
    :position         :absolute
-   :top              (- (/ icon-height 2))
-   :left             20
+   :top              top
+   :left             left
    :padding          2
    :background-color (colors/theme-colors
                       colors/white
@@ -87,29 +72,17 @@
   {:border-radius    32
    :padding          12})
 
-(defn community-title-description-container []
-  {
-  :margin-top 56
+(defn community-title-description-container [{:keys [margin-top] }]
+  {  :margin-top margin-top})
 
-  })
-
-(defn community-cover-container []
-
+(defn community-cover-container [{:keys [height]}]
   {:flex-direction          :row
-   :height                  64
+   :height                  height
    :border-top-right-radius 20
    :border-top-left-radius  20
-   
    :background-color        colors/primary-50-opa-20})
 
-(defn community-page-cover-container []
-    (assoc (community-cover-container)
-     
-     :height 148)
-   )
-
 (defn permission-tag-styles []
-
   {:position         :absolute
    :top              8
    :right            8})

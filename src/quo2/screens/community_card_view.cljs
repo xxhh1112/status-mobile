@@ -14,8 +14,8 @@
 (def community-data
   {:id             constants/status-community-id
    :name           "Status"
-   :description    "Status is a secure messaging app, crypto wallet and web3 browser built with the state of the art technology"
-   :status         "gated"
+   :description    "Your portal to Web3. Secure wallet. dApp browser. Private messaging. All-in-one."
+   :status         :gated
    :section        "popular"
    :permissions    true
    :cover          (resources/get-image :community-cover)

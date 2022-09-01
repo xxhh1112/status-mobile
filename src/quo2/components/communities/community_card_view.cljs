@@ -34,12 +34,13 @@
                   :on-long-press #(>evt [:bottom-sheet/show-sheet
                                          {:content (fn [] [community/community-actions community])}])}
       [react/view {:flex    1}
-       [react/view (styles/community-cover-container)
+       [react/view (styles/community-cover-container {:height 40})
         [react/image {:source      cover
                       :style  {:flex            1
+                      
                                :border-radius   20}}]]
-       [react/view (styles/card-view-content-container 40)
-        [react/view (styles/card-view-chat-icon 48)
+       [react/view (styles/card-view-content-container {:padding-horizontal 12} )
+        [react/view (styles/card-view-chat-icon {:top -24 :left 12 })
          [communities.icon/community-icon-redesign community 48]]
         (when (= status :gated)
           [react/view (styles/permission-tag-styles)
