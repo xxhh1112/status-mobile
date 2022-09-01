@@ -4,7 +4,16 @@
             [status-im.i18n.i18n :as i18n]
             [status-im.ui.components.list.views :as list]
             [status-im.ui.components.react :as react]
-            [quo2.components.community-card-view :as community-card]
+            ;; [status-im.ui.screens.communities.community-overview-redesign :as community-overview]
+            [status-im.ui.screens.chat.photos :as photos]
+            [status-im.react-native.resources :as resources]
+            [status-im.multiaccounts.core :as multiaccounts]
+            [status-im.ui.components.topbar :as topbar]
+            [status-im.ui.components.plus-button :as plus-button]
+            [status-im.utils.handlers :refer [<sub]]
+            [status-im.ui.components.topnav :as topnav]
+            [quo2.components.communities.community-card-view :as community-card]
+            [quo2.components.communities.community-list-view :as community-list]
             [quo2.components.separator :as separator]
             [quo2.components.text :as quo2.text]
             [quo2.components.button :as quo2.button]
@@ -14,14 +23,11 @@
             [quo2.foundations.colors :as quo2.colors]
             [quo.components.safe-area :as safe-area]
             [quo2.components.tabs :as quo2.tabs]
-            [status-im.ui.screens.chat.photos :as photos]
-            [status-im.react-native.resources :as resources]
-            [status-im.multiaccounts.core :as multiaccounts]
-            [status-im.ui.components.topbar :as topbar]
-            [status-im.ui.components.plus-button :as plus-button]
-            [status-im.utils.handlers :refer [<sub]]
-            [status-im.ui.components.topnav :as topnav]
             [quo2.components.icon :as icons]))
+
+(def community-card-view-item 
+  (community-card/community-card-view-item-with-nav :community-overview)
+)
 
 (def selected-tab (reagent/atom :all))
 (def view-type   (reagent/atom  :card-view))
@@ -49,14 +55,14 @@
                     (get community-item-data :data)
                     {:featured       false})]
     (if (= @view-type :card-view)
-      [community-card/community-card-view-item item]
-      [community-card/communities-list-view-item item])))
+      [community-card-view-item item]
+      [community-list/communities-list-view-item item])))
 
 (defn render-featured-fn [community-item]
   (let [item (merge community-item
                     (get community-item-data :data)
                     {:featured       true})]
-    [community-card/community-card-view-item item]))
+    [community-card-view-item item]))
 
 (defn community-list-key-fn [item]
   (:id item))
@@ -132,7 +138,7 @@
       [other-communities communities sort-list-by])))
 
 (defn featured-communities-section [communities]
-  (let [count (reagent/atom {:value 2 :type :grey})]
+  (let [count (reagent/atom {:value (count communities) :type :grey})]
     [react/view {:flex         1}
      [react/view {:flex-direction  :row
                   :height          30
@@ -201,6 +207,40 @@
                                           quo2.colors/neutral-50
                                           quo2.colors/neutral-40)}]]]))
 
+
+(def coinbase-mock-data 
+{
+           :id "1"
+           :name "Coinbase"
+           :description "Jump start your crypto portfolio with the easiest place to buy and sell crypto"
+           :locked false
+          :cover (js/require "../resources/images/ui/coinbase-community-background.png")
+          :tags  [{:id 1 :tag-label (i18n/label :t/music) :resource (resources/get-image :music)}
+                    {:id 2 :tag-label (i18n/label :t/lifestyle) :resource (resources/get-image :lifestyle)}
+                    {:id 3 :tag-label (i18n/label :t/podcasts) :resource (resources/get-image :podcasts)}
+            ]
+         }
+)
+
+(def coinbase-mock-data2
+{
+           :id "1"
+           :name "Coinbase 2"
+           :description "2 Jump start your crypto portfolio with the easiest place to buy and sell crypto"
+           :locked false
+          :cover (js/require "../resources/images/ui/coinbase-community-background.png")
+          :tags  [{:id 1 :tag-label (i18n/label :t/music) :resource (resources/get-image :music)}
+                    {:id 2 :tag-label (i18n/label :t/lifestyle) :resource (resources/get-image :lifestyle)}
+                    {:id 3 :tag-label (i18n/label :t/podcasts) :resource (resources/get-image :podcasts)}
+            ]
+         }
+)
+
+
+(def communites-mock-data 
+[coinbase-mock-data coinbase-mock-data2]
+)
+
 (defn views []
   (let [multiaccount (<sub [:multiaccount])
         communities  (<sub [:communities/communities])]
@@ -227,7 +267,7 @@
           [title-column]
           [react/scroll-view
            [community-filter-tags]
-           [featured-communities-section communities]
+           [featured-communities-section communites-mock-data ]
            (when communities
              [:<>
               [react/view {:margin-vertical    4

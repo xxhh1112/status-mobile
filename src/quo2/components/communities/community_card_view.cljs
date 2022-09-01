@@ -1,6 +1,7 @@
 (ns quo2.components.communities.community-card-view
   (:require
     [quo2.components.communities.community-view :as community-view]
+    [re-frame.core :as re-frame]
    [quo2.components.text :as text]
    [quo2.components.icon :as icons]
    [quo2.foundations.colors :as colors]
@@ -15,7 +16,7 @@
    [status-im.ui.screens.communities.community :as community]
    [status-im.ui.screens.communities.icon :as communities.icon]))
 
-(defn community-card-view-item [{:keys [id name description locked
+(defn community-card-view-item [{:keys [id component name description locked
                                         status tokens cover tags featured] :as community}]
   (let [width (* (<sub [:dimensions/window-width]) 0.90)]
     [react/view {:style (merge (styles/community-card 20)
@@ -51,3 +52,10 @@
                           :description description}]
         [community-view/community-stats-column :card-view]
         [community-view/community-tags tags]]]]]))
+
+(defn community-card-view-item-with-nav [navigate-to] 
+    (fn [props]
+    [react/touchable-opacity {:on-press (when navigate-to #(re-frame/dispatch [:navigate-to navigate-to ]))}
+       (community-card-view-item props)
+    ]))
+

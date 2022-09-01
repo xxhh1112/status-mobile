@@ -177,9 +177,9 @@
     [preview-list-component]
    ])
 
-(defn views []
+(defn view []
   (let [multiaccount (<sub [:multiaccount])
-        communities  (<sub [:communities/communities])]
+        communities  (<sub [:communities/communities])] ;; TO DO set selected community in store on card click
     (fn []
     [react/view {:style {
     }}
