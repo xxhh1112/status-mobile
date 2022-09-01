@@ -5,7 +5,9 @@
             [status-im.constants :as constants]
             [quo.design-system.colors :as quo.colors]
             [quo2.foundations.colors :as colors]
-            [quo2.components.community-card-view :as community-view]
+            [quo2.components.communities.community-list-view :as community-list-view]
+            [quo2.components.communities.community-card-view :as community-card-view]
+
             [status-im.i18n.i18n :as i18n]
             [status-im.react-native.resources :as resources]))
 
@@ -42,8 +44,8 @@
        [rn/view {:padding-vertical 60
                  :justify-content  :center}
         (if (= :card-view (:view-style @state))
-          [community-view/community-card-view-item community-data]
-          [community-view/communities-list-view-item community-data])]])))
+          [community-card-view/community-card-view-item community-data]
+          [community-list-view/communities-list-view-item community-data])]])))
 
 (defn preview-community-card []
   [rn/view {:background-color (colors/theme-colors colors/neutral-5

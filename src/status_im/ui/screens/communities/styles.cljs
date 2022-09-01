@@ -29,10 +29,12 @@
 
 (defn card-stats-container []
   {:flex-direction :row
-   :position       :absolute
-   :top            116
-   :left           12
-   :right          12})
+  :margin-top 12
+  ;;  :position       :absolute
+  ;;  :top            116
+  ;;  :left           12
+  ;;  :right          12
+   })
 
 (defn list-stats-container []
   {:flex-direction :row
@@ -40,29 +42,34 @@
 
 (defn community-tags-container  []
   {:flex-direction :row
-   :position  :absolute
-   :top       154
-   :left      12
-   :right     12})
+  :margin-top 16
+  ;;  :position  :absolute
+  ;;  :top       154
+})
 
-(defn card-view-content-container []
+(defn card-view-content-container [top]
   {:flex               1
-   :position           :absolute
-   :top                40
-   :left               0
-   :right              0
-   :bottom             0
+  :height 200
+  :padding-left 20
+  :padding-right 20
+  ;;  :position           :absolute
+  ;;  :top                top
+  ;;  :left               0
+  ;;  :right              0
+  ;;  :bottom             0
    :border-radius      16
-   :padding-horizontal 12
+  ;;  :padding-horizontal 12
    :background-color (colors/theme-colors
                       colors/white
                       colors/neutral-90)})
 
-(defn card-view-chat-icon []
+(defn card-view-chat-icon [icon-height]
   {:border-radius    48
+   :border-width 3
+   :border-color :white
    :position         :absolute
-   :top              -24
-   :left             12
+   :top              (- (/ icon-height 2))
+   :left             20
    :padding          2
    :background-color (colors/theme-colors
                       colors/white
@@ -81,19 +88,28 @@
    :padding          12})
 
 (defn community-title-description-container []
-  {:position  :absolute
-   :top       32
-   :left      12
-   :right     12})
+  {
+  :margin-top 56
+
+  })
 
 (defn community-cover-container []
+
   {:flex-direction          :row
    :height                  64
    :border-top-right-radius 20
    :border-top-left-radius  20
+   
    :background-color        colors/primary-50-opa-20})
 
+(defn community-page-cover-container []
+    (assoc (community-cover-container)
+     
+     :height 148)
+   )
+
 (defn permission-tag-styles []
+
   {:position         :absolute
    :top              8
    :right            8})

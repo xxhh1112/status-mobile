@@ -6,7 +6,8 @@
             [status-im.switcher.constants :as constants]
             [status-im.switcher.bottom-tabs :as bottom-tabs]
             [status-im.ui.screens.profile.user.views :as profile.user]
-            [status-im.ui.screens.communities.communities-list-redesign :as communities]
+            [status-im.ui.screens.communities.community-overview-redesign :as communities]
+            ;; [status-im.ui.screens.communities.communities-list-redesign :as communities]
             [status-im.ui.screens.wallet.accounts.views :as wallet.accounts]))
 
 (defn load-stack? [stack-id]
