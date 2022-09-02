@@ -29,8 +29,7 @@
 
 (defn card-stats-container []
   {:flex-direction :row
-  :margin-top 12
-   })
+   :margin-top 12})
 
 (defn list-stats-container []
   {:flex-direction :row
@@ -38,13 +37,13 @@
 
 (defn community-tags-container  []
   {:flex-direction :row
-  :margin-top 16})
+   :margin-top 16})
 
 (defn card-view-content-container [{:keys [padding-horizontal]}]
   {:flex               1
-  :height 20
-  :padding-left padding-horizontal
-  :padding-right padding-horizontal
+   :height 20
+   :padding-left padding-horizontal
+   :padding-right padding-horizontal
    :border-radius      16
    :background-color (colors/theme-colors
                       colors/white
@@ -72,8 +71,8 @@
   {:border-radius    32
    :padding          12})
 
-(defn community-title-description-container [{:keys [margin-top] }]
-  {  :margin-top margin-top})
+(defn community-title-description-container [{:keys [margin-top]}]
+  {:margin-top margin-top})
 
 (defn community-cover-container [{:keys [height]}]
   {:flex-direction          :row

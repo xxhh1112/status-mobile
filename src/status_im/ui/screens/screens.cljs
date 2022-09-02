@@ -330,8 +330,7 @@
 
            {:name      :community-overview
             :options   {:topBar {:visible true}}
-            :component community-overview/view
-          }
+            :component community-overview/view}
            ;;BROWSER
 
            {:name      :empty-tab

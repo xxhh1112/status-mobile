@@ -132,6 +132,7 @@
 
 (defn base-list-props
   [{:keys [key-fn render-fn empty-component header footer separator data render-data on-drag-end-fn] :as props}]
+  (js/console.log props)
   (merge {:data (to-array data)}
          (when key-fn          {:keyExtractor (wrap-key-fn key-fn)})
          (when render-fn       {:renderItem (wrap-render-fn render-fn render-data)})

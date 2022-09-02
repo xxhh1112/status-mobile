@@ -1,7 +1,6 @@
 (ns quo2.components.communities.community-list-view
   (:require
    [quo2.components.communities.community-view :as community-view]
-   [quo2.components.icon :as icons]   
    [quo2.components.text :as text]
    [quo2.foundations.colors :as colors]
    [status-im.communities.core :as communities]
@@ -10,7 +9,6 @@
    [status-im.ui.screens.communities.styles :as styles]
    [status-im.ui.screens.communities.community :as community]
    [status-im.ui.screens.communities.icon :as communities.icon]))
-
 
 (defn communities-list-view-item [{:keys [id name locked status tokens background-color] :as community}]
   [react/view {:style (merge (styles/community-card 16)
@@ -45,8 +43,8 @@
        [community-view/community-stats-column :list-view]]
       (when (= status :gated)
         [community-view/permission-tag-container {:locked       locked
-                                   :status       status
-                                   :tokens       tokens}])]]]])
+                                                  :status       status
+                                                  :tokens       tokens}])]]]])
 
 (defn communities-membership-list-item [{:keys [id name status tokens locked] :as community}]
   [react/view {:margin-bottom       12
@@ -74,5 +72,5 @@
         [react/view {:justify-content   :center
                      :margin-right      12}
          [community-view/permission-tag-container {:locked       locked
-                                    :status       status
-                                    :tokens       tokens}]])]]]])
+                                                   :status       status
+                                                   :tokens       tokens}]])]]]])

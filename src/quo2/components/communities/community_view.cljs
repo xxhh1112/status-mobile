@@ -5,14 +5,10 @@
    [quo2.foundations.colors :as colors]
    [quo2.components.permission-tag :as permission]
    [quo2.components.filter-tag  :as filter-tag]
-   [status-im.communities.core :as communities]
-   [status-im.utils.handlers :refer [>evt <sub]]
    [status-im.ui.components.react :as react]
    [status-im.utils.money :as money]
    [status-im.i18n.i18n :as i18n]
-   [status-im.ui.screens.communities.styles :as styles]
-   [status-im.ui.screens.communities.community :as community]
-   [status-im.ui.screens.communities.icon :as communities.icon]))
+   [status-im.ui.screens.communities.styles :as styles]))
 
 (defn format-members [count]
   (if (> count 1000000)
@@ -78,8 +74,7 @@
        :ellipsize-mode      :tail
        :weight  :regular
        :size    :paragraph-1
-       :style {:margin-top (if (= size :large) 8 2)} 
-       }
+       :style {:margin-top (if (= size :large) 8 2)}}
       description])])
 
 (defn permission-tag-container [{:keys [locked tokens]}]

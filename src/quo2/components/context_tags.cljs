@@ -46,16 +46,19 @@
                  :size :paragraph-2}
       (trim-public-key public-key)]]))
 
+(defn context-tag [params photo name]
+  [base-tag (assoc-in params [:style :padding-left] 3)
+   [rn/image {:style {:width 20
+                      :border-radius 10
+                      :background-color :white
+                      :height 20}
+              :source {:uri photo}}]
+   [text/text {:weight :medium
+               :size :paragraph-2}
+
+    (str " " name)]])
+
 (defn user-avatar-tag [_ _]
   (fn [params public-key]
     (let [{:keys [name photo]} @(re-frame/subscribe [:contacts/name-and-photo public-key])]
-      [base-tag (assoc-in params [:style :padding-left] 3)
-       [rn/image {:style {:width 20
-                          :border-radius 10
-                          :background-color :white
-                          :height 20}
-                  :source {:uri photo}}]
-       [text/text {:weight :medium
-                   :size :paragraph-2}
-
-        (str " " name)]])))
+      [context-tag params photo name])))
