@@ -64,15 +64,15 @@
            {:closure-defines
             {status-im.utils.config/POKT_TOKEN #shadow/env "POKT_TOKEN"
              status-im.utils.config/OPENSEA_API_KEY #shadow/env "OPENSEA_API_KEY"}
-                     :compiler-options {:output-feature-set :es6
+            :compiler-options {:output-feature-set :es6
                                         ;;disable for android build as there
                                         ;;is an intermittent warning with deftype
-                                        :warnings-as-errors false
-                                        :infer-externs :auto
-                                        :static-fns true
-                                        :fn-invoke-direct true
-                                        :optimizations :advanced
-                                        :js-options {:js-provider :closure}}}}
+                               :warnings-as-errors false
+                               :infer-externs :auto
+                               :static-fns true
+                               :fn-invoke-direct true
+                               :optimizations :advanced
+                               :js-options {:js-provider :closure}}}}
           ;; the tests are ran with node, react-native dependencies are mocked
           ;; by using node --require override.js, which uses the node-library
           ;; produced by the target :mocks below and redefines node require
@@ -92,11 +92,34 @@
                               ;; messes with source-map which reports callstack
                               ;; exceeded exceptions instead of real issues
                               :source-map    false
-                              ;; needed because we use deref in tests
+                              ;; needed because we use deref in test
+                              :output-wrapper false
+
                               :static-fns    false
                               :optimizations :simple
                               :infer-externs true}}
 
+          :unit-test
+          {:target :npm-module
+           :ns-regexp "*"
+           :entries [quo2.components.selectors.selectors]
+           :output-dir       "target/unit-test"
+           :output-to        "target/unit-test/index.js"
+           :main             status-im.test-runner/main
+           ;; set :ui-driven to true to let shadow-cljs inject node-repl
+           :ui-driven        true
+           :closure-defines
+           {status-im.utils.config/INFURA_TOKEN #shadow/env "INFURA_TOKEN"
+            status-im.utils.config/OPENSEA_API_KEY #shadow/env "OPENSEA_API_KEY"}
+           :compiler-options {:output-feature-set :es6
+                                        ;;disable for android build as there
+                                        ;;is an intermittent warning with deftype
+                              :warnings-as-errors false
+                              :infer-externs true
+                              :output-wrapper false
+                              :static-fns false
+                              :fn-invoke-direct true
+                              :optimizations :simple}}
           ;; mock.js-dependencies is mocking the react-native libraries
           ;; we build it as a node library so that it can be required by
           ;; override.js

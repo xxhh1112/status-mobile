@@ -4,6 +4,7 @@
   "main": "modules/react-native-status/nodejs/bindings.js",
   "private": true,
   "scripts": {
+    "test": "jest",
     "start": "react-native start",
     "ios": "react-native run-ios",
     "preinstall": "make status-go-library",
@@ -47,7 +48,7 @@
     "react-native-fast-image": "^8.5.11",
     "react-native-fetch-polyfill": "^1.1.2",
     "react-native-fs": "^2.14.1",
-    "react-native-gesture-handler": "^2.5.0",
+    "react-native-gesture-handler": "^2.7.0",
     "react-native-haptic-feedback": "^1.9.0",
     "react-native-hole-view": "git+https://github.com/status-im/react-native-hole-view.git#refs/tags/v2.1.1-status",
     "react-native-image-crop-picker": "git+https://github.com/status-im/react-native-image-crop-picker.git#refs/tags/v0.36.2-status.0",
@@ -79,14 +80,20 @@
     "@babel/helper-builder-react-jsx": "7.0.0",
     "@babel/plugin-transform-block-scoping": "7.0.0",
     "@babel/preset-env": "7.1.0",
+    "@babel/preset-react": "^7.18.6",
     "@babel/register": "7.0.0",
     "@mapbox/node-pre-gyp": "^1.0.9",
+    "@testing-library/jest-native": "^5.0.0",
+    "@testing-library/react-native": "^11.2.0",
+    "clj-kondo": "^2022.9.8",
     "jest": "^25.1.0",
     "nodemon": "^2.0.16",
     "nyc": "^14.1.1",
     "process": "0.11.10",
+    "react-test-renderer": "16.13.1",
     "rn-snoopy": "git+https://github.com/status-im/rn-snoopy.git#refs/tags/v2.0.2-status",
-    "shadow-cljs": "2.11.16"
+    "shadow-cljs": "^2.10.14",
+    "ws": "^8.9.0"
   },
   "binary": {
     "module_name": "status_nodejs_addon",
