@@ -1,6 +1,6 @@
 (ns status-im.ui.components.react
   (:require [reagent.core :as reagent]
-            [status-im.i18n.i18n :as i18n]
+            ;; [status-im.i18n.i18n :as i18n]
             [quo.design-system.colors :as colors]
             [status-im.ui.components.typography :as typography]
             [status-im.utils.platform :as platform]
@@ -17,6 +17,8 @@
             ["react-native-fast-image" :as FastImage]
             ["@react-native-community/blur" :as blur])
   (:require-macros [status-im.utils.views :as views]))
+
+(defn i18nlabel [x] "hello")
 
 (def native-modules (.-NativeModules react-native))
 
@@ -147,7 +149,7 @@
                       {:underline-color-android  :transparent
                        :max-font-size-multiplier max-font-size-multiplier
                        :placeholder-text-color   colors/text-gray
-                       :placeholder              (i18n/label :t/type-a-message)
+                       :placeholder              (i18nlabel :t/type-a-message)
                        :value                    text}
                       (-> options
                           (dissoc :preserve-input?)
@@ -173,7 +175,7 @@
 
 (defn i18n-text
   [{:keys [style key]}]
-  [text {:style  style} (i18n/label key)])
+  [text {:style  style} (i18nlabel key)])
 
 (defn touchable-opacity [props content]
   [touchable-opacity-class props content])
@@ -197,8 +199,8 @@
 ;; Image picker
 (defn show-access-error [o]
   (when (= "E_PERMISSION_MISSING" (.-code ^js o))
-    (utils/show-popup (i18n/label :t/error)
-                      (i18n/label :t/photos-access-error))))
+    (utils/show-popup (i18nlabel :t/error)
+                      (i18nlabel :t/photos-access-error))))
 
 (defn show-image-picker
   ([images-fn]

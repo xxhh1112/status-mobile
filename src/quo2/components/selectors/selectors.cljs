@@ -1,9 +1,9 @@
 (ns quo2.components.selectors.selectors
   (:require [quo.react-native :as rn]
             [quo2.foundations.colors :as colors]
-            [quo.theme :as theme]
             [reagent.core :as reagent]
-            [quo2.components.icon :as icons]))
+            [quo2.components.icon :as icons]
+            ))
 
 (defn- get-color [checked? disabled?]
   (if checked?
@@ -107,26 +107,30 @@
 (defn toggle [{:keys [default-checked?]}]
   (let [checked? (reagent/atom (or default-checked? false))]
     (fn [{:keys [on-change disabled? container-style]}]
-      [rn/touchable-without-feedback
-       {:on-press (handle-press disabled? on-change checked?)}
-       [rn/view
-        {:style (merge
-                 container-style
-                 {:height 20
-                  :width 30
-                  :border-radius 20
-                  :background-color (get-color @checked? disabled?)})
-         :accessibility-label (str "toggle-" (if @checked? "on" "off"))
-         :accessibility-role  :checkbox}
+      ;; [rn/touchable-without-feedback
+      ;;  {:on-press (handle-press disabled? on-change checked?)}
+      ;;  [rn/view
+      ;;   {:style (merge
+      ;;            container-style
+      ;;            {:height 20
+      ;;             :width 30
+      ;;             :border-radius 20
+      ;;             :background-color (get-color @checked? disabled?)})
+      ;;    :testID "toggle-component"
+      ;;    :accessibility-label (str "toggle-" (if @checked? "on" "off"))
+      ;;    :accessibility-role  :checkbox}
         [rn/view {:style
                   {:margin-left (if @checked? 12 2)
                    :height 16
                    :width 16
-                   :background-color (colors/alpha colors/white
-                                                   (if (theme/dark?)
-                                                     (if disabled? 0.3 1)
-                                                     1))
+                  ;;  :background-color (colors/alpha colors/white
+                  ;;                                  (if (theme/dark?)
+                  ;;                                    (if disabled? 0.3 1)
+                  ;;                                    1))
                    :border-radius 20
                    :margin-right :auto
                    :margin-top :auto
-                   :margin-bottom :auto}}]]])))
+                   :margin-bottom :auto}}]
+        ;; ]
+        ;; ]
+        )))

@@ -1,4 +1,4 @@
-(ns mocks.js-dependencies
+(ns mocks.js-dependencies2
   (:require-macros [status-im.utils.slurp :refer [slurp]])
   (:require [status-im.fleet.default-fleet :refer (default-fleets)])
   (:require [status-im.utils.test :as utils.test])
@@ -75,7 +75,7 @@
             :Appearance               {:getColorScheme    (fn [])
                                        :addChangeListener (fn [])}}))
 
-(set! js/global.ReactNative react-native)
+(set! js/ReactNative react-native)
 
 (def reanimated-bottom-sheet           #js {:default #js {}})
 
@@ -248,8 +248,6 @@
 
 (def react-native-gradien #js {:default #js {}})
 
-(def masked-view #js {:default #js {}})
-
 (def react-native-permissions #js {:default #js {}})
 
 (def push-notification-ios #js {:default #js {:abandonPermissions identity}})
@@ -310,7 +308,6 @@
     "react-native-device-info" react-native-device-info
     "react-native-push-notification" react-native-push-notification
     "react-native-linear-gradient" react-native-gradien
-    "@react-native-community/masked-view" masked-view
     "react-native-blob-util" react-native-blob-util
     "react-native-navigation" react-native-navigation
     "@react-native-community/push-notification-ios" push-notification-ios

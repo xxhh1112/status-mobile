@@ -1,9 +1,9 @@
-// require('./test-resources/override.js')
 const WebSocket = require('ws');
 const { NativeModules } = require('react-native');
 const mockAsyncStorage = require('@react-native-async-storage/async-storage/jest/async-storage-mock');
 
 require('react-native-gesture-handler/jestSetup');
+
 
 jest.mock('react-native-reanimated', () => {
     const Reanimated = require('react-native-reanimated/mock');
@@ -14,9 +14,6 @@ jest.mock('react-native-reanimated', () => {
 
     return Reanimated;
 });
-
-// Silence the warning: Animated: `useNativeDriver` is not supported because the native animated module is missing
-// jest.mock('react-native/Libraries/Animated/NativeAnimatedHelper');
 
 jest.mock('@react-native-async-storage/async-storage', () => mockAsyncStorage);
 
@@ -32,14 +29,12 @@ jest.mock('react-native-languages', () => ({
         language: 'en',
         languages: ['en'],
     },
-    default: {}
+    default: {},
 }));
-
-
-
 
 NativeModules.ReactLocalization = {
     language: 'en',
+    locale: 'en'
 };
 global.navigator = {
     userAgent: 'node',

@@ -1,7 +1,7 @@
 (ns status-im.utils.test
   (:require [re-frame.core :as re-frame]))
 
-(def native-status (js/require "../../modules/react-native-status/nodejs/bindings"))
+(def native-status (js/require "/Users/james/Projects/status-react/modules/react-native-status/nodejs/bindings"))
 
 (def fs (js/require "fs"))
 (def path (js/require "path"))

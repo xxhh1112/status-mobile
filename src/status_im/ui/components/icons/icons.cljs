@@ -2,7 +2,8 @@
   (:require [status-im.ui.components.react :as react]
             [quo.design-system.colors :as colors])
   (:refer-clojure :exclude [use])
-  (:require-macros [status-im.ui.components.icons.icons :as icons]))
+  (:require-macros [status-im.ui.components.icons.icons :as icons])
+  )
 
 (def icons (icons/resolve-icons))
 
@@ -42,7 +43,8 @@
                                   (assoc :tint-color (match-color color)))
                                 container-style)
                  :accessibility-label accessibility-label
-                 :source (icon-source name)}]))
+                 :source (icon-source name)}]
+   ))
 
 (def icon (memoize memo-icon-fn))
 
