@@ -1,4 +1,4 @@
-import { useDerivedValue } from 'react-native-reanimated';
+import { useDerivedValue, interpolate } from 'react-native-reanimated';
 
 // Generic Worklets
 
@@ -64,6 +64,24 @@ export function switcherContainerBottomPosition (switcherScreenBottom, heightOff
     function () {
       'worklet'
       return - (switcherScreenBottom.value + heightOffset);
+    }
+  );
+}
+
+export function audioRecorderRingScale (scale, multiplier) {
+  return useDerivedValue(
+    function () {
+      'worklet'
+      return scale.value * multiplier;
+    }
+  );
+}
+
+export function interpolateValue(sharedValue, inputRange, outputRange) {
+  return useDerivedValue(
+    function () {
+      'worklet'
+      return interpolate(sharedValue.value, inputRange, outputRange);
     }
   );
 }
