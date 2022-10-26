@@ -23,6 +23,9 @@ jest.mock('react-native-navigation', () => ({
     Navigation: { constants: async () => { } }
 }));
 
+jest.mock("react-native-background-timer", () => ({
+
+}))
 
 jest.mock('react-native-languages', () => ({
     RNLanguages: {

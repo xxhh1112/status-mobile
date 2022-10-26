@@ -312,14 +312,6 @@ test: ##@test Run tests once in NodeJS
 	yarn shadow-cljs compile test && \
 	node --require ./test-resources/override.js target/test/test.js
 
-test: export TARGET := clojure
-test: ##@test Run tests once in NodeJS
-	# Here we creates the gyp bindings for nodejs
-	yarn install
-	yarn shadow-cljs compile mocks && \
-	yarn shadow-cljs compile test && \
-	node --require ./test-resources/override.js target/test/test.js
-
 test2: export TARGET := clojure
 test2: ##@test Run tests once in NodeJS
 	# Here we creates the gyp bindings for nodejs

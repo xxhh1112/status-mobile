@@ -11,7 +11,7 @@ module.exports = {
     ],
     "testTimeout": 60000,
     "transformIgnorePatterns": [
-        "/node_modules/(?!(@react-native|react-native-background-timer|react-native|rn-emoji-keyboard|react-native-languages|react-native-shake|react-native-reanimated)/).*/"
+        "/node_modules/(?!(@react-native|react-native-image-crop-picker|@react-native-community|react-native-linear-gradient|react-native-background-timer|react-native|rn-emoji-keyboard|react-native-languages|react-native-shake|react-native-reanimated)/).*/"
     ],
     "globals": {
         "__DEV__": true
