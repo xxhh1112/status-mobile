@@ -12,13 +12,11 @@
   ([opts]
    (rtl/render (reagent/as-element [rn/text "hello world"]))))
 
-;; (defn render-toggle
-;;   ([]
-;;    (render {}))
-;;   ([opts]
-  
-
-;;      (rtl/render [selectors/toggle {:disabled? (:disabled? false)}])))
+(defn render-toggle
+  ([]
+   (render-toggle {}))
+  ([opts]
+   (rtl/render (reagent/as-element  [selectors/toggle {:disabled? (:disabled? false)}]))))
 
 (js/global.test "initial screen"
                 (fn []
@@ -26,9 +24,9 @@
                   (-> (js/expect  (rtl/screen.getByText "hello world"))
                       (.toBeTruthy))))
 
-;; (js/global.test "render selector"
-;;                 (fn []
-;;                   (render-toggle)
-;;                   (-> (js/expect  (rtl/screen.getByText "toggle-component"))
-;;                       (.toBeTruthy))))
+(js/global.test "render selector"
+                (fn []
+                  (render-toggle)
+                  (-> (js/expect  (rtl/screen.getByTestId "toggle-component"))
+                      (.toBeTruthy))))
 

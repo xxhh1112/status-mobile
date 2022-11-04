@@ -13,6 +13,6 @@
   (let [files (->> (io/file icon-path)
                    file-seq
                    (filter #(cstr/ends-with? % "png"))
-                   (map #(first (cstr/split (.getName %) #"@")))
+                   (map #(first (cstr/split (.getName %) #"@2x")))
                    distinct)]
     (into {} (map require-icon files))))
