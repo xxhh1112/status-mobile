@@ -2,13 +2,14 @@
   (:require [cljs-time.coerce :as time-coerce]
             [cljs-time.core :as t]
             [cljs.test :refer-macros [deftest testing is]]
-            [status-im.goog.i18n :as i18n]
+            [status-im.goog.i18n :as goog.i18n]
             status-im2.setup.datetime
-            [utils.datetime :as datetime]))
+            [utils.datetime :as datetime]
+            [i18n.i18n :as i18n]))
 
 (defn match
   [name symbols]
-  (is (identical? (.-dateTimeSymbols_ (i18n/mk-fmt name #'utils.datetime/medium-date-format))
+  (is (identical? (.-dateTimeSymbols_ (goog.i18n/mk-fmt name #'utils.datetime/medium-date-format))
                   symbols)))
 
 (deftest date-time-formatter-test
@@ -26,18 +27,18 @@
 (def epoch-plus-3d 172800000)
 
 (deftest is-24-hour-locale-en-test
-  (is (= (#'utils.datetime/is-24-hour-locsym (i18n/locale-symbols "en")) false)))
+  (is (= (#'utils.datetime/is-24-hour-locsym (goog.i18n/locale-symbols "en")) false)))
 
 (deftest is-24-hour-locale-it-test
-  (is (= (#'utils.datetime/is-24-hour-locsym (i18n/locale-symbols "it")) true)))
+  (is (= (#'utils.datetime/is-24-hour-locsym (goog.i18n/locale-symbols "it")) true)))
 
 (deftest is-24-hour-locale-nb-test
-  (is (= (#'utils.datetime/is-24-hour-locsym (i18n/locale-symbols "nb-NO")) true)))
+  (is (= (#'utils.datetime/is-24-hour-locsym (goog.i18n/locale-symbols "nb-NO")) true)))
 
 (deftest to-short-str-today-test
   (with-redefs [t/*ms-fn*          (constantly epoch-plus-3d)
                 datetime/time-fmt         (fn []
-                                     (i18n/mk-fmt "us" #'utils.datetime/short-time-format))
+                                            (goog.i18n/mk-fmt "us" #'utils.datetime/short-time-format))
                 datetime/time-zone-offset (t/period :hours 0)]
     (is (= (datetime/to-short-str epoch-plus-3d) "12:00 AM"))))
 
@@ -59,13 +60,13 @@
   (with-redefs [t/*ms-fn*          (constantly epoch-plus-3d)
                 datetime/time-zone-offset (t/period :hours 0)
                 datetime/date-fmt         (fn []
-                                     (i18n/mk-fmt "us" #'utils.datetime/medium-date-format))]
+                                            (goog.i18n/mk-fmt "us" #'utils.datetime/medium-date-format))]
     (is (= (datetime/to-short-str epoch) "Jan 1, 1970"))))
 
 (deftest to-short-str-before-yesterday-nb-test
   (with-redefs [datetime/time-zone-offset (t/period :hours 0)
                 datetime/date-fmt         (fn []
-                                     (i18n/mk-fmt "nb-NO" #'utils.datetime/medium-date-format))
+                                            (goog.i18n/mk-fmt "nb-NO" #'utils.datetime/medium-date-format))
                 t/*ms-fn*          (constantly epoch-plus-3d)]
     (is (= (datetime/to-short-str epoch) "1. jan. 1970"))))
 
@@ -73,16 +74,16 @@
   (with-redefs [t/*ms-fn*          (constantly epoch-plus-3d)
                 datetime/time-zone-offset (t/period :hours 0)
                 datetime/date-fmt         (fn []
-                                     (i18n/mk-fmt "us"
-                                                  #'utils.datetime/medium-date-time-format))]
+                                            (goog.i18n/mk-fmt "us"
+                                                              #'utils.datetime/medium-date-time-format))]
     (is (= (datetime/day-relative epoch) "Jan 1, 1970, 12:00:00 AM"))))
 
 (deftest day-relative-before-yesterday-nb-test
   (with-redefs [t/*ms-fn*          (constantly epoch-plus-3d)
                 datetime/time-zone-offset (t/period :hours 0)
                 datetime/date-fmt         (fn []
-                                     (i18n/mk-fmt "nb-NO"
-                                                  #'utils.datetime/medium-date-time-format))]
+                                            (goog.i18n/mk-fmt "nb-NO"
+                                                              #'utils.datetime/medium-date-time-format))]
     (is (= (datetime/day-relative epoch) "1. jan. 1970, 00:00:00"))))
 
 (deftest current-year?-test
@@ -164,8 +165,9 @@
       (is (= "Tue 3:15 PM" (datetime/timestamp->relative 163178145000))))
 
     (testing "formats within yesterday window"
-      (is (= "Yesterday 3:15 PM" (datetime/timestamp->relative 163610145000)))
-      (is (= "Yesterday 11:59 PM" (datetime/timestamp->relative 163641599000))))
+      (with-redefs [i18n/label (fn [] "Yesterday")]
+        (is (= "Yesterday 3:15 PM" (datetime/timestamp->relative 163610145000)))
+        (is (= "Yesterday 11:59 PM" (datetime/timestamp->relative 163641599000)))))
 
     (testing "formats today, at various timestamps"
       (is (= "3:15 PM" (datetime/timestamp->relative 163696545000)))

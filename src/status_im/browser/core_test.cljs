@@ -1,7 +1,8 @@
 (ns status-im.browser.core-test
   (:require [cljs.test :refer-macros [deftest is testing]]
             [status-im.browser.core :as browser]
-            [status-im.utils.http :as http]))
+            [status-im.utils.http :as http]
+            [i18n.i18n :as i18n]))
 
 (defn has-wrong-properties?
   [result dapp-url expected-browser]
@@ -23,7 +24,8 @@
   (let [dapp1-url "cryptokitties.co"
         dapp2-url "http://test2.com"]
 
-    (testing "user opens a dapp"
+    (with-redefs [i18n/label (fn [] "Browser")]
+     (testing "user opens a dapp"
       (let [result-open (browser/open-url {:db {} :now 1} dapp1-url)
             dapp1-id    (get-dapp-id result-open dapp1-url)]
         (is (= dapp1-id (get-in result-open [:db :browser/options :browser-id]))
@@ -116,4 +118,4 @@
                                                    :history       ["https://cryptokitties.co" dapp1-url2]
                                                    :dapp?         false
                                                    :name          "Browser"}))
-                          "some properties of the browser are not correct"))))))))))))
+                          "some properties of the browser are not correct")))))))))))))
