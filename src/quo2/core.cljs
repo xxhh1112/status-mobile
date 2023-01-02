@@ -41,6 +41,7 @@
    quo2.components.notifications.info-count
    quo2.components.notifications.notification-dot
    quo2.components.notifications.toast
+   quo2.components.profile.profile-card.view
    quo2.components.reactions.reaction
    quo2.components.selectors.disclaimer.view
    quo2.components.selectors.filter.view
@@ -126,6 +127,9 @@
 (def info-count quo2.components.notifications.info-count/info-count)
 (def notification-dot quo2.components.notifications.notification-dot/notification-dot)
 (def count-down-circle quo2.components.notifications.count-down-circle/circle-timer)
+
+;;;; PROFILE
+(def profile-card quo2.components.profile.profile-card.view/profile-card)
 
 ;;;; SETTINGS
 (def privacy-option quo2.components.settings.privacy-option/card)
