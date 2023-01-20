@@ -94,7 +94,8 @@
    :label               (i18n/label :t/cancel-request-to-join)
    :accessibility-label :cancel-request-to-join
    :danger?             true
-   :on-press            #(js/alert (str "implement action" id))})
+   :on-press           #(hide-sheet-and-dispatch [::cancel-request-to-join id])
+})
 
 (defn edit-community
   [id]

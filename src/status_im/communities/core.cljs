@@ -173,12 +173,27 @@
   {:events [::request-to-join]}
   [cofx community-id]
   {:json-rpc/call [{:method      "wakuext_requestToJoinCommunity"
-                    :params      [{:communityId community-id}]
+                    :params      [community-id]
                     :js-response true
                     :on-success  #(re-frame/dispatch [::requested-to-join %])
                     :on-error    #(do
                                     (log/error "failed to request to join community" community-id %)
                                     (re-frame/dispatch [::failed-to-request-to-join %]))}]})
+
+(rf/defn cancel-request-to-join
+  {:events [::cancel-request-to-join]}
+  [cofx community-id]
+  :json-rpc/call               [{:method      "wakuext_cancelRequestToJoinCommunity"
+                                 :params      [community-id]
+                                 :js-response true
+                                 :on-success  #(js/alert "hallo")
+                                 :on-error    #(js/alert "hallo")
+                                ;;  #(do
+                                ;;                  (log/error "failed to cancel community join request"
+                                ;;                             community-id
+                                ;;                             %)
+                                ;;                  (re-frame/dispatch [::failed-to-cancel-request %]))
+                                 }])
 
 (rf/defn leave
   {:events [:communities/leave]}
@@ -540,8 +555,8 @@
   {:events [::requests-to-join-fetched]}
   [{:keys [db]} community-id requests]
   {:db (assoc-in db
-        [:communities/requests-to-join community-id]
-        (<-requests-to-join-community-rpc requests))})
+                 [:communities/requests-to-join community-id]
+                 (<-requests-to-join-community-rpc requests))})
 
 (rf/defn fetch-requests-to-join
   {:events [::fetch-requests-to-join]}
