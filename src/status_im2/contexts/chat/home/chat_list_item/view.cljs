@@ -124,10 +124,10 @@
         contact (when-not group-chat (rf/sub [:contacts/contact-by-address chat-id]))
         photo-path (when-not (empty? (:images contact)) (rf/sub [:chats/photo-path chat-id]))]
     [rn/touchable-opacity
-     (merge {:style         (style/container)
-             :on-press      (open-chat chat-id)
-             :on-long-press #(rf/dispatch [:bottom-sheet/show-sheet
-                                           {:content (fn [] [actions/actions item false])}])})
+     {:style         (style/container)
+      :on-press      (open-chat chat-id)
+      :on-long-press #(rf/dispatch [:bottom-sheet/show-sheet
+                                    {:content (fn [] [actions/actions item false])}])}
      [avatar-view group-chat color display-name photo-path chat-id]
      [rn/view {:style {:margin-left 8}}
       [name-view display-name contact timestamp]
