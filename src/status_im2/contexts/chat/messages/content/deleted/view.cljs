@@ -12,7 +12,6 @@
      {:full-name         display-name
       :profile-picture   profile-picture
       :status-indicator? false
-      :ring?             false
       :size              :xxxs}]]
    [quo/display-name
     {:profile-name display-name

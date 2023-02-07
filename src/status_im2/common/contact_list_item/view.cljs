@@ -89,8 +89,7 @@
        :profile-picture   photo-path
        :status-indicator? true
        :online?           online?
-       :size              :small
-       :ring?             false}]
+       :size              :small}]
      [rn/view {:style {:margin-left 8}}
       [rn/view {:style {:flex-direction :row}}
        [quo/text {:weight :semi-bold} display-name]
