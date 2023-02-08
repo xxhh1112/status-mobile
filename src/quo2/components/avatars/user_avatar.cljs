@@ -67,31 +67,23 @@
               :bottom           bottom
               :right            right}}]))
 
-(defn container-styling
+(defn initials-style
   [inner-dimensions outer-dimensions]
-  {:width         inner-dimensions
-   :position      :absolute
-   :top           (/ (- outer-dimensions inner-dimensions) 2)
-   :left          (/ (- outer-dimensions inner-dimensions) 2)
-   :height        inner-dimensions
-   :border-radius inner-dimensions})
+  {:position         :absolute
+   :top              (/ (- outer-dimensions inner-dimensions) 2)
+   :left             (/ (- outer-dimensions inner-dimensions) 2)
+   :width            inner-dimensions
+   :height           inner-dimensions
+   :border-radius    inner-dimensions
+   :justify-content  :center
+   :align-items      :center
+   :background-color (colors/custom-color-by-theme :turquoise 50 60)})
 
 (defn outer-styles
   [outer-dimensions]
   {:width         outer-dimensions
    :height        outer-dimensions
    :border-radius outer-dimensions})
-
-(defn container
-  [{:keys [inner-dimensions outer-dimensions]} & children]
-  (-> [rn/view
-       {:style (merge
-                {:background-color (colors/custom-color-by-theme :turquoise 50 60)
-                 :justify-content  :center
-                 :align-items      :center}
-                (container-styling inner-dimensions outer-dimensions))}]
-      (concat children)
-      (vec)))
 
 (def one-initial-letter-sizes #{:xs :xxs :xxxs})
 (def valid-ring-sizes #{:big :medium :small})
@@ -104,11 +96,11 @@
                                         str)
                              (string/upper-case))
         font-size       (get-in sizes [size :font-size])]
-    [container {:inner-dimensions inner-dimensions :outer-dimensions outer-dimensions}
+    [rn/view {:style (initials-style inner-dimensions outer-dimensions)}
      [text/text
-      {:weight :semi-bold
-       :size   font-size
-       :style  {:color colors/white-opa-70}}
+      {:style  {:color colors/white-opa-70}
+       :weight :semi-bold
+       :size   font-size}
       initials]]))
 
 (defn user-avatar
