@@ -1,5 +1,5 @@
 (ns quo2.components.avatars.user-avatar
-  (:require [clojure.string :refer [blank? split upper-case]]
+  (:require [clojure.string :as string]
             [quo2.components.markdown.text :as text]
             [quo2.foundations.colors :as colors]
             [quo2.theme :refer [dark?]]
@@ -99,10 +99,10 @@
 (defn initials-avatar
   [{:keys [full-name size inner-dimensions outer-dimensions]}]
   (let [amount-initials (if (one-inital-letter-sizes size) 1 2)
-        initials        (->> (split full-name " ")
+        initials        (->> (string/split full-name " ")
                              (transduce (comp (map first) (take amount-initials))
                                         str)
-                             (upper-case))
+                             (string/upper-case))
         font-size       (get-in sizes [size :font-size])]
     [container {:inner-dimensions inner-dimensions :outer-dimensions outer-dimensions}
      [text/text
