@@ -91,10 +91,11 @@
 (defn initials-avatar
   [{:keys [full-name size inner-dimensions outer-dimensions]}]
   (let [amount-initials (if (one-initial-letter-sizes size) 1 2)
-        initials        (->> (string/split full-name " ")
-                             (transduce (comp (map first) (take amount-initials))
-                                        str)
-                             (string/upper-case))
+        initials        (as-> full-name $
+                          (string/split $ " ")
+                          (map (comp string/upper-case first) $)
+                          (take amount-initials $)
+                          (string/join $))
         font-size       (get-in sizes [size :font-size])]
     [rn/view {:style (initials-style inner-dimensions outer-dimensions)}
      [text/text
