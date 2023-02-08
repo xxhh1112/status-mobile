@@ -103,7 +103,7 @@
 
 (defn avatar-view
   [{:keys [contact chat-id full-name color]}]
-  (if contact ;; `contact` is passed when it's not a group chat
+  (if contact ; `contact` is passed when it's not a group chat
     (let [online?    (rf/sub [:visibility-status-updates/online? chat-id])
           photo-path (rf/sub [:chats/photo-path chat-id])
           image-key  (if (seq (:images contact)) :profile-picture :ring-background)]
