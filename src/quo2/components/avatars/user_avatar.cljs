@@ -93,12 +93,12 @@
       (concat children)
       (vec)))
 
-(def one-inital-letter-sizes #{:xs :xxs :xxxs})
+(def one-initial-letter-sizes #{:xs :xxs :xxxs})
 (def valid-ring-sizes #{:big :medium :small})
 
 (defn initials-avatar
   [{:keys [full-name size inner-dimensions outer-dimensions]}]
-  (let [amount-initials (if (one-inital-letter-sizes size) 1 2)
+  (let [amount-initials (if (one-initial-letter-sizes size) 1 2)
         initials        (->> (string/split full-name " ")
                              (transduce (comp (map first) (take amount-initials))
                                         str)
