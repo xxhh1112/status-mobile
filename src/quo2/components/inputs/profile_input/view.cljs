@@ -13,7 +13,8 @@
            placeholder
            on-press
            title-input-props
-           image-picker-props]}]
+           image-picker-props
+           ]}]
   [rn/view
    {:style (style/container customization-color)}
    [rn/view {:position :relative}
@@ -47,7 +48,8 @@
    [rn/view {:style style/input-container}
     [title-input/title-input
      (merge title-input-props
-            {:placeholder         placeholder
+            {:override-theme :dark
+             :placeholder         placeholder
              :customization-color customization-color})]]])
 
 

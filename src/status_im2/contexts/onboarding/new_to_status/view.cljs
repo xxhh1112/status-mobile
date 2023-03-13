@@ -46,7 +46,7 @@
      :title    (i18n/label :t/generate-keys)
      :subtitle (i18n/label :t/generate-keys-subtitle)
      :image    (resources/get-image :generate-keys)
-     :on-press #(rf/dispatch [:generate-and-derive-addresses])}]
+     :on-press #(rf/dispatch [:navigate-to :create-profile])}]
 
    [rn/view {:style style/subtitle-container}
     [text/text

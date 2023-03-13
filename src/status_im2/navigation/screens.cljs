@@ -15,6 +15,7 @@
    [status-im2.contexts.communities.discover.view :as communities.discover]
    [status-im2.contexts.communities.overview.view :as communities.overview]
    [status-im2.contexts.onboarding.common.intro.view :as intro]
+   [status-im2.contexts.onboarding.create-profile.view :as create-profile]
    [status-im2.contexts.onboarding.new-to-status.view :as new-to-status]
    [status-im2.contexts.onboarding.profiles.view :as profiles]
    [status-im2.contexts.quo-preview.main :as quo.preview]
@@ -32,7 +33,7 @@
                              :orientation              :portrait
                              :backgroundColor          :transparent}}
    (if platform/android?
-     {:navigationBar {:backgroundColor colors/neutral-100}
+     {
       :statusBar     {:backgroundColor :transparent
                       :style           :light
                       :drawBehind      true}}
@@ -111,10 +112,16 @@
     ;; Onborading - new to Status
     {:name      :new-to-status
      :options   {:statusBar     {:style :light}
-                 :topBar        {:visible false}
-                 :navigationBar {:backgroundColor quo2.colors/black}}
+                 :topBar        {:visible false}}
      :insets    {:bottom false}
-     :component new-to-status/new-to-status}]
+     :component new-to-status/new-to-status}
+    
+    {:name      :create-profile
+     :options   {:statusBar     {:style :light}
+                 :topBar        {:visible false}}
+     :insets    {:top false}
+     :component create-profile/create-profile}
+    ]
 
    (when config/quo-preview-enabled?
      quo.preview/screens)
