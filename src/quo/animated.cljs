@@ -1,6 +1,6 @@
 (ns quo.animated
   (:refer-clojure :exclude [abs set delay divide])
-  (:require ["react-native-reanimated" :default animated :refer (clockRunning EasingNode)]
+  (:require ["react-native-reanimated" :default animated :refer (EasingNode)]
             ["react-native-redash/lib/module/v1" :as redash]
             [oops.core :refer [ocall oget]]
             [quo.gesture-handler :as gh]
@@ -53,9 +53,12 @@
 (def max* (oget animated "max"))
 
 (def set (oget animated "set"))
-(def start-clock (oget animated "startClock"))
-(def stop-clock (oget animated "stopClock"))
-(def clock-running clockRunning)
+;; this function will always return 1, consider refactoring to use react-native-reanimated v2 instead
+(defn start-clock [clock-value] 1)
+;; this function will always return 0, consider refactoring to use react-native-reanimated v2 instead
+(defn stop-clock [clock-value] 0)
+;; this function will always return 1, consider refactoring to use react-native-reanimated v2 instead
+(defn clock-running [clock-value] 1)
 (def bezier (.-bezier ^js EasingNode))
 (def linear (.-linear ^js EasingNode))
 
