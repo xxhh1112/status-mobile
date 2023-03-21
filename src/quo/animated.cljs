@@ -13,7 +13,8 @@
 
 (def view (reagent/adapt-react-class (.-View animated)))
 (def text (reagent/adapt-react-class (.-Text animated)))
-(def scroll-view (reagent/adapt-react-class (.-ScrollView animated)))
+;(def scroll-view (reagent/adapt-react-class (.-ScrollView animated)))
+(def scroll-view (create-animated-component rn/scroll-view))
 (def code (reagent/adapt-react-class (.-Code animated)))
 (def animated-flat-list (create-animated-component gh/flat-list-raw))
 

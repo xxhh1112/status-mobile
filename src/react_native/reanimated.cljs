@@ -30,7 +30,8 @@
 (def create-animated-component (comp reagent/adapt-react-class (.-createAnimatedComponent reanimated)))
 
 (def view (reagent/adapt-react-class (.-View reanimated)))
-(def scroll-view (reagent/adapt-react-class (.-ScrollView reanimated)))
+;(def scroll-view (reagent/adapt-react-class (.-ScrollView reanimated)))
+(def scroll-view (create-animated-component (reagent/adapt-react-class (.-ScrollView ^js rn))))
 (def image (reagent/adapt-react-class (.-Image reanimated)))
 
 ;; TODO: This one should use FlatList from Reanimated.
