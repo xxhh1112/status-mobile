@@ -12,7 +12,8 @@
 (def create-animated-component (comp reagent/adapt-react-class (.-createAnimatedComponent animated)))
 
 (def view (reagent/adapt-react-class (.-View animated)))
-(def text (reagent/adapt-react-class (.-Text animated)))
+;(def text (reagent/adapt-react-class (.-Text animated)))
+(def text (create-animated-component rn/text))
 ;(def scroll-view (reagent/adapt-react-class (.-ScrollView animated)))
 (def scroll-view (create-animated-component rn/scroll-view))
 (def code (reagent/adapt-react-class (.-Code animated)))
