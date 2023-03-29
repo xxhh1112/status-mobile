@@ -6,7 +6,8 @@
             [utils.datetime :as datetime]
             [status-im2.common.home.actions.view :as actions] ;;TODO move to status-im2
             [status-im2.contexts.chat.home.chat-list-item.style :as style]
-            [utils.re-frame :as rf]))
+            [utils.re-frame :as rf]
+            [status-im2.constants :as constants]))
 
 (def max-subheader-length 50)
 
@@ -116,6 +117,30 @@
      {:color color
       :size  :medium}]))
 
+(defn get-message-content
+  [message]
+  (let [content-type (:content-type message)]
+    (case content-type
+      (constants/content-type-emoji)
+      (get-in message [:content :text])
+
+      constants/content-type-image
+      "🖼️ Photo"
+
+      constants/content-type-sticker
+      "Sticker"
+
+      constants/content-type-gif
+      "GIF"
+
+      constants/content-type-audio
+      (str "🎵 Audio (" (datetime/ms-to-duration (:audio-duration-ms message)) ")")
+
+      constants/content-type-community
+      "Community"
+
+      nil)))
+
 (defn chat-list-item
   [{:keys [chat-id group-chat color name unviewed-messages-count unviewed-mentions-count
            timestamp last-message]
@@ -137,12 +162,12 @@
        :color     color}]
      [rn/view {:style {:margin-left 8}}
       [name-view display-name contact timestamp]
-      (if (string/blank? (get-in last-message [:content :parsed-text]))
+      (if (= (:content-type last-message) constants/content-type-text)
+        [render-subheader (get-in last-message [:content :parsed-text])]
         [quo/text
          {:size  :paragraph-2
           :style {:color (colors/theme-colors colors/neutral-50 colors/neutral-40)}}
-         (get-in last-message [:content :text])]
-        [render-subheader (get-in last-message [:content :parsed-text])])]
+         (get-message-content last-message)])]
      (if (> unviewed-mentions-count 0)
        [quo/info-count {:style {:top 16}}
         unviewed-mentions-count]

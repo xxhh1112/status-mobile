@@ -208,8 +208,7 @@
          {:chat-id           current-chat-id
           :content-type      constants/content-type-audio
           :audio-path        audio-path
-          :audio-duration-ms duration
-          :text              (i18n/label :t/update-to-listen-audio {"locale" "en"})}
+          :audio-duration-ms duration}
          (when message-id
            {:response-to message-id})))))))
 
