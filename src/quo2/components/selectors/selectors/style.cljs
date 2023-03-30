@@ -79,7 +79,6 @@
   [{:keys [checked? blur? customization-color]}]
   {:height           14
    :width            14
-   :margin           1.8
    :border-radius    7
    :background-color (when checked?
                        (get-color (radio-border-color customization-color) blur? checked?))})
