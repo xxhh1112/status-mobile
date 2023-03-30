@@ -87,6 +87,7 @@
 (defn checkbox
   [{:keys [checked? disabled? blur? container-style customization-color]}]
   (assoc container-style
+         :opacity          (if disabled? 0.3 1)
          :height           20
          :width            20
          :border-radius    6
