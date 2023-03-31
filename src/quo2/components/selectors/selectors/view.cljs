@@ -29,10 +29,12 @@
          (when-not disabled?
            {:on-press #(handle-press on-change internal-checked? actual-checked?)})
          [rn/view
-          {:style               outer-styles
-           :accessibility-label accessibility-label
-           :accessibility-role  :checkbox
-           :testID              test-id}
+          {:style                              outer-styles
+           :accessibility-label                accessibility-label
+           :accessibility-role                 :checkbox
+           :testID                             test-id
+           :needs-offscreen-alpha-compositing  true
+           :render-to-hardware-texture-android true}
           [rn/view
            {:style (inner-style-fn {:checked?            actual-checked?
                                     :blur?               blur?
