@@ -67,13 +67,13 @@
        [rn/view {:style style/buttons-container}
         [quo/button
          {:type     :grey
-          :style    {:flex 0.48}
+          :style    style/cancel-button
           :on-press #(rf/dispatch [:hide-bottom-sheet])}
          (or close-button-text (i18n/label :t/cancel))]
 
         [quo/button
          {:type     :primary
           :disabled (string/blank? @entered-nickname)
-          :style    {:flex 0.48}
+          :style    style/action-button
           :on-press #(add-nickname-toast primary-name @entered-nickname public-key)}
          title]]])))

@@ -14,9 +14,17 @@
    :margin-bottom    16})
 
 (def buttons-container
-  {:flex-direction  :row
-   :justify-content :space-between
-   :margin-top      20})
+  {:margin-top      20
+   :flex-direction  :row
+   :align-items     :center
+   :justify-content :space-evenly})
+
+(def cancel-button
+  {:flex         1
+   :margin-right 12})
+
+(def action-button
+  {:flex 1})
 
 (def nickname-container
   {:margin-horizontal 20})
