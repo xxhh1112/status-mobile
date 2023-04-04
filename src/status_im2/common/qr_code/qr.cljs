@@ -3,7 +3,7 @@
             [status-im2.constants :as const]))
 
 (defn user-profile-qr-code
-  [{:keys [key-uid public-key port qr-size]}]
+  [{:keys [key-uid public-key port width height]}]
   (let [profile-qr-url         (str const/status-profile-base-url public-key)
         base-64-qr-url         (js/btoa profile-qr-url)
         profile-image-type     "large"
@@ -20,7 +20,7 @@
                                     "&allowProfileImage="
                                     superimpose-profile?
                                     "&size="
-                                    qr-size
+                                    height
                                     "&imageName="
                                     profile-image-type)]
     [rn/view
@@ -28,6 +28,6 @@
               :justify-content :center}}
      [rn/image
       {:source {:uri media-server-url}
-       :style  {:width         qr-size
-                :height        qr-size
+       :style  {:width         width
+                :height        height
                 :border-radius 12}}]]))

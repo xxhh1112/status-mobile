@@ -56,19 +56,20 @@
    :color       colors/white-opa-40
    :padding-top 10})
 
-(defn profile-address-content
-  [max-width]
+(def profile-address-content
   {:color       colors/white
    :align-self  :flex-start
    :padding-top 2
-   :max-width   max-width})
+   :margin-right 24
+   })
 
-(defn profile-address-container
-  [qr-size]
+(def profile-address-container
+  
   {:flex-direction  :row
    :justify-content :space-between
    :margin-top      6
-   :width           qr-size})
+   :margin-horizontal 20
+   })
 
 (def emoji-hash-label
   {:color        colors/white-opa-40
@@ -81,15 +82,20 @@
    :align-items     :center
    :padding-left    12})
 
-(defn emoji-hash-content
-  [max-width]
+(def emoji-hash-content
+
   {:color          colors/white
    :align-self     :flex-start
    :padding-top    4
    :padding-bottom 8
    :padding-left   12
-   :font-size      14
-   :max-width      max-width})
+   :font-size      14})
+
+(def emoji-address-container
+
+  {:flex-direction  :row
+   :justify-content :space-between
+   :margin-top      6})
 
 (def emoji-share-button-container
   {:padding          8
