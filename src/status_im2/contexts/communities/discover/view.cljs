@@ -1,5 +1,6 @@
 (ns status-im2.contexts.communities.discover.view
   (:require [utils.i18n :as i18n]
+            [status-im2.common.parallax.view :as parallax]
             [oops.core :as oops] ;; TODO move to status-im2
             [quo2.core :as quo]
             [quo2.foundations.colors :as colors]
@@ -236,4 +237,9 @@
      {:style (style/discover-screen-container (colors/theme-colors
                                                colors/white
                                                colors/neutral-95))}
-     [discover-screen-content featured-communities]]))
+     
+     [parallax/sensor-animated-image {
+                                      :image {:uri "https://github.com/notJust-dev/iOSLockScreen/blob/main/assets/images/Parallax/2.png"}
+                                      :order 1 
+     }]
+     ]))
