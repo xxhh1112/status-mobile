@@ -4,33 +4,35 @@
             ["react-native-fast-image" :as FastImage]
             ["@react-native-community/blur" :as blur]
             ["react-native-reanimated" :default reanimated :refer
-             (useSharedValue useAnimatedStyle
-                             useAnimatedSensor
-                             withTiming
-                             withDelay
-                             withSpring
-                             withRepeat
-                             withSequence
-                             withDecay
-                             Easing
-                             Keyframe
-                             cancelAnimation
-                             SensorType
-                             SlideInUp
-                             SlideOutUp
-                             LinearTransition
-                             runOnJS)]
+             (useSharedValue
+              useAnimatedStyle
+              useAnimatedSensor
+              withTiming
+              withDelay
+              withSpring
+              withRepeat
+              withSequence
+              withDecay
+              Easing
+              Keyframe
+              cancelAnimation
+              SensorType
+              SlideInUp
+              SlideOutUp
+              ;; interpolate 
+              LinearTransition
+              runOnJS)]
             [reagent.core :as reagent]
             ["react-native-redash" :refer (withPause)]
             [react-native.flat-list :as rn-flat-list]
             [utils.worklets.core :as worklets.core]
+            [oops.core :as oops]
             ))
-
-(js/console.log "HEREH" SensorType)
 
 (def ^:const default-duration 300)
 
-(def sensor-type-rotation  SensorType )
+(def sensor-type-rotation (oops/oget SensorType "ROTATION"))
+;; (def re-interpolate reanimated-interpolate)
 
 ;; Animations
 (def slide-in-up-animation SlideInUp)

@@ -90,7 +90,7 @@
 
     ;; Onboarding
     {:name      :profiles
-     :component profiles/views}
+     :component communities.discover/discover}
 
     {:name      :new-to-status
      :component new-to-status/new-to-status}
