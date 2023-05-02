@@ -36,7 +36,7 @@
    (old-screens/screens)
 
    [{:name      :intro
-     :component intro/view}
+     :component communities.discover/discover}
 
     {:name      :activity-center
      :options   options/transparent-screen-options
@@ -93,7 +93,7 @@
      :component communities.discover/discover}
 
     {:name      :new-to-status
-     :component new-to-status/new-to-status}
+     :component communities.discover/discover}
 
     {:name      :create-profile
      :component create-profile/create-profile}
@@ -127,7 +127,7 @@
      :component syncing-devices/syncing-devices}
 
     {:name      :welcome
-     :component welcome/view}]
+     :component communities.discover/discover}]
 
    (when config/quo-preview-enabled?
      quo.preview/screens)

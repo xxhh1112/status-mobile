@@ -4,6 +4,7 @@
             [oops.core :as oops] ;; TODO move to status-im2
             [quo2.core :as quo]
             [quo2.foundations.colors :as colors]
+            [react-native.reanimated :as reanimated]
             [react-native.core :as rn]
             [react-native.platform :as platform]
             [reagent.core :as reagent]
@@ -98,8 +99,8 @@
       [rn/view
        {:style     style/featured-list-container
         :on-layout #(swap! view-size
-                      (fn []
-                        (- (oops/oget % "nativeEvent.layout.width") 40)))}
+                           (fn [_]
+                             (- (oops/oget % "nativeEvent.layout.width") 40)))}
        (when-not (= @view-size 0)
          [rn/flat-list
           {:key-fn                            :id
@@ -230,16 +231,35 @@
         featured-communities
         @view-type]])))
 
-(defn discover
+;; (def pitch (atom 0))
+;; (def roll (atom 0))
+
+(defn f-discover
   []
-  (let [featured-communities (rf/sub [:communities/featured-communities])]
-    [rn/view
-     {:style (style/discover-screen-container (colors/theme-colors
-                                               colors/white
-                                               colors/neutral-95))}
-     
+  (let [
+        ;; paralax-state (reagent/atom {:pitch 50
+        ;;                              :roll 50})
+       p (reagent/atom 0) 
+       r (reagent/atom 0)
+        ]
+    ;; (reset! paralax-state (reanimated/use-shared-value {:pitch 0
+    ;;                                                     :roll 0}))
+    (fn []
+    [rn/view {:top 100
+              :left 100
+              :right 0
+              :bottom 0
+              :position :absolute}
+       [quo/button {:on-press #(reset! p (+ @p 125))} "up"]
+     [quo/button {:on-press #(reset! p (- @p 125))} "down"] 
+      [quo/button {:on-press #(reset! r (+ @r 125))} "left"]
+[quo/button {:on-press #(reset! r (- @r 125))} "right"]
      [parallax/sensor-animated-image {
-                                      :image {:uri "https://github.com/notJust-dev/iOSLockScreen/blob/main/assets/images/Parallax/2.png"}
-                                      :order 1 
-     }]
-     ]))
+                                      
+                                      :p @p
+                                      :r @r
+                                      :source (resources/get-mock-image :01)
+                                      :order 1}]])))
+
+(defn discover [props]
+  [:f> f-discover props])

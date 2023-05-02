@@ -13,7 +13,11 @@
   })
 
 (def mock-images
-  {:coinbase             (js/require "../resources/images/mock2/coinbase.png")
+  {:01 (js/require "../resources/images/mock2/01.png")
+   :02 (js/require "../resources/images/mock2/02.png")
+   :03 (js/require "../resources/images/mock2/03.png")
+   :04 (js/require "../resources/images/mock2/04.png")
+   :coinbase             (js/require "../resources/images/mock2/coinbase.png")
    :collectible          (js/require "../resources/images/mock2/collectible.png")
    :community-banner     (js/require "../resources/images/mock2/community-banner.png")
    :community-logo       (js/require "../resources/images/mock2/community-logo.png")
