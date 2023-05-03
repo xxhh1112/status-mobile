@@ -233,33 +233,68 @@
 
 ;; (def pitch (atom 0))
 ;; (def roll (atom 0))
+(defonce motion-permission-granted (reagent/atom false))
 
 (defn f-discover
   []
-  (let [
-        ;; paralax-state (reagent/atom {:pitch 50
+  (let [;; paralax-state (reagent/atom {:pitch 50
         ;;                              :roll 50})
-       p (reagent/atom 0) 
-       r (reagent/atom 0)
-        ]
+        p (reagent/atom 0)
+        r (reagent/atom 0)
+        v 10
+        request-motion-permission (fn []
+                                    (rf/dispatch
+                                     [:request-permissions
+                                      {:permissions [:motion]
+                                       :on-allowed  #(reset! motion-permission-granted true)
+                                       :on-denied   #(rf/dispatch
+                                                      [:toasts/upsert
+                                                       {:icon :i/info
+                                                        :icon-color colors/danger-50
+                                                        :override-theme :light
+                                                        :text "motion denied"}])}]))]
     ;; (reset! paralax-state (reanimated/use-shared-value {:pitch 0
     ;;                                                     :roll 0}))
     (fn []
-    [rn/view {:top 100
-              :left 100
-              :right 0
-              :bottom 0
-              :position :absolute}
-       [quo/button {:on-press #(reset! p (+ @p 125))} "up"]
-     [quo/button {:on-press #(reset! p (- @p 125))} "down"] 
-      [quo/button {:on-press #(reset! r (+ @r 125))} "left"]
-[quo/button {:on-press #(reset! r (- @r 125))} "right"]
-     [parallax/sensor-animated-image {
-                                      
-                                      :p @p
-                                      :r @r
-                                      :source (resources/get-mock-image :01)
-                                      :order 1}]])))
+      
+      [rn/view {:top 44
+                :left 0
+                :right 0
+                :bottom 0
+                :position :absolute}
+       [quo/button {:style {:z-index 10}
+                    :override-background-color :transparent
+                    :on-press #(reset! p (+ @p v))} "up"]
+      ;;  [quo/button {:style {:z-index 10}
+      ;;               :override-background-color :transparent
+      ;;               :on-press #(reset! p (- @p v))} "down"]
+      ;;  [quo/button {:style {:z-index 10}
+      ;;               :override-background-color :transparent
+      ;;               :on-press #(reset! r (+ @r v))} "left"]
+      ;;  [quo/button {:style {:z-index 10}
+      ;;               :override-background-color :transparent
+      ;;               :on-press #(reset! r (- @r v))} "right"]
+       (if @motion-permission-granted
+         
+
+       [parallax/parallax
+        {
+        ;;  :p @p
+        ;;  :r @r
+         :layers [(resources/get-mock-image :04)
+                  (resources/get-mock-image :03)
+                  (resources/get-mock-image :02)
+                  (resources/get-mock-image :01)]}]
+         [quo/button
+          {:before              :i/camera
+           :type                :primary
+           :size                32
+           :accessibility-label :request-motion-permission
+           :override-theme      :dark
+           :on-press            request-motion-permission}
+          "enable motion"]
+       
+       )])))
 
 (defn discover [props]
   [:f> f-discover props])
