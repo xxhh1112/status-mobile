@@ -255,16 +255,15 @@
                                                         :text "motion denied"}])}]))]
     ;; (reset! paralax-state (reanimated/use-shared-value {:pitch 0
     ;;                                                     :roll 0}))
-    (fn []
-      
-      [rn/view {:top 44
+    (fn [] 
+      [rn/view {:top 144
                 :left 0
                 :right 0
                 :bottom 0
                 :position :absolute}
-       [quo/button {:style {:z-index 10}
-                    :override-background-color :transparent
-                    :on-press #(reset! p (+ @p v))} "up"]
+      ;;  [quo/button {:style {:z-index 10}
+      ;;               :override-background-color :transparent
+      ;;               :on-press #(reset! p (+ @p v))} "up"]
       ;;  [quo/button {:style {:z-index 10}
       ;;               :override-background-color :transparent
       ;;               :on-press #(reset! p (- @p v))} "down"]
@@ -281,10 +280,10 @@
         {
         ;;  :p @p
         ;;  :r @r
-         :layers [(resources/get-mock-image :04)
-                  (resources/get-mock-image :03)
+         :layers [(resources/get-mock-image :01)
                   (resources/get-mock-image :02)
-                  (resources/get-mock-image :01)]}]
+                  (resources/get-mock-image :03)
+                  (resources/get-mock-image :04)]}]
          [quo/button
           {:before              :i/camera
            :type                :primary
