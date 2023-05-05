@@ -5,6 +5,7 @@
             [quo2.core :as quo]
             [quo2.foundations.colors :as colors]
             [react-native.reanimated :as reanimated]
+            ;; ["react-native-transparent-video" :default transparent-video]
             [react-native.core :as rn]
             [react-native.platform :as platform]
             [reagent.core :as reagent]
@@ -231,18 +232,11 @@
         featured-communities
         @view-type]])))
 
-;; (def pitch (atom 0))
-;; (def roll (atom 0))
 (defonce motion-permission-granted (reagent/atom false))
 
 (defn f-discover
   []
-  (let [;; paralax-state (reagent/atom {:pitch 50
-        ;;                              :roll 50})
-        p (reagent/atom 0)
-        r (reagent/atom 0)
-        v 10
-        request-motion-permission (fn []
+  (let [request-motion-permission (fn []
                                     (rf/dispatch
                                      [:request-permissions
                                       {:permissions [:motion]
@@ -253,37 +247,27 @@
                                                         :icon-color colors/danger-50
                                                         :override-theme :light
                                                         :text "motion denied"}])}]))]
-    ;; (reset! paralax-state (reanimated/use-shared-value {:pitch 0
-    ;;                                                     :roll 0}))
-    (fn [] 
-      [rn/view {:top 144
+
+    (fn []
+      [rn/view {:top 44
                 :left 0
                 :right 0
                 :bottom 0
                 :position :absolute}
-      ;;  [quo/button {:style {:z-index 10}
-      ;;               :override-background-color :transparent
-      ;;               :on-press #(reset! p (+ @p v))} "up"]
-      ;;  [quo/button {:style {:z-index 10}
-      ;;               :override-background-color :transparent
-      ;;               :on-press #(reset! p (- @p v))} "down"]
-      ;;  [quo/button {:style {:z-index 10}
-      ;;               :override-background-color :transparent
-      ;;               :on-press #(reset! r (+ @r v))} "left"]
-      ;;  [quo/button {:style {:z-index 10}
-      ;;               :override-background-color :transparent
-      ;;               :on-press #(reset! r (- @r v))} "right"]
        (if @motion-permission-granted
-         
+         [parallax/video
+          {:layers [(resources/get-video :biometrics-01-low)
 
-       [parallax/parallax
-        {
-        ;;  :p @p
-        ;;  :r @r
-         :layers [(resources/get-mock-image :01)
-                  (resources/get-mock-image :02)
-                  (resources/get-mock-image :03)
-                  (resources/get-mock-image :04)]}]
+                    (resources/get-video :biometrics-02-low)
+                    (resources/get-video :biometrics-03-low)
+                      (resources/get-video :biometrics-04-low)
+                    ]}]
+
+      ;;  [parallax/image
+      ;;   {:layers [(resources/get-mock-image :01)
+      ;;             (resources/get-mock-image :02)
+      ;;             (resources/get-mock-image :03)
+      ;;             (resources/get-mock-image :04)]}]
          [quo/button
           {:before              :i/camera
            :type                :primary
@@ -291,9 +275,7 @@
            :accessibility-label :request-motion-permission
            :override-theme      :dark
            :on-press            request-motion-permission}
-          "enable motion"]
-       
-       )])))
+          "enable motion"])])))
 
 (defn discover [props]
   [:f> f-discover props])

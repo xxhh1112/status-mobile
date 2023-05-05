@@ -6,8 +6,12 @@
             [quo.react-native :refer [use-window-dimensions] :as rn-hooks]
             [reagent.core :as reagent]
             ["react-native-reanimated" :default r :refer (interpolate)]
-            [status-im2.common.resources :as resources]))
+            [status-im2.common.resources :as resources]
 
+
+            ["react-native-transparent-video" :default TV]))
+
+(def transparent-video (reagent/adapt-react-class TV))
 
 (def IMAGE_OFFSET 100)
 (def PI js/Math.PI)
@@ -32,7 +36,7 @@
                          shared-pitch
                          (reanimated/with-timing
                            (interpolate
-                            (get-pitch sensor)
+                            20
                             (clj->js  [(- HALF_PI) HALF_PI])
                             (clj->js  [(+ (* (- 20) (+ order 1)) 20)  (- (* 20 (+ order 1)) 20)])
                             (clj->js {:extrapolateLeft  "clamp"
@@ -48,7 +52,7 @@
                             (clj->js   [(+ (* (- 20) (+ order 1)) 20)  (- (* 20 (+ order 1)) 20)])
                             (clj->js {:extrapolateLeft  "clamp"
                                       :extrapolateRight "clamp"}))
-                           {:duration 100})))
+                           {:duration 500})))
                       200))
                    [])))
 
@@ -58,7 +62,7 @@
 (defn s3 [order _]
   (cond
     (= 1 order) 1
-    (= 2 order) 0.55
+    (= 2 order) 0.40
     (= 3 order) 0.55
     (= 4 order) 0.55))
 
@@ -66,7 +70,7 @@
   (let [{:keys [height width]}  (rn-hooks/use-window-dimensions)
         pitch (reanimated/use-shared-value 0)
         roll (reanimated/use-shared-value 0)]
-    (use-parallax-animation pitch roll order)
+    ;; (use-parallax-animation pitch roll order)
     (fn []
       [:<>
        [reanimated/image {:source source
@@ -87,9 +91,43 @@
 (defn sensor-animated-image [props]
   [:f> f-sensor-animated-image props])
 
+(defn f-sensor-animated-video [{:keys [order source max-layers] :or {order 1}}]
+  (let [{:keys [height width]}  (rn-hooks/use-window-dimensions)
+        pitch (reanimated/use-shared-value 0)
+        roll (reanimated/use-shared-value 0)]
+    ;; (use-parallax-animation pitch roll order)
+
+    (fn []
+      ;; [reanimated/view {:style (reanimated/apply-animations-to-style
+      ;;                           {:transform [{:translateY pitch}
+      ;;                                        {:translateX roll}]}
+      ;;                           {:flex 1
+      ;;                            :position :absolute
+      ;;                            :top 0
+      ;;                            :left 0
+      ;;                            :right 0
+      ;;                            :bottom 0})}
+       [transparent-video {:source source
+                           :style   {:aspect-ratio 1
+                                     :overflow :visible
+                                     :margin :auto
+                                     :position :absolute
+                                     :top 0
+                                     :left 0
+                                     :right 0
+                                     :bottom 0
+                                    ;;  :height (* height  (s3 order max-layers))
+                                    ;;  :width width
+                                     }}]
+      ;;  ]
+       ))
+       )
+
+(defn sensor-animated-video [props]
+  [:f> f-sensor-animated-video props])
 
 
-(defn f-parallax [{:keys [layers]}]
+(defn f-image [{:keys [layers]}]
   [:<>
    (map-indexed (fn [idx, layer]
                   [sensor-animated-image {:key (str layer idx)
@@ -98,7 +136,20 @@
                                           :order   (inc idx)}])
                 layers)])
 
-(defn parallax [props]
-  [:f> f-parallax props])
+(defn image [props]
+  [:f> f-image props])
+
+(defn f-video [{:keys [layers]}]
+  [:<>
+   (map-indexed (fn [idx, layer]
+                  [sensor-animated-video {:key (str layer idx)
+                                          :max-layers (+ 2 (count layers))
+                                          :source layer
+                                          :order   (inc idx)}])
+                layers)])
+
+(defn video [props]
+  [:f> f-video props])
+
 
 
