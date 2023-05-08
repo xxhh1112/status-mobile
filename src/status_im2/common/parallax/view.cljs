@@ -1,98 +1,84 @@
 (ns status-im2.common.parallax.view
-  (:require [react-native.core :as rn]
-            [react-native.reanimated :as reanimated]
-            [oops.core :as oops]))
+  (:require [react-native.reanimated :as reanimated]
+            [reagent.core :as reagent]
+            [utils.worklets.parallax :as worklets.parallax]
+            ["react-native-transparent-video" :default TV]))
 
-(def IMAGE_OFFSET 100)
-(def PI js/Math.PI)
-(def HALF_PI (/ 2 js/Math.PI))
+(def transparent-video (reagent/adapt-react-class TV))
+
+(defn f-sensor-animated-image
+  [{:keys [order source] :or {order 1}}]
+  (let [image-style (worklets.parallax/sensor-animated-image order)]
+    (fn []
+      [:<>
+       [reanimated/image
+        {:source source
+         :style  [{:position :absolute
+                   :overflow :visible
+                   :margin   :auto
+                   :top      0
+                   :bottom   0
+                   :left     0
+                   :right    0}
+                  image-style]}]])))
+
+(defn sensor-animated-image
+  [props]
+  [:f> f-sensor-animated-image props])
+
+(defn f-sensor-animated-video
+  [{:keys [order source] :or {order 1}}]
+  (let [image-style (if (pos? order)
+                      (worklets.parallax/sensor-animated-image order)
+                      {:top    0
+                       :left   0
+                       :right  0
+                       :bottom 0})]
+    (fn []
+      [reanimated/view
+       {:style [:shouldRasterizeIOS true
+                {:position :absolute}
+                image-style]}
+       [transparent-video
+        {:source source
+         :style  {:overflow :visible
+                  :position :absolute
+                  :top      0
+                  :left     0
+                  :right    0
+                  :bottom   0}}]])))
+
+(defn sensor-animated-video
+  [props]
+  [:f> f-sensor-animated-video props])
+
+(defn f-image
+  [{:keys [layers]}]
+  [:<>
+   (map-indexed (fn [idx layer]
+                  [sensor-animated-image
+                   {:key    (str layer idx)
+                    :source layer
+                    :order  idx}])
+                layers)])
+
+(defn image
+  [props]
+  [:f> f-image props])
+
+(defn f-video
+  [{:keys [layers]}]
+  [:<>
+   (map-indexed (fn [idx layer]
+                  [sensor-animated-video
+                   {:key    (str layer idx)
+                    :source layer
+                    :order  idx}])
+                layers)])
+
+(defn video
+  [props]
+  [:f> f-video props])
 
 
-(defn sensor-animated-image [{:keys [image order]}]
-  [:f>
-   (fn []
-     (let [{:keys [width height]} (rn/use-window-dimensions)
-        ;;    sensor (reanimated/use-animated-sensor reanimated/sensor-type-rotation )
-           ]
-       (js/console.log reanimated/sensor-type-rotation)
-    ;;        image-style (reanimated/use-animated-style
-    ;;                     (fn []
-    ;;                       (let [{:keys [pitch roll]} (oops/oget sensor "sensor.value")]
-    ;;                         {:top (reanimated/with-timing
-    ;;                                 (reanimated/interpolate pitch
-    ;;                                                         [(- HALF_PI) HALF_PI]
-    ;;                                                         [(/ (* (- IMAGE_OFFSET) 2) order)]
-    ;;                                                         0)
-    ;;                                 {:duration 100})
-    ;;                          :left (reanimated/with-timing
-    ;;                                  (reanimated/interpolate roll
-    ;;                                                          [(- PI) PI]
-    ;;                                                          [(/ (* (- IMAGE_OFFSET) 2) order)]
-    ;;                                                          0)
-    ;;                                  {:duration 100})})))]
 
-    ;;    [reanimated/image {:source image
-    ;;                       :style {[{
-    ;;                                 :width (+ width (/ (* 2 IMAGE_OFFSET) order))
-    ;;                                  :height (+ height (/ (* 2 IMAGE_OFFSET) order))
-    ;;                                 :position :absolute
-    ;;                                 }] image-style}}]
-       
-       [rn/view {}]
-       ))])
-
-;; import { useWindowDimensions } from "react-native";
-;; import Animated, {
-;;   useAnimatedSensor,
-;;   SensorType,
-;;   useAnimatedStyle,
-;;   interpolate,
-;;   withTiming,
-;; } from "react-native-reanimated";
-
-;; const IMAGE_OFFSET = 100;
-;; const PI = Math.PI;
-;; const HALF_PI = PI / 2;
-
-;; const SensorAnimatedImage = ({ image, order }) => {
-;;   const { width, height } = useWindowDimensions();
-
-;;   const sensor = useAnimatedSensor(SensorType.ROTATION);
-
-;;   const imageStyle = useAnimatedStyle(() => {
-;;     const { pitch, roll } = sensor.sensor.value;
-
-;;     return {
-;;       top: withTiming(
-;;         interpolate(
-;;           pitch,
-;;           [-HALF_PI, HALF_PI],
-;;           [(-IMAGE_OFFSET * 2) / order, 0]
-;;         ),
-;;         { duration: 100 }
-;;       ),
-;;       left: withTiming(
-;;         interpolate(roll, [-PI, PI], [(-IMAGE_OFFSET * 2) / order, 0]),
-;;         {
-;;           duration: 100,
-;;         }
-;;       ),
-;;     };
-;;   });
-
-;;   return (
-;;     <Animated.Image
-;;       source={image}
-;;       style={[
-;;         {
-;;           width: width + (2 * IMAGE_OFFSET) / order,
-;;           height: height + (2 * IMAGE_OFFSET) / order,
-;;           position: "absolute",
-;;         },
-;;         imageStyle,
-;;       ]}
-;;     />
-;;   );
-;; };
-
-;; export default SensorAnimatedImage;

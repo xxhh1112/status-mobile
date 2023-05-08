@@ -4,33 +4,28 @@
             ["react-native-fast-image" :as FastImage]
             ["@react-native-community/blur" :as blur]
             ["react-native-reanimated" :default reanimated :refer
-             (useSharedValue useAnimatedStyle
-                             useAnimatedSensor
-                             withTiming
-                             withDelay
-                             withSpring
-                             withRepeat
-                             withSequence
-                             withDecay
-                             Easing
-                             Keyframe
-                             cancelAnimation
-                             SensorType
-                             SlideInUp
-                             SlideOutUp
-                             LinearTransition
-                             runOnJS)]
+             (useSharedValue
+              useAnimatedStyle
+              useAnimatedSensor
+              withTiming
+              withDelay
+              withSpring
+              withRepeat
+              withSequence
+              withDecay
+              Easing
+              Keyframe
+              cancelAnimation
+              SlideInUp
+              SlideOutUp
+              LinearTransition
+              runOnJS)]
             [reagent.core :as reagent]
             ["react-native-redash" :refer (withPause)]
             [react-native.flat-list :as rn-flat-list]
-            [utils.worklets.core :as worklets.core]
-            ))
-
-(js/console.log "HEREH" SensorType)
+            [utils.worklets.core :as worklets.core]))
 
 (def ^:const default-duration 300)
-
-(def sensor-type-rotation  SensorType )
 
 ;; Animations
 (def slide-in-up-animation SlideInUp)
@@ -121,16 +116,16 @@
   [anim val duration easing]
   (set-shared-value anim
                     (with-timing val
-                      (js-obj "duration" duration
-                              "easing"   (get easings easing)))))
+                                 (js-obj "duration" duration
+                                         "easing"   (get easings easing)))))
 
 (defn animate-shared-value-with-delay
   [anim val duration easing delay]
   (set-shared-value anim
                     (with-delay delay
-                      (with-timing val
-                        (js-obj "duration" duration
-                                "easing"   (get easings easing))))))
+                                (with-timing val
+                                             (js-obj "duration" duration
+                                                     "easing"   (get easings easing))))))
 
 (defn animate-delay
   ([animation val delay]
@@ -138,18 +133,18 @@
   ([animation val delay duration]
    (set-shared-value animation
                      (with-delay delay
-                       (with-timing val
-                         (clj->js {:duration duration
-                                   :easing   (default-easing)}))))))
+                                 (with-timing val
+                                              (clj->js {:duration duration
+                                                        :easing   (default-easing)}))))))
 
 (defn animate-shared-value-with-repeat
   [anim val duration easing number-of-repetitions reverse?]
   (set-shared-value anim
                     (with-repeat (with-timing val
-                                   (js-obj "duration" duration
-                                           "easing"   (get easings easing)))
-                      number-of-repetitions
-                      reverse?)))
+                                              (js-obj "duration" duration
+                                                      "easing"   (get easings easing)))
+                                 number-of-repetitions
+                                 reverse?)))
 
 (defn animate-shared-value-with-delay-repeat
   ([anim val duration easing delay number-of-repetitions]
@@ -157,21 +152,21 @@
   ([anim val duration easing delay number-of-repetitions reverse?]
    (set-shared-value anim
                      (with-delay delay
-                       (with-repeat
-                         (with-timing val
-                           #js
-                            {:duration duration
-                             :easing   (get easings easing)})
-                         number-of-repetitions
-                         reverse?)))))
+                                 (with-repeat
+                                  (with-timing val
+                                               #js
+                                                {:duration duration
+                                                 :easing   (get easings easing)})
+                                  number-of-repetitions
+                                  reverse?)))))
 
 (defn animate-shared-value-with-spring
   [anim val {:keys [mass stiffness damping]}]
   (set-shared-value anim
                     (with-spring val
-                      (js-obj "mass"      mass
-                              "damping"   damping
-                              "stiffness" stiffness))))
+                                 (js-obj "mass"      mass
+                                         "damping"   damping
+                                         "stiffness" stiffness))))
 
 (defn animate-shared-value-with-decay
   [anim velocity clamp]
@@ -191,5 +186,5 @@
 (defn with-timing-duration
   [val duration]
   (with-timing val
-    (clj->js {:duration duration
-              :easing   (in-out (.-quad ^js Easing))})))
+               (clj->js {:duration duration
+                         :easing   (in-out (.-quad ^js Easing))})))
