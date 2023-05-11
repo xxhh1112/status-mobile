@@ -8,7 +8,8 @@
 
 (defn f-sensor-animated-image
   [{:keys [order source] :or {order 1}}]
-  (let [image-style (worklets.parallax/sensor-animated-image order)]
+  (let [sensor (reanimated/use-animated-sensor 5)
+        image-style (worklets.parallax/sensor-animated-image sensor order)]
     (fn []
       [:<>
        [reanimated/image
@@ -28,19 +29,20 @@
 
 (defn f-sensor-animated-video
   [{:keys [order source] :or {order 1}}]
-  (let [image-style (if (pos? order)
-                      (worklets.parallax/sensor-animated-image order)
+  (let [sensor (reanimated/use-animated-sensor 5)
+        image-style (if (pos? order)
+                      (worklets.parallax/sensor-animated-image sensor order)
                       {:top    0
                        :left   0
                        :right  0
                        :bottom 0})]
     (fn []
       [reanimated/view
-       {:style [:shouldRasterizeIOS true
-                {:position :absolute}
+       {:style [{:position :absolute}
                 image-style]}
        [transparent-video
-        {:source source
+        {:needsOffscreenAlphaCompositing true
+         :source source
          :style  {:overflow :visible
                   :position :absolute
                   :top      0
