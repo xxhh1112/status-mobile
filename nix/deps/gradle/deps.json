@@ -8680,13 +8680,28 @@
     "path": "com/google/errorprone/error_prone_annotations/2.19.0",
     "repo": "https://repo.maven.apache.org/maven2",
     "files": {
-      "error_prone_annotations-2.19.0.pom": {
-        "sha1": "a97fea6db80189ea6bca7722d4eea86996088f6c",
-        "sha256": "19dcjlah6rlccqq59532811jjs51b5f7rwpq6wys2mhv61g2amgq"
+      "error_prone_annotations-2.3.4.pom": {
+        "sha1": "9a23fcb83bc8ed502506a8e6c648bf763dc5bcf9",
+        "sha256": "1vavpvwnawnfhw8lcnba1zv3w6c5zc8nm1kvc37wlz2g9f5769hk"
       },
-      "error_prone_annotations-2.19.0.jar": {
-        "sha1": "a715b4d2e99dc18b8cec61ae98ac79ebecabeb53",
-        "sha256": "1sx8w1b8b3v42027vxqmlrqyirn45w0lvmwrbf46cr641sx54p6b"
+      "error_prone_annotations-2.3.4.jar": {
+        "sha1": "dac170e4594de319655ffb62f41cbd6dbb5e601e",
+        "sha256": "0b00bg90n9ni33x0mpyx4iffzrrcbyx58s0vw59nqq6fjzmddxxs"
+      }
+    }
+  },
+
+  {
+    "path": "com/google/errorprone/error_prone_annotations/2.19.1",
+    "repo": "https://repo.maven.apache.org/maven2",
+    "files": {
+      "error_prone_annotations-2.19.1.pom": {
+        "sha1": "de5aaf8209cdb244c103053720a691447aff0e5a",
+        "sha256": "0yy6vqqklz07mn66dqgxhn4aldsjzmnk5xm6f5pgy7nwhay4ayjr"
+      },
+      "error_prone_annotations-2.19.1.jar": {
+        "sha1": "94c9e3872d81c44fdd7bbe76f96430df763a02af",
+        "sha256": "0s4nadf0zgv793bq0bzybpxriln111kg5zsqxjvdq7shk019klxd"
       }
     }
   },
@@ -8750,9 +8765,20 @@
     "path": "com/google/errorprone/error_prone_parent/2.19.0",
     "repo": "https://repo.maven.apache.org/maven2",
     "files": {
-      "error_prone_parent-2.19.0.pom": {
-        "sha1": "7c45180241eec291ab6b2088e588097364db7261",
-        "sha256": "0s5asyyrm05h7l85hgm5saxpx5s205ppgky155nc6h9ipq0fgf3j"
+      "error_prone_parent-2.3.4.pom": {
+        "sha1": "a9b9dd42d174a5f96d6c195525877fc6d0b2028a",
+        "sha256": "11i162j51sf2443ll9vs6j14lfcwknw59h6z1y7kklk0g91mnja0"
+      }
+    }
+  },
+
+  {
+    "path": "com/google/errorprone/error_prone_parent/2.19.1",
+    "repo": "https://repo.maven.apache.org/maven2",
+    "files": {
+      "error_prone_parent-2.19.1.pom": {
+        "sha1": "eda74a568c8a3d480209c900871bed907d1955ba",
+        "sha256": "1k89c78y918b47plh6szz6adf358lxvijfqg63v0zmg11wk8ky42"
       }
     }
   },
@@ -15127,9 +15153,35 @@
     "path": "org/junit/junit-bom/5.9.3",
     "repo": "https://repo.maven.apache.org/maven2",
     "files": {
-      "junit-bom-5.9.3.pom": {
-        "sha1": "b1874b6a66656e4f5e4b492ab321249bcb749dc7",
-        "sha256": "1mrf6kf0y6bic98n30w8s9gnxykgzv5j8mx1bh745wkjkv6jj0sd"
+      "jsoup-1.13.1.pom": {
+        "sha1": "ecd02e1b652931792e1b44bca21cf50828c80476",
+        "sha256": "1swq97yw7bfzn5k89wsknkbiqx3r8rmrb26ra7pkjdh7f802anmk"
+      },
+      "jsoup-1.13.1.jar": {
+        "sha1": "f9577f3732bb7caa4fee8aba5053158f4010c118",
+        "sha256": "12jrf417hsy3y6kqwbg0yargw4q774b0077vgvr6k7x35w6rrfg2"
+      }
+    }
+  },
+
+  {
+    "path": "org/junit/junit-bom/5.9.2",
+    "repo": "https://repo.maven.apache.org/maven2",
+    "files": {
+      "junit-bom-5.9.2.pom": {
+        "sha1": "645a08cbe455cad14d8bfb25a35d7f594c53cafd",
+        "sha256": "01gp6mpz7c4vcyrmm0drb05rvdan82d6qiw6d8rzacaihijpvl1f"
+      }
+    }
+  },
+
+  {
+    "path": "org/junit/junit-bom/5.10.0-M1",
+    "repo": "https://repo.maven.apache.org/maven2",
+    "files": {
+      "junit-bom-5.10.0-M1.pom": {
+        "sha1": "32146a4e02dff4367f085571d9157924622888a2",
+        "sha256": "1vgcxlj6xahdgi54nbk351m7bh1x1ijqgx7w9yrc24bmx8w6fnys"
       }
     }
   },
