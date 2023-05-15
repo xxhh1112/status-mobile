@@ -88,7 +88,73 @@
      (name @state/root-id)
      {:component {:id      comp
                   :name    comp
-                  :options (merge (options/statusbar-and-navbar)
+                  :options (merge 
+                            {:animations
+                                  ;;  {:pop {:elementTransitions
+                                  ;;         [{:id "bottomcard"
+                                  ;;           :y {:from 200
+                                  ;;                          :to 0
+                                  ;;                          :duration 1000}}
+                                  ;;          {:id "topcard"
+                                  ;;           :y {:from -200
+                                  ;;                          :to 0
+                                  ;;                          :duration 1000}}]}
+                                    ;; :push
+
+                                    ;; {;;  :content {
+                                    ;;            :enter {:x {:from 350
+                                    ;;                        :to 0
+                                    ;;                        :duration 600
+                                    ;;                        :interpolation {:type "spring"  :interpolation
+                                    ;;                                        {:mass 3 :damping 500 :stiffness 200}}}}
+                                    ;;            :exit {:translationX {:from 0
+                                    ;;                                  :to -500
+                                    ;;                                  :duration 750
+                                    ;;                                   :interpolation {:type "spring"  :interpolation
+                                    ;;                                                   {:mass 3 :damping 500 :stiffness 200}}
+                                    ;;                                  }}}
+
+                                    ;;  :content {:enter {:y {:from 0
+                                    ;;                        :to -350
+                                    ;;                        :duration 1200
+                                    ;;                        :interpolation {:type "spring"  :interpolation
+                                    ;;                                        {:mass 3 :damping 500 :stiffness 200}}}}
+                                              ;;  :exit {:translationX {:from 0
+                                              ;;                        :to -500
+                                              ;;                        :duration 750
+                                              ;;                         :interpolation {:type "spring"  :interpolation
+                                              ;;                                         {:mass 3 :damping 500 :stiffness 200}}
+                                              ;;                        }}
+                                              ;;  }
+
+                                    ;;  :sharedElementTransitions [{:fromId "topcard"
+                                    ;;                              :toId "background1"
+                                    ;;                              :duration 250
+                                    ;;                              :interpolation {:type "linear"}}]
+
+                                    ;;  :elementTransitions
+                                    ;;  [{:id "bottomcard"
+                                    ;;    :y {:from 0
+                                    ;;                   :to 200
+                                    ;;                   :duration 1000}}
+                                    ;;   {:id "topcard"
+                                    ;;    :y {:from 0
+                                    ;;                   :to -200
+                                    ;;                   :duration 1000}}
+
+
+                                      ;; {:id "content1"
+                                      ;;  :translationX {:from 0
+                                      ;;                 :to -16
+                                      ;;                 :duration 250}}
+                                      ;; {:id "content2"
+                                      ;;  :translationX {:from 16
+                                      ;;                 :to 0
+                                      ;;                 :duration 500}}
+                                      ;; ]
+                                      ;; } }}
+                             {}}
+                                  (options/statusbar-and-navbar)
                                   {:layout {:orientation :portrait}}
                                   options
                                   (if (:topBar options)

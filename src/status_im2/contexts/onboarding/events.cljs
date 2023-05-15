@@ -38,7 +38,8 @@
   {:events [:onboarding-2/profile-data-set]}
   [{:keys [db]} onboarding-data]
   {:db       (update db :onboarding-2/profile merge onboarding-data)
-   :dispatch [:navigate-to :create-profile-password]})
+  ;;  :dispatch [:navigate-to :create-profile-password]
+   })
 
 (rf/defn enable-biometrics
   {:events [:onboarding-2/enable-biometrics]}
@@ -121,7 +122,8 @@
   {:db       (-> db
                  (assoc-in [:onboarding-2/profile :password] password)
                  (assoc-in [:onboarding-2/profile :auth-method] constants/auth-method-password))
-   :dispatch [:navigate-to :enable-biometrics]})
+  ;;  :dispatch [:navigate-to :enable-biometrics]
+   })
 
 (rf/defn seed-phrase-entered
   {:events [:onboarding-2/seed-phrase-entered]}

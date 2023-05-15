@@ -14,7 +14,8 @@
 (defn sign-in-options
   []
   (let [window (rf/sub [:dimensions/window])]
-    [rn/view {:style style/options-container}
+    [rn/view {:nativeID "content1"
+              :style style/options-container}
      [quo/text
       {:style  style/title
        :size   :heading-1
@@ -94,7 +95,7 @@
   []
   (let [{:keys [top]} (safe-area/get-insets)]
     [:<>
-     [background/view true]
+     [background/view true "background1"]
      [rn/view {:style style/content-container}
       [navigation-bar/navigation-bar
        {:top                   top

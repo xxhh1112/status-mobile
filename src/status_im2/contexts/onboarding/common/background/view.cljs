@@ -54,7 +54,7 @@
       (async-storage/set-item! :screen-height height))))
 
 (defn f-view
-  [dark-overlay?]
+  [dark-overlay? nativeID]
   (let [view-id      (rf/sub [:view-id])
         animate?     (not dark-overlay?)
         window-width (rf/sub [:dimensions/window-width])]
@@ -70,7 +70,8 @@
      [view-id])
 
     [rn/view
-     {:style     style/background-container
+     {:nativeID nativeID
+      :style     style/background-container
       :on-layout store-screen-height}
      [carousel/view
       {:animate?          animate?
@@ -86,5 +87,8 @@
          :blur-type     :transparent
          :overlay-color :transparent}])]))
 
-(defn view [dark-overlay?] [:f> f-view dark-overlay?])
+(defn view
+  ([dark-overlay? nativeID] [:f> f-view dark-overlay? nativeID])
+  ([dark-overlay?] [:f> f-view dark-overlay? nil])
+  )
 

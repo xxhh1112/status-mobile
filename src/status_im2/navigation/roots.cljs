@@ -94,7 +94,10 @@
          {:intro
           {:root
            {:stack {:id       :intro
-                    :children [{:component {:name    :intro
+                    :children [{:component {:name :background
+                                            :id :background
+                                            :option {}}}
+                               {:component {:name    :intro
                                             :id      :intro
                                             :options (options/default-root)}}]}}}
           :shell-stack

@@ -40,9 +40,10 @@
     children))
 
 (defn card
-  [{:keys [on-press style heading gap accessibility-label top?]} children]
+  [{:keys [on-press style heading gap accessibility-label top? nativeID]} children]
   [rn/touchable-highlight
-   {:accessibility-label accessibility-label
+   {:nativeID nativeID
+    :accessibility-label accessibility-label
     :on-press            on-press
     :border-radius       20
     :style               style
@@ -65,6 +66,7 @@
                         :heading  string
                         :accessibility-label keyword}
     :bottom-card      { :on-press event
+                        :nativeID
                         :heading  string
                         :accessibility-label keyword}}
     child-1           string, keyword or hiccup

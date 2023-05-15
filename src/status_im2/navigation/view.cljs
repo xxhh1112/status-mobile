@@ -14,7 +14,9 @@
             [status-im2.navigation.screens :as screens]
             [status-im2.setup.hot-reload :as reloader]
             [utils.re-frame :as rf]
-            [status-im2.common.bottom-sheet-screen.view :as bottom-sheet-screen]))
+            [status-im2.common.bottom-sheet-screen.view :as bottom-sheet-screen]
+            
+            ))
 
 (defn get-screens
   []
@@ -60,12 +62,15 @@
                                 (when sheet? :transparent))]
        ^{:key (str "root" key @reloader/cnt)}
        [:<>
+       
         [rn/view
          {:style (wrapped-screen-style insets background-color)}
          [inactive]
+         
          (if sheet?
            [:f> bottom-sheet-screen/f-view component]
-           [component])]
+           [component]
+           )]
         (when js/goog.DEBUG
           [reloader/reload-view])]))))
 

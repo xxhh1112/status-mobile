@@ -8891,6 +8891,11 @@ react-native-touch-id@^4.4.1:
     escape-string-regexp "2.0.0"
     invariant "2.2.4"
 
+react-native-wizard@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/react-native-wizard/-/react-native-wizard-2.1.1.tgz#e94f8450c4b278361b6385defbc7eef0b7043ef1"
+  integrity sha512-0UKDdWWvZcc1B7ZQi9aut3cOOeAbUyNy0bfIIV94vdCMqq9EFbKg8JsnkbMFdOhjqxjlU3iidi1obOfXqZ9kvg==
+
 react-native@0.67.5:
   version "0.67.5"
   resolved "https://registry.yarnpkg.com/react-native/-/react-native-0.67.5.tgz#9f2aeabf0766fb4bd5385685f4f4f2406bcdf819"

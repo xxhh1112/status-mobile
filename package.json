@@ -70,6 +70,7 @@
     "react-native-svg": "^9.8.4",
     "react-native-touch-id": "^4.4.1",
     "react-native-webview": "git+https://github.com/status-im/react-native-webview.git#refs/tags/v11.16.0-status",
+    "react-native-wizard": "^2.1.1",
     "react-syntax-highlighter": "^15.5.0",
     "rn-emoji-keyboard": "0.7.0",
     "tdigest": "^0.1.1"

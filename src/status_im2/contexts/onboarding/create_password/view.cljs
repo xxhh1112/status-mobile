@@ -1,17 +1,18 @@
 (ns status-im2.contexts.onboarding.create-password.view
   (:require
-    [quo2.core :as quo]
-    [quo2.foundations.colors :as colors]
-    [react-native.core :as rn]
-    [react-native.safe-area :as safe-area]
-    [reagent.core :as reagent]
-    [status-im2.contexts.onboarding.common.background.view :as background]
-    [status-im2.contexts.onboarding.common.navigation-bar.view :as navigation-bar]
-    [status-im2.contexts.onboarding.create-password.style :as style]
-    [utils.i18n :as i18n]
-    [utils.re-frame :as rf]
-    [utils.security.core :as security]
-    [utils.string :as utils.string]))
+   [quo2.core :as quo]
+   [quo2.foundations.colors :as colors]
+   [react-native.core :as rn]
+   [react-native.safe-area :as safe-area]
+   [reagent.core :as reagent]
+   [oops.core :as oops]
+   [status-im2.contexts.onboarding.common.background.view :as background]
+   [status-im2.contexts.onboarding.common.navigation-bar.view :as navigation-bar]
+   [status-im2.contexts.onboarding.create-password.style :as style]
+   [utils.i18n :as i18n]
+   [utils.re-frame :as rf]
+   [utils.security.core :as security]
+   [utils.string :as utils.string]))
 
 (defn header
   []
@@ -120,7 +121,7 @@
        (count)))
 
 (defn password-form
-  [{:keys [scroll-to-end-fn]}]
+  [{:keys [next scroll-to-end-fn]}]
   (let [password                  (reagent/atom "")
         repeat-password           (reagent/atom "")
         accepts-disclaimer?       (reagent/atom false)
@@ -179,9 +180,11 @@
            [quo/button
             {:disabled                  (not meet-requirements?)
              :override-background-color (colors/custom-color user-color 60)
-             :on-press                  #(rf/dispatch
-                                          [:onboarding-2/password-set
-                                           (security/mask-data @password)])}
+             :on-press                  (fn []
+                                          (rf/dispatch
+                                           [:onboarding-2/password-set
+                                            (security/mask-data @password)])
+                                          (next))}
             (i18n/label :t/password-creation-confirm)]]]]))))
 
 (defn create-password-doc
@@ -197,19 +200,21 @@
       :t/create-profile-password-info-box-description)]]])
 
 (defn create-password
-  []
-  (let [scroll-view-ref  (atom nil)
+  [props]
+  (let [prev (oops/oget (:ref props) "current.prev")
+        scroll-view-ref  (atom nil)
         scroll-to-end-fn #(js/setTimeout ^js/Function (.-scrollToEnd @scroll-view-ref) 250)]
     (fn []
       (let [{:keys [top]} (safe-area/get-insets)]
         [:<>
-         [background/view true]
-         [rn/scroll-view
+        ;;  [background/view true]
+         
+         [rn/view
           {:ref                     #(reset! scroll-view-ref %)
-           :style                   style/overlay
-           :content-container-style style/content-style}
+           :style                   (merge {:height 500} style/content-style)}
           [navigation-bar/navigation-bar
-           {:top                   top
+           {:prev prev
+            ;; :top                   top
             :right-section-buttons [{:type                :blur-bg
                                      :icon                :i/info
                                      :icon-override-theme :dark
@@ -217,4 +222,7 @@
                                                             [:show-bottom-sheet
                                                              {:content create-password-doc
                                                               :shell?  true}])}]}]
-          [password-form {:scroll-to-end-fn scroll-to-end-fn}]]]))))
+          [password-form {:next  (oops/oget (:ref props) "current.next")
+                          :scroll-to-end-fn scroll-to-end-fn}]]
+         
+         ]))))

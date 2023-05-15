@@ -56,7 +56,7 @@
      children]))
 
 (defn- f-page
-  [{:keys [onboarding-profile-data navigation-bar-top]}]
+  [{:keys [next prev onboarding-profile-data navigation-bar-top]}]
   (let [{:keys [image-path display-name color]} onboarding-profile-data
         full-name                               (reagent/atom display-name)
         keyboard-shown?                         (reagent/atom false)
@@ -73,21 +73,25 @@
        (let [will-show-listener (oops/ocall rn/keyboard
                                             "addListener"
                                             "keyboardWillShow"
-                                            #(swap! keyboard-shown? (fn [] true)))
+                                            #(swap! keyboard-shown? (fn [_] true)))
              will-hide-listener (oops/ocall rn/keyboard
                                             "addListener"
                                             "keyboardWillHide"
-                                            #(swap! keyboard-shown? (fn [] false)))]
+                                            #(swap! keyboard-shown? (fn [_] false)))]
          (fn []
            (fn []
              (oops/ocall will-show-listener "remove")
              (oops/ocall will-hide-listener "remove"))))
        [])
-      [rn/view {:style style/page-container}
-       [navigation-bar/navigation-bar {:top navigation-bar-top}]
-       [rn/scroll-view
-        {:keyboard-should-persist-taps :always
-         :content-container-style      {:flex-grow 1}}
+      [rn/view {:nativeID "content2"
+                :style style/page-container}
+       [navigation-bar/navigation-bar {:top navigation-bar-top :prev prev}]
+       [rn/view
+        {
+         :keyboard-should-persist-taps :always
+         :style      {:flex-grow 1
+                      :height 500
+                      }}
         [rn/view {:style style/page-container}
          [rn/view
           {:style style/content-container}
@@ -138,20 +142,24 @@
            :type                      :primary
            :override-background-color (colors/custom-color @custom-color 60)
            :on-press                  (fn []
-                                        (rf/dispatch [:onboarding-2/profile-data-set
-                                                      {:image-path   @profile-pic
-                                                       :display-name @full-name
-                                                       :color        @custom-color}]))
+                                        ;; (rf/dispatch [:onboarding-2/profile-data-set
+                                        ;;               {:image-path   @profile-pic
+                                        ;;                :display-name @full-name
+                                        ;;                :color        @custom-color}])
+                                        (next))
            :style                     style/continue-button
-           :disabled                  (or (not (seq @full-name)) @validation-msg)}
+           :disabled                   false};(or (not (seq @full-name)) @validation-msg)}
           (i18n/label :t/continue)]]]])))
 
 (defn create-profile
-  []
+  [props]
   (let [{:keys [top]}           (safe-area/get-insets)
         onboarding-profile-data (rf/sub [:onboarding-2/profile])]
+    (js/console.log (oops/oget (:ref props) "current.next"))
     [:<>
-     [background/view true]
+    ;;  [background/view true "background2"]
      [:f> f-page
-      {:navigation-bar-top      top
+      {:next  (oops/oget (:ref props) "current.next")
+       :prev (oops/oget (:ref props) "current.prev")
+       :navigation-bar-top      top
        :onboarding-profile-data onboarding-profile-data}]]))
