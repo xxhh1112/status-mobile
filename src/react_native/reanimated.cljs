@@ -21,7 +21,10 @@
             [reagent.core :as reagent]
             ["react-native-redash" :refer (withPause)]
             [react-native.flat-list :as rn-flat-list]
-            [utils.worklets.core :as worklets.core]))
+            [utils.worklets.core :as worklets.core]
+            [react-native.blur :as rn-blur]
+            [react-native.core :as rn-core]
+            ["react-native-webview" :default rn-webview]))
 
 (def ^:const default-duration 300)
 
@@ -48,7 +51,42 @@
 (def touchable-opacity (create-animated-component (.-TouchableOpacity ^js rn)))
 (def linear-gradient (create-animated-component LinearGradient))
 (def fast-image (create-animated-component FastImage))
-(def blur-view (create-animated-component (.-BlurView blur)))
+(def webview (create-animated-component rn-webview))
+;(def blur-view (create-animated-component (.-BlurView blur)))
+(defn blur-view
+  [{:keys [style blur-radius overlay-color]
+    :or   {style {}
+           blur-radius 10
+           overlay-color "#00000000"}}
+   children]
+  (let [opacity (:opacity style)
+        html (str "<html>
+            <head>
+              <meta name=\"viewport\" content=\"initial-scale=1.0 maximum-scale=1.0\" />
+              <style>
+                .blur {
+                  position: absolute;
+                  top: 0;
+                  right: 0;
+                  bottom: 0;
+                  left: 0;
+                  background-color: " overlay-color ";
+                  -webkit-backdrop-filter: blur(" blur-radius "px);
+                  backdrop-filter: blur(" blur-radius "px);
+                }</style>
+            </head>
+            <body>
+              <div class=\"blur\" />
+            </body>
+          </html>")]
+    (println opacity style "OAPOAPOP")
+    [view {:style style}
+     [webview
+      {:style  {:position :absolute :top 0 :left 0 :right 0 :bottom 0 :background-color :transparent :opacity 1}
+       :source {:html html}
+       :showsHorizontalScrollIndicator false
+       :pointer-events :none}]
+     children]))
 
 ;; Hooks
 (def use-shared-value useSharedValue)

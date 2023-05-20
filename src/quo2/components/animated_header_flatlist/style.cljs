@@ -35,7 +35,7 @@
     :right    0
     :height   100
     :z-index  2
-    :overflow :hidden}))
+    :overflow :visible}))
 
 (defn entity-picture
   [animation]
