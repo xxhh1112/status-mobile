@@ -1,6 +1,7 @@
 (ns status-im2.navigation.core
   (:require [re-frame.core :as re-frame]
             [react-native.core :as rn]
+            [utils.re-frame :as rf]
             [react-native.gesture :as gesture]
             [react-native.navigation :as navigation]
             [status-im.multiaccounts.login.core :as login-core]
@@ -39,11 +40,15 @@
       (re-frame/dispatch on-focus))))
 
 (navigation/reg-component-did-appear-listener
- (fn [view-id]
+ (fn [view-id props]
    (when (get views/screens view-id)
      (set-view-id view-id)
      (when-not @state/curr-modal
        (reset! state/pushed-screen-id view-id)))))
+
+(navigation/reg-component-did-disappear-listener
+ (fn [view-id]
+   (println "disapp View id" view-id)))
 
 (defn dissmissModal
   []
@@ -75,13 +80,18 @@
 
 ;; NAVIGATE-TO
 (defn navigate
-  [comp]
-  (let [{:keys [options]} (get views/screens comp)]
+  [view-id props]
+  (let [{:keys [options]} (get views/screens view-id)]
+    (println "NAVIGATING" view-id props)
+    (when (= :chat view-id)
+      (println "ESTTING VIEW"(:chat-id props))
+      (reset! state/current-chat-id (:chat-id props)))
     (dismiss-all-modals)
     (navigation/push
      (name @state/root-id)
-     {:component {:id      comp
-                  :name    comp
+     {:component {:id      view-id
+                  :name    view-id
+                  :passProps (clj->js props)
                   :options (merge (options/statusbar-and-navbar)
                                   {:layout {:orientation :portrait}}
                                   options
@@ -89,12 +99,26 @@
                                     (options/merge-top-bar (options/topbar-options) options)
                                     {:topBar {:visible false}}))}})))
 
+(rf/defn navigate-to-props
+  {:events [:chat/navigate-to-props]}
+  [_ chat-id]
+  (println "NAVIGATEING TO PROPS")
+  {:navigate-to-props {:props {:chat-id chat-id}
+                      :view-id :chat}})
+
+(defn navigate-to-props-fx
+  [{:keys [view-id props]}]
+  (println "NAVIGATING TO" view-id props)
+  (navigate view-id props))
+
+(re-frame/reg-fx :navigate-to-props navigate-to-props-fx)
 (re-frame/reg-fx :navigate-to navigate)
+
 
 (re-frame/reg-fx :navigate-replace-fx
                  (fn [view-id]
                    (navigation/pop (name @state/root-id))
-                   (navigate view-id)))
+                   (navigate view-id nil)))
 
 (re-frame/reg-fx :navigate-back
                  (fn []

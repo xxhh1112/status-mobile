@@ -164,6 +164,7 @@
 (re-frame/reg-sub
  :signing/amount-errors
  (fn [[_ address] _]
+   (println "AMOUNT ERRORS")
    [(re-frame/subscribe [:signing/tx])
     (re-frame/subscribe [:balance address])])
  (fn [[{:keys [amount token gas gasPrice maxFeePerGas approve? gas-error-message]} balance]]

@@ -36,8 +36,7 @@
          as arguments and returns new fx. Always clear all validation messages."
   {:events [:chat.ui/set-chat-input-text]}
   [{db :db} new-input chat-id]
-  (let [current-chat-id (or chat-id (:current-chat-id db))]
-    {:db (assoc-in db [:chat/inputs current-chat-id :input-text] (text->emoji new-input))}))
+  {:db (assoc-in db [:chat/inputs chat-id :input-text] (text->emoji new-input))})
 
 (rf/defn select-mention
   {:events [:chat.ui/select-mention]}
@@ -175,7 +174,7 @@
         messages       (keep identity (conj image-messages text-message))]
     (when (seq messages)
       (rf/merge cofx
-                (clean-input (:current-chat-id db))
+                (clean-input current-chat-id)
                 (chat.message/send-messages messages)))))
 
 (rf/defn send-audio-message
@@ -230,7 +229,7 @@
 (rf/defn send-current-message
   "Sends message from current chat input"
   {:events [:chat.ui/send-current-message]}
-  [{{:keys [current-chat-id] :as db} :db :as cofx}]
+  [{:keys [db] :as cofx} current-chat-id]
   (let [{:keys [input-text metadata]} (get-in db [:chat/inputs current-chat-id])
         editing-message               (:editing-message metadata)
         method                        "wakuext_chatMentionCheckMentions"

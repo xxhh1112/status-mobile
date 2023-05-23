@@ -138,6 +138,13 @@
    (get chats current-chat-id)))
 
 (re-frame/reg-sub
+ :chats/current-raw-chat-2
+ :<- [:chats/chats]
+ (fn [chats [_ chat-id]]
+   (println "RUNNING SUBSCRITION" chat-id )
+   (get chats chat-id)))
+
+(re-frame/reg-sub
  :chats/current-chat-input
  :<- [:chats/current-chat-id]
  :<- [:chat/inputs]
@@ -163,6 +170,57 @@
  :<- [:chat/memberships]
  (fn [[chat-id memberships]]
    (get memberships chat-id)))
+
+
+(re-frame/reg-sub
+ :chats/current-chat-2
+ (fn [[_ chat-id]]
+   (println "RUNNING CURRENT CHAT 2" chat-id)
+   [(re-frame/subscribe [:chats/current-raw-chat-2 chat-id])
+    (re-frame/subscribe [:multiaccount/public-key])
+    (re-frame/subscribe [:contacts/blocked-set])
+    (re-frame/subscribe [:contacts/contacts-raw])
+    (re-frame/subscribe [:chat/inputs])])
+ (fn [[{:keys [group-chat chat-id] :as current-chat} my-public-key blocked-users-set contacts
+       inputs]]
+    (when current-chat
+      (->
+       (cond-> current-chat
+         (chat.events/public-chat? current-chat)
+         (assoc :able-to-send-message? true)
+
+         (and (chat.events/group-chat? current-chat)
+              (group-chats.db/member? my-public-key current-chat))
+         (assoc :able-to-send-message? true
+                :member?               true)
+
+         (chat.events/community-chat? current-chat)
+         (assoc :able-to-send-message? true)
+
+         (not group-chat)
+         (assoc
+          :contact-request-state (get-in contacts [chat-id :contact-request-state])
+          :able-to-send-message?
+          (and
+           (or
+            (get-in inputs [chat-id :metadata :sending-contact-request])
+            (= constants/contact-request-state-mutual
+               (get-in contacts [chat-id :contact-request-state])))
+           (not (contains? blocked-users-set chat-id)))))
+       (select-keys [:chat-id
+                     :able-to-send-message?
+                     :group-chat
+                     :admins
+                     :invitation-admin
+                     :public?
+                     :chat-type
+                     :color
+                     :contact-request-state
+                     :chat-name
+                     :synced-to
+                     :synced-from
+                     :community-id
+                     :emoji])))))
 
 (re-frame/reg-sub
  :chats/current-chat
@@ -202,6 +260,29 @@
 (re-frame/reg-sub
  :chats/current-chat-chat-view
  :<- [:chats/current-chat]
+ (fn [current-chat]
+   (println "RUNNING CURRENT_CHAT CHTAT 3")
+   (select-keys current-chat
+                [:chat-id
+                 :able-to-send-message?
+                 :group-chat
+                 :admins
+                 :invitation-admin
+                 :public?
+                 :chat-type
+                 :color
+                 :contact-request-state
+                 :chat-name
+                 :synced-to
+                 :synced-from
+                 :community-id
+                 :emoji])))
+
+(re-frame/reg-sub
+ :chats/current-chat-chat-view-2
+ (fn [[_ chat-id]]
+   (println "RUNNING CURRENT CHAT CHAT")
+   [(re-frame/subscribe [:chats/current-chat-2 chat-id])])
  (fn [current-chat]
    (select-keys current-chat
                 [:chat-id

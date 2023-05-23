@@ -89,10 +89,10 @@
   [val chat-id]
   (swap! input-texts assoc chat-id val)
   ;;we still store it in app-db for mentions, we don't have reactions in views
-  (rf/dispatch [:chat.ui/set-chat-input-text val]))
+  (rf/dispatch [:chat.ui/set-chat-input-text val chat-id]))
 
 (defn on-selection-change
-  [timeout-id last-text-change args]
+  [timeout-id last-text-change chat-id args]
   (let [selection (.-selection ^js (.-nativeEvent ^js args))
         start     (.-start selection)
         end       (.-end selection)]
@@ -105,6 +105,7 @@
         (background-timer/set-timeout
          #(rf/dispatch [:mention/on-selection-change
                         {:start start
+                         :chat-id chat-id
                          :end   end}])
          50)))
     ;; NOTE(rasom): on Android we dispatch event only in case if there
@@ -116,6 +117,7 @@
                    (< 50 (- (js/Date.now) @last-text-change))))
       (rf/dispatch [:mention/on-selection-change
                     {:start start
+                     :chat-id chat-id
                      :end   end}]))))
 
 (defn on-change
@@ -144,7 +146,7 @@
     ;; NOTE(rasom): on iOS `on-change` is dispatched after `on-text-input`,
     ;; that's why mention suggestions are calculated on `on-change`
     (when platform/ios?
-      (rf/dispatch [:mention/calculate-suggestions]))))
+      (rf/dispatch [:mention/calculate-suggestions chat-id]))))
 
 (defn on-text-input
   [chat-id args]
@@ -161,13 +163,14 @@
      [:mention/on-text-input
       {:new-text      text
        :previous-text previous-text
+       :chat-id       chat-id
        :start         start
        :end           end}])
     ;; NOTE(rasom): on Android `on-text-input` is dispatched after
     ;; `on-change`, that's why mention suggestions are calculated
     ;; on `on-change`
     (when platform/android?
-      (rf/dispatch [:mention/calculate-suggestions]))))
+      (rf/dispatch [:mention/calculate-suggestions chat-id]))))
 
 (defn text-input-style
   [chat-id]
@@ -216,7 +219,8 @@
          :on-content-size-change on-content-size-change
          :on-selection-change (partial on-selection-change
                                        timeout-id
-                                       last-text-change)
+                                       last-text-change
+                                       chat-id)
          :on-change
          (partial on-change last-text-change timeout-id refs chat-id sending-image)
          :on-text-input (partial on-text-input chat-id)}

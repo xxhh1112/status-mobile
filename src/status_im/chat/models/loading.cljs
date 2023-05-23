@@ -178,10 +178,10 @@
             #(re-frame/dispatch [::messages-loaded chat-id session-id %])
             #(re-frame/dispatch [::failed-loading-messages chat-id session-id %]))))))))
 
-(rf/defn load-more-messages-for-current-chat
-  {:events [:chat.ui/load-more-messages-for-current-chat]}
-  [{:keys [db] :as cofx}]
-  (load-more-messages cofx (:current-chat-id db) false))
+(rf/defn load-more-messages-for-chat
+  {:events [:chat.ui/load-more-messages-for-chat]}
+  [cofx chat-id]
+  (load-more-messages cofx chat-id false))
 
 (rf/defn load-messages
   [{:keys [db now] :as cofx} chat-id]

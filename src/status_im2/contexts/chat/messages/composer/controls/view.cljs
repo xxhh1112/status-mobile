@@ -28,7 +28,7 @@
      :on-press            (fn []
                             (on-send)
                             (messages.list/scroll-to-bottom)
-                            (rf/dispatch [:chat.ui/send-current-message]))}
+                            (rf/dispatch [:chat.ui/send-current-message chat-id]))}
     :i/arrow-up]])
 
 (defn reactions-button

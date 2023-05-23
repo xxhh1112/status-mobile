@@ -102,6 +102,7 @@
 (re-frame/reg-sub
  :account-portfolio-value
  (fn [[_ address] _]
+   (println "ADDRESS")
    [(re-frame/subscribe [:balance address])
     (re-frame/subscribe [:prices])
     (re-frame/subscribe [:wallet/currency])
@@ -186,6 +187,7 @@
 (re-frame/reg-sub
  :wallet/visible-assets-with-amount
  (fn [[_ address] _]
+   (println "BALANCE")
    [(re-frame/subscribe [:balance address])
     (re-frame/subscribe [:wallet/visible-assets])])
  (fn [[balance visible-assets]]
@@ -207,6 +209,7 @@
 (re-frame/reg-sub
  :wallet/visible-assets-with-values
  (fn [[_ address] _]
+   (println "VISIBLE ASSETS")
    [(re-frame/subscribe [:wallet/visible-assets-with-amount address])
     (re-frame/subscribe [:prices])
     (re-frame/subscribe [:wallet/currency])])

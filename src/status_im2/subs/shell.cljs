@@ -118,6 +118,7 @@
 (re-frame/reg-sub
  :shell/one-to-one-chat-card
  (fn [[_ id] _]
+   (println "ONE TO ONE CHAT CARD")
    [(re-frame/subscribe [:contacts/contact-by-identity id])
     (re-frame/subscribe [:contacts/contact-two-names-by-identity id])
     (re-frame/subscribe [:chats/chat id])
@@ -128,6 +129,7 @@
 (re-frame/reg-sub
  :shell/private-group-chat-card
  (fn [[_ id] _]
+   (println "PRIVATE GROUP CHAT CARD")
    [(re-frame/subscribe [:chats/chat id])
     (re-frame/subscribe [:communities])])
  (fn [[chat communities] [_ id]]
@@ -136,6 +138,7 @@
 (re-frame/reg-sub
  :shell/community-card
  (fn [[_ id] _]
+   (println "COMMUNIT GROUP CHAT CARD")
    [(re-frame/subscribe [:communities/community id])])
  (fn [[community] [_ id]]
    (community-card community id)))
@@ -143,6 +146,7 @@
 (re-frame/reg-sub
  :shell/community-channel-card
  (fn [[_ channel-id] _]
+   (println "COMMUNIT CHANNEL CARD")
    [(re-frame/subscribe [:chats/chat channel-id])
     (re-frame/subscribe [:communities])])
  (fn [[channel communities] [_ channel-id]]

@@ -201,18 +201,18 @@
   [cofx chat-id]
   (loading/load-messages cofx chat-id))
 
+
 (rf/defn navigate-to-chat
   "Takes coeffects map and chat-id, returns effects necessary for navigation and preloading data"
   {:events [:chat/navigate-to-chat]}
   [{db :db :as cofx} chat-id]
   (rf/merge cofx
-            {:dispatch [:navigate-to :chat chat-id]}
+            ;; TODO: look into why it needs dispatching
+            {:dispatch [:chat/navigate-to-props chat-id]}
             (when-not (or (= (:view-id db) :community) (= (:view-id db) :community-overview))
               (navigation/pop-to-root :shell-stack))
             (close-chat false)
             (force-close-chat chat-id)
-            (fn [{:keys [db]}]
-              {:db (assoc db :current-chat-id chat-id)})
             (preload-chat-data chat-id)
             #(when (group-chat? cofx chat-id)
                (loading/load-chat % chat-id))))

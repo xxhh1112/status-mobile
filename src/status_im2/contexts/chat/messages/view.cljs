@@ -25,9 +25,9 @@
     true))
 
 (defn page-nav
-  []
+  [chat-id]
   (let [{:keys [group-chat chat-id chat-name emoji
-                chat-type]} (rf/sub [:chats/current-chat])
+                chat-type]} (rf/sub [:chats/current-raw-chat-2 chat-id])
         display-name        (if (= chat-type constants/one-to-one-chat-type)
                               (first (rf/sub [:contacts/contact-two-names-by-identity chat-id]))
                               (str emoji " " chat-name))
@@ -66,15 +66,20 @@
 
 (defn chat-render
   []
-  (let [;;NOTE: we want to react only on these fields, do not use full chat map here
+  (let [component (reagent/current-component)
+        props (reagent/props component)
+        ;;NOTE: we want to react only on these fields, do not use full chat map here
         {:keys [chat-id contact-request-state group-chat able-to-send-message?] :as chat}
-        (rf/sub [:chats/current-chat-chat-view])]
+        (rf/sub [:chats/current-chat-2 @navigation.state/current-chat-id])]
+    (println "CHAT PROPS 2" @navigation.state/current-chat-id)
+    (println "PROPS" props)
+    (println "CHHHHH" chat)
     [safe-area/consumer
      (fn [insets]
        [rn/keyboard-avoiding-view
         {:style                  {:position :relative :flex 1}
          :keyboardVerticalOffset (- (max 20 (:bottom insets)))}
-        [page-nav]
+        [page-nav chat-id]
         [pin.banner/banner chat-id]
         [messages.list/messages-list chat]
         (if-not able-to-send-message?

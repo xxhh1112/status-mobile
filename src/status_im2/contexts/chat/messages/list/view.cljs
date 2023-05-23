@@ -62,10 +62,10 @@
 ;;load and render 20 messages more, but we can't prevent this , because otherwise :on-end-reached will
 ;;work wrong
 (defn list-on-end-reached
-  []
+  [chat-id]
   (if @state/scrolling
-    (rf/dispatch [:chat.ui/load-more-messages-for-current-chat])
-    (background-timer/set-timeout #(rf/dispatch [:chat.ui/load-more-messages-for-current-chat])
+    (rf/dispatch [:chat.ui/load-more-messages-chat chat-id])
+    (background-timer/set-timeout #(rf/dispatch [:chat.ui/load-more-messages-for-chat chat-id])
                                   (if platform/low-device? 700 200))))
 
 (defonce messages-view-height (reagent/atom 0))
@@ -118,7 +118,7 @@
        :render-data                  render-data
        :render-fn                    render-fn
        :on-viewable-items-changed    on-viewable-items-changed
-       :on-end-reached               list-on-end-reached
+       :on-end-reached               (partial list-on-end-reached chat-id)
        :on-scroll-to-index-failed    identity ; don't remove this
        :content-container-style      {:padding-top    (+ bottom-space 32)
                                       :padding-bottom 16}

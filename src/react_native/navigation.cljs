@@ -61,7 +61,9 @@
   (.registerComponentDidAppearListener
    ^js (.events ^js Navigation)
    (fn [^js evn]
-     (handler (keyword (.-componentName evn))))))
+     (handler 
+      (keyword (.-componentName evn))
+      (.-passProps evn)))))
 
 (defn reg-component-did-disappear-listener
   [handler]

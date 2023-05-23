@@ -51,6 +51,7 @@
 (re-frame/reg-sub
  :communities/sorted-community-members
  (fn [[_ community-id]]
+   (println "SORTED COMMUNITY")
    (let [contacts     (re-frame/subscribe [:contacts/contacts])
          multiaccount (re-frame/subscribe [:multiaccount])
          members      (re-frame/subscribe [:communities/community-members community-id])]
@@ -135,6 +136,7 @@
 (re-frame/reg-sub
  :communities/home-item
  (fn [[_ community-id]]
+   (println "HOME ITME")
    [(re-frame/subscribe [:communities])
     (re-frame/subscribe [:communities/unviewed-counts community-id])])
  (fn [[communities counts] [_ identity]]
@@ -165,6 +167,7 @@
 (re-frame/reg-sub
  :communities/unviewed-count
  (fn [[_ community-id]]
+   (println "UNVIEWED ITME")
    [(re-frame/subscribe [:chats/by-community-id community-id])])
  (fn [[chats]]
    (reduce (fn [acc {:keys [unviewed-messages-count]}]
@@ -184,6 +187,7 @@
 (re-frame/reg-sub
  :communities/unviewed-counts
  (fn [[_ community-id]]
+   (println "UNVIEWED ITME 2")
    [(re-frame/subscribe [:chats/by-community-id community-id])])
  (fn [[chats]]
    (calculate-unviewed-counts chats)))
@@ -201,6 +205,7 @@
 (re-frame/reg-sub
  :community/categories
  (fn [[_ community-id]]
+   (println "CATEGORIES ")
    [(re-frame/subscribe [:communities/community community-id])])
  (fn [[{:keys [categories]}] _]
    categories))
@@ -249,6 +254,7 @@
 (re-frame/reg-sub
  :communities/categorized-channels
  (fn [[_ community-id]]
+   (println "CATEGORIES CHANN")
    [(re-frame/subscribe [:communities/community community-id])
     (re-frame/subscribe [:chats/chats])
     (re-frame/subscribe [:communities/collapsed-categories-for-community community-id])])

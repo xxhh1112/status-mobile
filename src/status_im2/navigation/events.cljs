@@ -1,5 +1,5 @@
 (ns status-im2.navigation.events
-  (:require [utils.re-frame :as rf]))
+  (:require  [utils.re-frame :as rf]))
 
 (defn- all-screens-params
   [db view screen-params]
@@ -130,6 +130,13 @@
                                                         false)
                                                  (dissoc :wallet-connect/session-managed))
    :hide-wallet-connect-app-management-sheet nil})
+
+(rf/defn navigate-to-props
+  {:events [:chat/navigate-to-props]}
+  [_ chat-id]
+  (println "NAVIGATEING TO PROPS")
+  (navigate-to-props {:props {:chat-id chat-id}
+                      :view-id :chat}))
 
 (rf/defn set-multiaccount-root
   {:events [:set-multiaccount-root]}

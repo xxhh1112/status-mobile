@@ -93,14 +93,16 @@
 
 (rf/defn on-text-input
   {:events [:mention/on-text-input]}
-  [{:keys [db]} {:keys [previous-text start end] :as args}]
+  [{:keys [db]} {:keys [previous-text 
+                        chat-id
+                        start 
+                        end] :as args}]
   (let [previous-text
         ;; NOTE(rasom): on iOS `previous-text` contains entire input's text. To
         ;; get only removed part of text we have cut it.
         (if platform/android?
           previous-text
           (subs previous-text start end))
-        chat-id       (:current-chat-id db)
         state         (merge args {:previous-text previous-text})
         state         (set/rename-keys state
                                        {:previous-text :PreviousText
@@ -212,9 +214,8 @@
 (rf/defn check-selection
   {:events [:mention/on-selection-change]}
   [{:keys [db]}
-   {:keys [start end]}]
-  (let [chat-id (:current-chat-id db)
-        text    (get-in db [:chat/inputs chat-id :input-text])
+   {:keys [start end chat-id]}]
+  (let [text    (get-in db [:chat/inputs chat-id :input-text])
         params  [chat-id text start end]
         method  "wakuext_chatMentionHandleSelectionChange"]
     (when text
@@ -243,9 +244,8 @@
 
 (rf/defn calculate-suggestions
   {:events [:mention/calculate-suggestions]}
-  [{:keys [db]}]
-  (let [chat-id (:current-chat-id db)
-        text    (get-in db [:chat/inputs chat-id :input-text])
+  [{:keys [db]} chat-id]
+  (let [text    (get-in db [:chat/inputs chat-id :input-text])
         params  [chat-id text]
         method  "wakuext_chatMentionCalculateSuggestions"]
     (log/debug "[mentions] calculate-suggestions" {:params params})

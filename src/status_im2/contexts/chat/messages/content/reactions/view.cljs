@@ -21,9 +21,11 @@
                                    #(rf/dispatch [:models.reactions/send-emoji-reaction-retraction
                                                   {:message-id        message-id
                                                    :emoji-id          emoji-id
+                                                   :chat-id           chat-id
                                                    :emoji-reaction-id emoji-reaction-id}])
                                    #(rf/dispatch [:models.reactions/send-emoji-reaction
                                                   {:message-id message-id
+                                                   :chat-id    chat-id
                                                    :emoji-id   emoji-id}]))
             :accessibility-label (str "emoji-reaction-" emoji-id)}]])
        [quo/add-reaction

@@ -93,7 +93,7 @@
         :color               (styles/send-icon-color)}])]])
 
 (defn on-selection-change
-  [timeout-id last-text-change args]
+  [timeout-id last-text-change chat-id args]
   (let [selection (.-selection ^js (.-nativeEvent ^js args))
         start     (.-start selection)
         end       (.-end selection)]
@@ -106,6 +106,7 @@
         (utils.utils/set-timeout
          #(re-frame/dispatch [:mention/on-selection-change
                               {:start start
+                               :chat-id chat-id
                                :end   end}])
          50)))
     ;; NOTE(rasom): on Android we dispatch event only in case if there
@@ -117,6 +118,7 @@
                    (< 50 (- (js/Date.now) @last-text-change))))
       (re-frame/dispatch [:mention/on-selection-change
                           {:start start
+                           :chat-id chat-id
                            :end   end}]))))
 
 (defonce input-texts (atom {}))
@@ -176,7 +178,7 @@
   [val chat-id]
   (swap! input-texts assoc chat-id val)
   ;;we still store it in app-db for mentions, we don't have reactions in views
-  (re-frame/dispatch [:chat.ui/set-chat-input-text val]))
+  (re-frame/dispatch [:chat.ui/set-chat-input-text val chat-id]))
 
 (defn on-change
   [last-text-change timeout-id refs chat-id sending-image args]
@@ -202,7 +204,7 @@
     ;; NOTE(rasom): on iOS `on-change` is dispatched after `on-text-input`,
     ;; that's why mention suggestions are calculated on `on-change`
     (when platform/ios?
-      (re-frame/dispatch [:mention/calculate-suggestions]))))
+      (re-frame/dispatch [:mention/calculate-suggestions chat-id]))))
 
 (rf/defn set-input-text
   "Set input text for current-chat. Takes db and input text and cofx
@@ -233,13 +235,14 @@
      [:mention/on-text-input
       {:new-text      text
        :previous-text previous-text
+       :chat-id       chat-id
        :start         start
        :end           end}])
     ;; NOTE(rasom): on Android `on-text-input` is dispatched after
     ;; `on-change`, that's why mention suggestions are calculated
     ;; on `on-change`
     (when platform/android?
-      (re-frame/dispatch [:mention/calculate-suggestions]))))
+      (re-frame/dispatch [:mention/calculate-suggestions chat-id]))))
 
 (defn text-input
   [{:keys [set-active-panel refs chat-id sending-image]}]
@@ -269,7 +272,8 @@
       :auto-capitalize :sentences
       :on-selection-change (partial on-selection-change
                                     timeout-id
-                                    last-text-change)
+                                    last-text-change
+                                    chat-id)
       :on-change
       (partial on-change last-text-change timeout-id refs chat-id sending-image)
       :on-text-input (partial on-text-input chat-id)}
@@ -404,7 +408,7 @@
             (when send
               [send-button
                #(do (clear-input chat-id refs)
-                    (re-frame/dispatch [:chat.ui/send-current-message]))
+                    (re-frame/dispatch [:chat.ui/send-current-message chat-id]))
                contact-request])]
 
            ;; STICKERS and AUDIO buttons

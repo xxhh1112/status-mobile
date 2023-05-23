@@ -128,9 +128,11 @@
                                        (rf/dispatch [:models.reactions/send-emoji-reaction-retraction
                                                      {:message-id        message-id
                                                       :emoji-id          id
+                                                      :chat-id           chat-id
                                                       :emoji-reaction-id emoji-reaction-id}])
                                        (rf/dispatch [:models.reactions/send-emoji-reaction
                                                      {:message-id message-id
+                                                      :chat-id    chat-id
                                                       :emoji-id   id}]))
                                      (rf/dispatch [:hide-bottom-sheet]))})
             icon]])))]))

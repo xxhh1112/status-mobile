@@ -62,6 +62,7 @@
 (re-frame/reg-sub
  :wallet.transactions/transactions
  (fn [[_ address] _]
+   (println "TRANS ERRORS")
    [(re-frame/subscribe [:wallet/transactions address])
     (re-frame/subscribe [:contacts/contacts-by-address])
     (re-frame/subscribe [:ethereum/native-currency])])
@@ -151,6 +152,7 @@
 (re-frame/reg-sub
  :wallet.transactions.history/screen
  (fn [[_ address] _]
+   (println "HIAT ERRORS")
    [(re-frame/subscribe [:wallet.transactions/transactions address])
     (re-frame/subscribe [:wallet/filters])
     (re-frame/subscribe [:wallet.transactions/all-filters?])])
@@ -166,6 +168,7 @@
 (re-frame/reg-sub
  :wallet/recipient-recent-txs
  (fn [[_ address] _]
+   (println "RECIP ERRORS")
    [(re-frame/subscribe [:wallet.transactions/transactions address])])
  (fn [[transactions] _]
    (->> transactions
@@ -177,6 +180,7 @@
 (re-frame/reg-sub
  :wallet.transactions.details/current-transaction
  (fn [[_ _ address] _]
+   (println "CURRENT ERRORS")
    [(re-frame/subscribe [:wallet.transactions/transactions address])
     (re-frame/subscribe [:ethereum/native-currency])
     (re-frame/subscribe [:chain-id])])
@@ -224,6 +228,7 @@
 (re-frame/reg-sub
  :wallet.transactions.details/screen
  (fn [[_ hash address] _]
+   (println "SCREEN ERRORS")
    [(re-frame/subscribe [:wallet.transactions.details/current-transaction hash address])
     (re-frame/subscribe [:ethereum/current-block])])
  (fn [[transaction current-block]]

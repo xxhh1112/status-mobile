@@ -5,3 +5,4 @@
 (defonce curr-modal (atom nil))
 (defonce modals (atom []))
 (defonce dissmissing (atom false))
+(defonce current-chat-id (atom nil))
