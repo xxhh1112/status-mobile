@@ -34,34 +34,34 @@
 
 
 (defn f-view []
-  (let [insets                    (safe-area/get-insets)
-        wizard-ref (rn/use-ref nil)
+  (let [insets      (safe-area/get-insets)
+        wizard-ref  (rn/use-ref nil)
         first-step? (reagent/atom true)
-        last-step? (reagent/atom true)
-        steplist [{:content [identifiers/view {:wizard-ref wizard-ref}]}
-                  {:content  [enable-notifications/enable-notifications {:wizard-ref wizard-ref}]}
-                ;;   {:content [quo/text {} "Page5"]}
-                  ]]
-    [rn/view {:position :absolute
-              :top 0
-              :left 0
-              :right 0
-              :bottom 0
+        last-step?  (reagent/atom true)
+        steplist    [{:content [identifiers/view {:wizard-ref wizard-ref}]}
+                     {:content [enable-notifications/enable-notifications {:wizard-ref wizard-ref}]}
+                     ;;   {:content [quo/text {} "Page5"]}
+                     ]]
+    [rn/view {:position    :absolute
+              :top         0
+              :left        0
+              :right       0
+              :bottom      0
 
               :padding-top (:top insets)}
      [wizard/view
-      {:wizard-ref wizard-ref
+      {:wizard-ref          wizard-ref
        :next-step-animation "slideRight"
        :prev-step-animation "slideLeft"
-       :active-step 0
-       :steps steplist
+       :active-step         0
+       :steps               steplist
 
-    ;;    :on-next #(js/alert "hello")}
+       ;;    :on-next #(js/alert "hello")}
        }
       [rn/view {:flex 1}
-    ;;   (map (fn [item]
-    ;;          []
-    ;;          ) steplist)
+       ;;   (map (fn [item]
+       ;;          []
+       ;;          ) steplist)
        ]]]))
 
 (defn view [props]
