@@ -3,7 +3,7 @@
             [quo2.components.drawers.documentation-drawers.style :as style]
             [react-native.core :as rn]
             [react-native.gesture :as gesture]
-            [quo2.components.buttons.button :as button]
+            [quo2.components.buttons.button.view :as button]
             [quo2.foundations.colors :as colors]))
 
 (defn view
