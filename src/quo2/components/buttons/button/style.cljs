@@ -49,7 +49,7 @@
                       :icon-secondary-color colors/white-opa-70
                       :label-color          colors/white
                       :background-color     {:default  (colors/custom-color customization-color 50)
-                                             :pressed  (colors/custom-color customization-color 60)
+                                             :pressed  (colors/custom-color customization-color 50)
                                              :disabled (colors/custom-color customization-color 50)}}
     :secondary       {:icon-color       colors/primary-50
                       :label-color      colors/primary-50
@@ -89,7 +89,7 @@
                       :label-color          colors/white
                       :background-color     {:default  colors/success-50
                                              :pressed  colors/success-60
-                                             :disabled colors/success-50-opa-30}}
+                                             :disabled colors/success-50}}
     :photo-bg        {:icon-color           colors/neutral-100
                       :icon-secondary-color colors/neutral-80-opa-40
                       :label-color          colors/neutral-100
@@ -127,9 +127,9 @@
    {:primary         {:icon-color           colors/white
                       :icon-secondary-color colors/white-opa-70
                       :label-color          colors/white
-                      :background-color     {:default  (colors/custom-color customization-color 60)
+                      :background-color     {:default  (colors/custom-color customization-color 50)
                                              :pressed  (colors/custom-color customization-color 50)
-                                             :disabled (colors/custom-color customization-color 60)}}
+                                             :disabled (colors/custom-color customization-color 50)}}
     :secondary       {:icon-color       colors/primary-50
                       :label-color      colors/primary-50
                       :background-color {:default  colors/primary-50-opa-20
@@ -168,7 +168,7 @@
                       :label-color          colors/white
                       :background-color     {:default  colors/success-60
                                              :pressed  colors/success-50
-                                             :disabled colors/success-60-opa-30}}
+                                             :disabled colors/success-60}}
     :photo-bg        {:icon-color           colors/white
                       :icon-secondary-color colors/neutral-30
                       :label-color          colors/white

@@ -5,7 +5,21 @@
             [react-native.core :as rn]
             [react-native.blur :as blur]
             [reagent.core :as reagent]
-            [quo2.components.buttons.button.style :as style]))
+            [quo2.components.buttons.button.style :as style]
+            [quo.design-system.colors :as colors]))
+
+(defn get-overlay-color [customization-color theme pressed?]
+  (if (and (= theme :dark) (keyword? customization-color))
+    (colors/alpha colors/white (if pressed? 0 0.2))
+    (colors/alpha colors/black (if pressed? 0.2 0))))
+
+(defn customization-color-overlay [customization-color theme pressed?]
+  [rn/view {:position :absolute
+            :top 0
+            :left 0
+            :right 0
+            :bottom 0
+            :background-color (get-overlay-color customization-color theme pressed?)}])
 
 (defn- button-internal
   "with label
@@ -65,18 +79,16 @@
                     (style/style-container {:type type
                                             :size size
                                             :disabled disabled
-                                            :background-color
-                                            (or override-background-color (get background-color state))
-                                            :border-color
-                                            (get border-color state)
+                                            :background-color (or override-background-color (get background-color state))
+                                            :border-color (get border-color state)
                                             :icon icon
                                             :above above
                                             :width width
                                             :before before
                                             :after after
-                                            blur-active? blur-active?})
-                    (when (= state :pressed) {:opacity 0.9})
+                                            :blur-active? blur-active?})
                     inner-style)}
+           (when (= type :primary) [customization-color-overlay customization-color theme (= state :pressed)])
            (when (and (= type :blurred)
                       blur-active?)
              [blur/view
@@ -115,7 +127,8 @@
                {:size            (when (#{56 24} size) :paragraph-2)
                 :weight          :medium
                 :number-of-lines 1
-                :style           {:color label-color}}
+                :style           {:z-index 2
+                                  :color label-color}}
 
                children]
 

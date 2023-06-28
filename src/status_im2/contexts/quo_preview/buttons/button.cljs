@@ -1,9 +1,11 @@
 (ns status-im2.contexts.quo-preview.buttons.button
-  (:require [quo2.components.buttons.button.view :as quo2]
+  (:require [quo2.core :as quo]
             [quo2.foundations.colors :as colors]
             [react-native.core :as rn]
             [reagent.core :as reagent]
             [status-im2.contexts.quo-preview.preview :as preview]))
+
+(def colors-options (map (fn [color] (let [key (get color :name)] {:key key :value key})) (quo/picker-colors)))
 
 (def descriptor
   [{:label   "Type:"
@@ -53,7 +55,11 @@
     :type  :boolean}
    {:label "Label"
     :key   :label
-    :type  :text}])
+    :type  :text}
+   {:label   "Customization color:"
+    :key     :customization-color
+    :type    :select
+    :options colors-options}])
 
 (defn cool-preview
   []
@@ -65,27 +71,35 @@
         above  (reagent/cursor state [:above])
         icon   (reagent/cursor state [:icon])]
     (fn []
-      [rn/touchable-without-feedback {:on-press rn/dismiss-keyboard!}
-       [rn/view {:padding-bottom 150}
-        [rn/view {:flex 1}
-         [preview/customizer state descriptor]]
-        [rn/view
-         {:padding-vertical 60
-          :flex-direction   :row
-          :justify-content  :center}
-         [quo2/button
-          (merge (dissoc @state
-                  :theme
-                  :before
-                  :after)
-                 {:on-press #(println "Hello world!")}
-                 (when @above
-                   {:above :i/placeholder})
-                 (when @before
-                   {:before :i/placeholder})
-                 (when @after
-                   {:after :i/placeholder}))
-          (if @icon :i/placeholder @label)]]]])))
+      (let [customization-color (case (:customization-color @state)
+                                  :status "#4360DF"
+                                  :spotify "#81b71a"
+                                  :facebook "#3bf998"
+                                  (:customization-color @state))]
+        [rn/touchable-without-feedback {:on-press rn/dismiss-keyboard!}
+         [rn/view {:padding-bottom 150}
+          [rn/view {:flex 1}
+           [preview/customizer state descriptor]]
+          [rn/view
+           {:padding-vertical 60
+            :flex-direction   :row
+            :justify-content  :center}
+           [quo/button
+            (merge (dissoc @state
+                           :customization-color
+                           :theme
+                           :before
+                           :after)
+                   (when customization-color
+                     {:customization-color customization-color})
+                   {:on-press #(println "Hello world!")}
+                   (when @above
+                     {:above :i/placeholder})
+                   (when @before
+                     {:before :i/placeholder})
+                   (when @after
+                     {:after :i/placeholder}))
+            (if @icon :i/placeholder @label)]]]]))))
 
 (defn preview-button
   []
