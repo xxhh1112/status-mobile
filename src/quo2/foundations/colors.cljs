@@ -243,7 +243,7 @@
      ([color suffix]
       (custom-color color suffix nil))
      ([color suffix opacity]
-      (let [hex? (not (keyword? color))
+      (let [hex?          (not (keyword? color))
             color-keyword (keyword color)
             base-color    (get-in colors-map
                                   [color-keyword suffix])]

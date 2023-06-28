@@ -110,7 +110,8 @@
       [jump-to-list switcher-cards shell-margin]
       [top-nav-blur-overlay top]
       [common.home/top-nav
-       {:type   :shell
-        :avatar {:customization-color customization-color}
-        :style  {:margin-top top
-                 :z-index    2}}]]]))
+       {:button-props {:type       :black
+                       :background :blur}
+        :avatar       {:customization-color customization-color}
+        :style        {:margin-top top
+                       :z-index    2}}]]]))

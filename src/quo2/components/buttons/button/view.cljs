@@ -6,91 +6,82 @@
             [react-native.blur :as blur]
             [reagent.core :as reagent]
             [quo2.components.buttons.button.style :as style]
-            [quo.design-system.colors :as colors]))
-
-(defn get-overlay-color [customization-color theme pressed?]
-  (if (and (= theme :dark) (keyword? customization-color))
-    (colors/alpha colors/white (if pressed? 0 0.2))
-    (colors/alpha colors/black (if pressed? 0.2 0))))
-
-(defn customization-color-overlay [customization-color theme pressed?]
-  [rn/view {:position :absolute
-            :top 0
-            :left 0
-            :right 0
-            :bottom 0
-            :background-color (get-overlay-color customization-color theme pressed?)}])
+            [quo2.components.buttons.button.type-values :as type-values]
+            [quo2.foundations.customization-colors :as customization-colors]))
 
 (defn- button-internal
   "with label
    [button opts \"label\"]
    opts
-   {:type   :primary/:secondary/:grey/:dark-grey/:outline/:ghost/
-            :danger/:photo-bg/:blur-bg/:blur-bg-outline/:shell/:community
-    :size   40 [default] /32/24
+   {:type   :primary/:positive/:grey/:dark-grey/:outline/:ghost/
+            :danger/:black  
+    :background nil/:blur/:photo
+    :size   40 [default] /32/24/56
     :icon   true/false
-    :community-color '#FFFFFF'
-    :community-text-color '#000000'
+    :disabled true/false
+    :above :icon-keyword 
     :before :icon-keyword
-    :after  :icon-keyword}
-
+    :after  :icon-keyword
+    :on-press callback
+    :on-long-press callback}
+   
    only icon
-   [button {:icon true} :i/close-circle]"
+   [button {} :i/close-circle]"
   [_ _]
   (let [pressed-in (reagent/atom false)]
     (fn
       [{:keys [on-press disabled type size before after above icon-secondary-no-color
-               width customization-color theme override-background-color pressed
-               on-long-press accessibility-label icon icon-no-color style inner-style test-ID
-               blur-active? override-before-margins override-after-margins icon-size icon-container-size
+               width customization-color theme pressed background on-long-press accessibility-label
+               icon-no-color style inner-style
+               override-before-margins override-after-margins icon-size icon-container-size
                icon-container-rounded?]
-        :or   {type                :primary
-               size                40
-               customization-color :primary
-               blur-active?        true}}
+        :or   {size 40}}
        children]
-      (let [{:keys [icon-color icon-secondary-color background-color label-color border-color blur-type
-                    blur-overlay-color icon-background-color]}
-            (get-in (style/themes customization-color)
-                    [theme type])
-            state (cond disabled                 :disabled
-                        (or @pressed-in pressed) :pressed
-                        :else                    :default)
-            blur-state (if blur-active? :blurred :default)
+      (let [pressed? (or @pressed-in pressed)
+            {:keys [icon-color icon-secondary-color background-color label-color border-color
+                    blur-type blur-overlay-color icon-background-color]}
+            (type-values/get-values {:customization-color customization-color
+                                     :theme               theme
+                                     :type                type
+                                     :background          background
+                                     :pressed?            pressed?})
+            icon-only? (not (or (number? children) (string? children)))
+            blur? (= :blur background)
+            blur-state (if blur? :blurred :default)
             icon-size (or icon-size (when (= 24 size) 12))
             icon-secondary-color (or icon-secondary-color icon-color)]
         [rn/touchable-without-feedback
-         (merge {:test-ID             test-ID
-                 :disabled            disabled
-                 :accessibility-label accessibility-label
-                 :on-press-in         #(reset! pressed-in true)
-                 :on-press-out        #(reset! pressed-in nil)}
-                (when on-press
-                  {:on-press on-press})
-                (when on-long-press
-                  {:on-long-press on-long-press}))
+         {:disabled            disabled
+          :accessibility-label accessibility-label
+          :on-press-in         #(reset! pressed-in true)
+          :on-press-out        #(reset! pressed-in nil)
+          :on-press            on-press
+          :on-long-press       on-long-press}
          [rn/view
           {:style (merge
-                   (style/shape-style-container type icon size)
+                   (style/shape-style-container type icon-only? size)
                    {:width width}
                    style)}
           [rn/view
            {:style (merge
-                    (style/style-container {:type type
-                                            :size size
-                                            :disabled disabled
-                                            :background-color (or override-background-color (get background-color state))
-                                            :border-color (get border-color state)
-                                            :icon icon
-                                            :above above
-                                            :width width
-                                            :before before
-                                            :after after
-                                            :blur-active? blur-active?})
+                    (style/style-container {:type             type
+                                            :size             size
+                                            :disabled         disabled
+                                            :background-color background-color
+                                            :border-color     border-color
+                                            :icon-only?       icon-only?
+                                            :above            above
+                                            :width            width
+                                            :before           before
+                                            :after            after
+                                            :blur             blur?})
                     inner-style)}
-           (when (= type :primary) [customization-color-overlay customization-color theme (= state :pressed)])
-           (when (and (= type :blurred)
-                      blur-active?)
+
+           (when (keyword? customization-color)
+             [customization-colors/overlay
+              {:theme    theme
+               :pressed? pressed?}])
+           (when (= background :blurred)
              [blur/view
               {:blur-radius   20
                :blur-type     blur-type
@@ -116,7 +107,7 @@
                 :size  icon-size}]])
            [rn/view
             (cond
-              (or icon icon-no-color)
+              (or icon-only? icon-no-color)
               [quo2.icons/icon children
                {:color    icon-color
                 :no-color icon-no-color
@@ -128,7 +119,7 @@
                 :weight          :medium
                 :number-of-lines 1
                 :style           {:z-index 2
-                                  :color label-color}}
+                                  :color   label-color}}
 
                children]
 
@@ -148,4 +139,13 @@
                 :color    icon-secondary-color
                 :size     icon-size}]])]]]))))
 
-(def button (theme/with-theme button-internal))
+(defn button-wrapper
+  [{:keys [type customization-color] :or {type :primary} :as props} label]
+  (let [color (case type
+                :primary  (or customization-color :primary)
+                :positive :positive
+                :danger   :danger
+                nil)]
+    [button-internal (assoc props :customization-color :blue :type type) label]))
+
+(def button (theme/with-theme button-wrapper))

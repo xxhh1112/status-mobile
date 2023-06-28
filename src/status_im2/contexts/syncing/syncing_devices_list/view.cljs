@@ -39,7 +39,6 @@
         (i18n/label :t/syncing)]
        [quo/button
         {:size     32
-         :icon     true
          :on-press #(rf/dispatch [:navigate-to :settings-setup-syncing])}
         :i/add]]
       [device/view (merge user-device {:this-device? true})]

@@ -1,7 +1,7 @@
 (ns status-im2.contexts.communities.home.view
   (:require [quo2.core :as quo]
             [quo2.foundations.colors :as colors]
-            [quo2.theme :as theme]
+            [quo2.theme :as quo2.theme]
             [react-native.blur :as blur]
             [react-native.core :as rn]
             [react-native.platform :as platform]
@@ -45,18 +45,18 @@
                     (i18n/label :t/no-communities-description-strikethrough)]
                    " "
                    (i18n/label :t/no-communities-description)]
-     :image       (resources/get-image (theme/theme-value :no-communities-light
-                                                          :no-communities-dark))}
+     :image       (resources/get-image (quo2.theme/theme-value :no-communities-light
+                                                               :no-communities-dark))}
     :pending
     {:title       (i18n/label :t/no-pending-communities)
      :description (i18n/label :t/no-pending-communities-description)
-     :image       (resources/get-image (theme/theme-value :no-pending-communities-light
-                                                          :no-pending-communities-dark))}
+     :image       (resources/get-image (quo2.theme/theme-value :no-pending-communities-light
+                                                               :no-pending-communities-dark))}
     :opened
     {:title       (i18n/label :t/no-opened-communities)
      :description (i18n/label :t/no-opened-communities-description)
-     :image       (resources/get-image (theme/theme-value :no-opened-communities-light
-                                                          :no-opened-communities-dark))}
+     :image       (resources/get-image (quo2.theme/theme-value :no-opened-communities-light
+                                                               :no-opened-communities-dark))}
     nil))
 
 (defn empty-state
@@ -69,8 +69,8 @@
        :title               title
        :description         description}]]))
 
-(defn home
-  []
+(defn- home-internal
+  [{:keys [theme]}]
   (let [selected-tab                    (or (rf/sub [:communities/selected-tab]) :joined)
         {:keys [joined pending opened]} (rf/sub [:communities/grouped-by-status])
         {:keys [key-uid]}               (rf/sub [:multiaccount])
@@ -101,10 +101,11 @@
         :blur-type   (if (colors/dark?) :dark (if platform/ios? :light :xlight))
         :style       style/blur}]
       [common.home/top-nav
-       {:type   :grey
-        :avatar {:customization-color customization-color
-                 :full-name           (multiaccounts/displayed-name account)
-                 :profile-picture     (multiaccounts/displayed-photo account)}}]
+       {:button-props {:type       (quo2.theme/theme-value :grey :dark-grey theme)
+                       :background :blur}
+        :avatar       {:customization-color customization-color
+                       :full-name           (multiaccounts/displayed-name account)
+                       :profile-picture     (multiaccounts/displayed-photo account)}}]
       [common.home/title-column
        {:label               (i18n/label :t/communities)
         :handler             #(rf/dispatch [:show-bottom-sheet {:content actions.home-plus/view}])
@@ -124,3 +125,5 @@
                           (rf/dispatch [:communities/select-tab tab]))
         :default-active selected-tab
         :data           tabs-data}]]]))
+
+(def home (quo2.theme/with-theme home-internal))

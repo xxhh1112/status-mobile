@@ -1,7 +1,6 @@
 (ns status-im2.contexts.chat.home.view
   (:require [quo2.core :as quo]
-            [quo2.foundations.colors :as colors]
-            [quo2.theme :as theme]
+            [quo2.theme :as quo2.theme]
             [re-frame.core :as re-frame]
             [react-native.blur :as blur]
             [react-native.core :as rn]
@@ -38,17 +37,17 @@
     {:title       (i18n/label :t/no-contacts)
      :description (i18n/label :t/no-contacts-description)
      :image       (resources/get-image
-                   (theme/theme-value :no-contacts-light :no-contacts-dark))}
+                   (quo2.theme/theme-value :no-contacts-light :no-contacts-dark))}
     :tab/groups
     {:title       (i18n/label :t/no-group-chats)
      :description (i18n/label :t/no-group-chats-description)
      :image       (resources/get-image
-                   (theme/theme-value :no-group-chats-light :no-group-chats-dark))}
+                   (quo2.theme/theme-value :no-group-chats-light :no-group-chats-dark))}
     :tab/recent
     {:title       (i18n/label :t/no-messages)
      :description (i18n/label :t/no-messages-description)
      :image       (resources/get-image
-                   (theme/theme-value :no-messages-light :no-messages-dark))}
+                   (quo2.theme/theme-value :no-messages-light :no-messages-dark))}
     nil))
 
 (defn empty-state
@@ -117,8 +116,8 @@
     :accessibility-label :tab-contacts
     :notification-dot?   dot?}])
 
-(defn home
-  []
+(defn- home-internal
+  [{:keys [theme]}]
   (let [pending-contact-requests (rf/sub [:activity-center/pending-contact-requests])
         selected-tab             (or (rf/sub [:messages-home/selected-tab]) :tab/recent)
         {:keys [key-uid]}        (rf/sub [:multiaccount])
@@ -133,13 +132,14 @@
      [rn/view {:style (style/blur-container top)}
       [blur/view
        {:blur-amount (if platform/ios? 20 10)
-        :blur-type   (if (colors/dark?) :dark (if platform/ios? :light :xlight))
+        :blur-type   (quo2.theme/theme-value (if platform/ios? :light :xlight) :dark theme)
         :style       style/blur}]
       [common.home/top-nav
-       {:type   :grey
-        :avatar {:customization-color customization-color
-                 :full-name           (multiaccounts/displayed-name account)
-                 :profile-picture     (multiaccounts/displayed-photo account)}}]
+       {:button-props {:type       (quo2.theme/theme-value :grey :dark-grey theme)
+                       :background :blur}
+        :avatar       {:customization-color customization-color
+                       :full-name           (multiaccounts/displayed-name account)
+                       :profile-picture     (multiaccounts/displayed-photo account)}}]
       [common.home/title-column
        {:label               (i18n/label :t/messages)
         :handler             #(rf/dispatch [:show-bottom-sheet {:content home.sheet/new-chat}])
@@ -157,3 +157,5 @@
                           (rf/dispatch [:messages-home/select-tab tab]))
         :default-active selected-tab
         :data           (get-tabs-data (pos? (count pending-contact-requests)))}]]]))
+
+(def home (quo2.theme/with-theme home-internal))

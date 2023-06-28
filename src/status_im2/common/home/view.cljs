@@ -20,18 +20,9 @@
      :accessibility-label accessibility-label
      :customization-color customization-color}]])
 
-(defn- get-button-common-props
-  [type]
-  (let [default? (= type :default)
-        dark?    (colors/dark?)]
-    {:icon                      true
-     :size                      32
-     :style                     {:margin-left 12}
-     :type                      (if default?
-                                  (if dark? :grey :dark-grey)
-                                  type)
-     :override-background-color (when (and dark? default?)
-                                  colors/neutral-90)}))
+(def button-common-props
+  {:size  32
+   :style {:margin-left 12}})
 
 (defn- unread-indicator
   []
@@ -72,13 +63,13 @@
      [quo/text {:accessibility-label :peers-count-text} (str "PEERS COUNT: " peers-count)]]))
 
 (defn- right-section
-  [{:keys [button-type search?]}]
-  (let [button-common-props (get-button-common-props button-type)
-        network-type        (rf/sub [:network/type])]
+  [{:keys [button-props search?]}]
+  (let [btn-props    (merge button-props button-common-props)
+        network-type (rf/sub [:network/type])]
     [rn/view {:style style/right-section}
      (when (= network-type "cellular")
        [quo/button
-        (merge button-common-props
+        (merge btn-props
                {:icon                false
                 :accessibility-label :on-cellular-network
                 :on-press            #(rf/dispatch [:show-bottom-sheet
@@ -86,7 +77,7 @@
         "🦄"])
      (when (= network-type "none")
        [quo/button
-        (merge button-common-props
+        (merge btn-props
                {:icon                false
                 :accessibility-label :no-network-connection
                 :on-press            #(rf/dispatch [:show-bottom-sheet
@@ -94,20 +85,20 @@
         "💀"])
      (when search?
        [quo/button
-        (assoc button-common-props :accessibility-label :open-search-button)
+        (assoc btn-props :accessibility-label :open-search-button)
         :i/search])
      [quo/button
-      (assoc button-common-props :accessibility-label :open-scanner-button)
+      (assoc btn-props :accessibility-label :open-scanner-button)
       :i/scan]
      [quo/button
-      (merge button-common-props
+      (merge btn-props
              {:accessibility-label :show-qr-button
               :on-press            #(dispatch-and-chill [:open-modal :share-shell] 1000)})
       :i/qr-code]
      [rn/view
       [unread-indicator]
       [quo/button
-       (merge button-common-props
+       (merge btn-props
               {:accessibility-label :open-activity-center-button
                :on-press            #(rf/dispatch [:activity-center/open])})
        :i/activity-center]]]))
@@ -120,8 +111,7 @@
    :avatar  user-avatar
    :search? When non-nil, show search button}
   "
-  [{:keys [type style avatar search?]
-    :or   {type :default}}]
+  [{:keys [button-props style avatar search?]}]
   [rn/view {:style (merge style/top-nav-container style)}
    [left-section {:avatar avatar}]
-   [right-section {:button-type type :search? search?}]])
+   [right-section {:button-props button-props :search? search?}]])
