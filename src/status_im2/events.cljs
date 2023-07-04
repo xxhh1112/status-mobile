@@ -8,6 +8,7 @@
             [status-im2.db :as db]
             [utils.re-frame :as rf]
             [utils.datetime :as datetime]
+            [status-im.utils.platform :as platform]
             status-im2.contexts.shell.share.events
             status-im2.contexts.syncing.events
             status-im2.contexts.chat.events
@@ -29,6 +30,9 @@
     :db}]
   {:db (assoc db/app-db
               :network/type             type
+              :camera/permission-granted?     false
+              ;; Android allow local network access by default. So, we need this check on iOS only.
+              :camera/preflight-check-passed? (if platform/ios? false true)
               :keycard/banner-hidden    banner-hidden
               :keycard                  (dissoc keycard :secrets :pin :application-info)
               :supported-biometric-auth supported-biometric-auth

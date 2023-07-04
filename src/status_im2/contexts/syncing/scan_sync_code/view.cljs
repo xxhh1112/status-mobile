@@ -14,33 +14,8 @@
             [utils.i18n :as i18n]
             [utils.re-frame :as rf]
             [status-im2.contexts.syncing.utils :as sync-utils]
+            [taoensso.timbre :as log]
             [status-im.utils.platform :as platform]))
-
-;; Android allow local network access by default. So, we need this check on iOS only.
-(defonce preflight-check-passed? (reagent/atom (if platform/ios? false true)))
-
-(defonce camera-permission-granted? (reagent/atom false))
-
-(defn request-camera-permission
-  []
-  (rf/dispatch
-   [:request-permissions
-    {:permissions [:camera]
-     :on-allowed  #(reset! camera-permission-granted? true)
-     :on-denied   #(rf/dispatch
-                    [:toasts/upsert
-                     {:icon           :i/info
-                      :icon-color     colors/danger-50
-                      :override-theme :light
-                      :text           (i18n/label :t/camera-permission-denied)}])}]))
-
-(defn perform-preflight-check
-  "Performing the check for the first time
-   will trigger local network access permission in iOS.
-   This permission is required for local pairing
-   https://github.com/status-im/status-mobile/issues/16135"
-  []
-  (rf/dispatch [:syncing/preflight-outbound-check #(reset! preflight-check-passed? %)]))
 
 (defn- header
   [active-tab read-qr-once? title]
@@ -86,19 +61,20 @@
 
 (defn get-labels-and-on-press-method
   []
-  (if @camera-permission-granted?
-    {:title-label-key       :t/enable-access-to-local-network
-     :description-label-key :t/to-pair-with-your-other-device-in-the-network
-     :button-icon           :i/world
-     :button-label          :t/enable-network-access
-     :accessibility-label   :perform-preflight-check
-     :on-press              perform-preflight-check}
-    {:title-label-key       :t/enable-access-to-camera
-     :description-label-key :t/to-scan-a-qr-enable-your-camera
-     :button-icon           :i/camera
-     :button-label          :t/enable-camera
-     :accessibility-label   :request-camera-permission
-     :on-press              request-camera-permission}))
+  (let [camera-permission-granted (rf/sub [:camera/permission-granted?])]
+    (if camera-permission-granted
+      {:title-label-key       :t/enable-access-to-local-network
+       :description-label-key :t/to-pair-with-your-other-device-in-the-network
+       :button-icon           :i/world
+       :button-label          :t/enable-network-access
+       :accessibility-label   :perform-preflight-check
+       :on-press              #(rf/dispatch [:syncing/preflight-outbound-check])}
+      {:title-label-key       :t/enable-access-to-camera
+       :description-label-key :t/to-scan-a-qr-enable-your-camera
+       :button-icon           :i/camera
+       :button-label          :t/enable-camera
+       :accessibility-label   :request-camera-permission
+       :on-press              #(rf/dispatch [:camera/request-permission])})))
 
 (defn- camera-and-local-network-access-permission-view
   []
@@ -191,15 +167,18 @@
 
 (defn- scan-qr-code-tab
   [qr-view-finder]
+  (let [camera-permission-granted?       (rf/sub [:camera/permission-granted?])
+        preflight-check-passed?          (rf/sub [:camera/preflight-check-passed?])]
   [:<>
+   (log/info "scan-qr-code-tab was rendered!")
    [rn/view {:style style/scan-qr-code-container}]
    (when (empty? @qr-view-finder)
      [qr-scan-hole-area qr-view-finder])
-   (if (and @preflight-check-passed?
-            @camera-permission-granted?
+   (if (and preflight-check-passed?
+            camera-permission-granted?
             (boolean (not-empty @qr-view-finder)))
      [viewfinder @qr-view-finder]
-     [camera-and-local-network-access-permission-view])])
+     [camera-and-local-network-access-permission-view])]))
 
 (defn- enter-sync-code-tab
   []
@@ -272,6 +251,8 @@
             ;; The below check is to prevent scanning of any QR code
             ;; when the user is in syncing progress screen
             user-in-syncing-progress-screen? (= (rf/sub [:view-id]) :syncing-progress)
+            camera-permission-granted?       (rf/sub [:camera/permission-granted?])
+            preflight-check-passed?          (rf/sub [:camera/preflight-check-passed?])
             on-read-code                     (fn [data]
                                                (when (and (not @read-qr-once?)
                                                           (not user-in-syncing-progress-screen?))
@@ -282,22 +263,17 @@
                                                  (check-qr-code-data data)))
             scan-qr-code-tab?                (= @active-tab 1)
             show-camera?                     (and scan-qr-code-tab?
-                                                  @camera-permission-granted?
-                                                  @preflight-check-passed?)
+                                                  camera-permission-granted?
+                                                  preflight-check-passed?)
             show-holes?                      (and show-camera?
                                                   (boolean (not-empty @qr-view-finder)))]
-        (rn/use-effect
-         (fn []
-           (when-not @camera-permission-granted?
-             (permissions/permission-granted? :camera
-                                              #(reset! camera-permission-granted? %)
-                                              #(reset! camera-permission-granted? false)))))
+        (log/info "f-view was rendered")
         [:<>
          background
          [render-camera show-camera? @qr-view-finder camera-ref on-read-code show-holes?]
          [rn/view {:style (style/root-container (:top insets))}
           [header active-tab read-qr-once? title]
-          (case @active-tab
+           (case @active-tab
             1 [scan-qr-code-tab qr-view-finder]
             2 [enter-sync-code-tab]
             nil)
@@ -306,4 +282,5 @@
 
 (defn view
   [props]
+  (log/info "status-im2.contexts.syncing.scan-sync-code.view was rendered" )
   [:f> f-view props])

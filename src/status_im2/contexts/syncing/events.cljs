@@ -9,7 +9,9 @@
             [taoensso.timbre :as log]
             [utils.re-frame :as rf]
             [utils.security.core :as security]
-            [utils.transforms :as transforms]))
+            [utils.i18n :as i18n]
+            [utils.transforms :as transforms]
+            [quo2.foundations.colors :as colors]))
 
 (rf/defn local-pairing-update-role
   {:events [:syncing/update-role]}
@@ -33,18 +35,25 @@
                                        :custom-bootnodes-enabled? false}}]
     (node/get-multiaccount-node-config db)))
 
+(rf/defn set-preflight-check-status
+{:events [:camera/set-preflight-check-status]}
+ [{:keys [db]} raw-response]
+  (log/info "Local pairing preflight check"
+            {:response raw-response
+             :event    :camera/set-preflight-check-status})
+  (let [^js response-js (transforms/json->js raw-response)
+        error           (transforms/js->clj (.-error response-js))]
+    {:db (assoc db :camera/preflight-check-passed? (empty? error))}))
+
 (rf/defn preflight-outbound-check-for-local-pairing
+  "Performing the check for the first time
+   will trigger local network access permission in iOS.
+   This permission is required for local pairing
+   https://github.com/status-im/status-mobile/issues/16135"
   {:events [:syncing/preflight-outbound-check]}
-  [_ set-checks-passed]
-  (let [callback
-        (fn [raw-response]
-          (log/info "Local pairing preflight check"
-                    {:response raw-response
-                     :event    :syncing/preflight-outbound-check})
-          (let [^js response-js (transforms/json->js raw-response)
-                error           (transforms/js->clj (.-error response-js))]
-            (set-checks-passed (empty? error))))]
-    (native-module/local-pairing-preflight-outbound-check callback)))
+  [_]
+  (native-module/local-pairing-preflight-outbound-check (fn [raw-response]
+                                                          (rf/dispatch [:camera/set-preflight-check-status raw-response]))))
 
 (rf/defn initiate-local-pairing-with-connection-string
   {:events       [:syncing/input-connection-string-for-bootstrapping]
@@ -93,3 +102,23 @@
          config-map
          #(show-sheet %)))
       (show-sheet ""))))
+
+(rf/defn update-camera-permission-status
+  {:events [:update-camera-permission-status]}
+  [{:keys [db]} value]
+  {:db (assoc db :camera/permission-granted? value)})
+
+(rf/defn request-permission
+ {:events [:camera/request-permission]}
+ [{:keys [db]}]
+   (rf/dispatch
+    [:request-permissions
+     {:permissions [:camera]
+      :on-allowed  #(rf/dispatch [:update-camera-permission-status true])
+      :on-denied   #(rf/dispatch
+                     [:toasts/upsert
+                      {:icon           :i/info
+                       :id             :camera-permission-denied-toast
+                       :icon-color     colors/danger-50
+                       :override-theme :light
+                       :text           (i18n/label :t/camera-permission-denied)}])}]))

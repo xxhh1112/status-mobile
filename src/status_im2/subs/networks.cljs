@@ -36,3 +36,13 @@
  :<- [:networks/manage]
  (fn [manage]
    (not-any? :error (vals manage))))
+
+(re-frame/reg-sub
+ :camera/permission-granted?
+ (fn [db _]
+   (:camera/permission-granted? db)))
+
+(re-frame/reg-sub
+ :camera/preflight-check-passed?
+ (fn [db _]
+   (:camera/preflight-check-passed? db)))
