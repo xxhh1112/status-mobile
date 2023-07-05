@@ -29,14 +29,14 @@
      :keycard/keys [banner-hidden]}
     :db}]
   {:db (assoc db/app-db
-              :network/type             type
+              :network/type                   type
               :camera/permission-granted?     false
               ;; Android allow local network access by default. So, we need this check on iOS only.
               :camera/preflight-check-passed? (if platform/ios? false true)
-              :keycard/banner-hidden    banner-hidden
-              :keycard                  (dissoc keycard :secrets :pin :application-info)
-              :supported-biometric-auth supported-biometric-auth
-              :goto-key-storage?        goto-key-storage?)})
+              :keycard/banner-hidden          banner-hidden
+              :keycard                        (dissoc keycard :secrets :pin :application-info)
+              :supported-biometric-auth       supported-biometric-auth
+              :goto-key-storage?              goto-key-storage?)})
 
 (re-frame/reg-fx
  :profile/get-profiles-overview

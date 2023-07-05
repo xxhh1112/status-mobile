@@ -15,7 +15,8 @@
             [utils.re-frame :as rf]
             [status-im2.contexts.syncing.utils :as sync-utils]
             [taoensso.timbre :as log]
-            [status-im.utils.platform :as platform]))
+            [status-im.utils.platform :as platform]
+            [status-im2.config :as config]))
 
 (defn- header
   [active-tab read-qr-once? title]
@@ -83,7 +84,8 @@
                 button-icon
                 button-label
                 accessibility-label
-                on-press]} (get-labels-and-on-press-method)]
+                on-press]} (get-labels-and-on-press-method)
+        opts               (rf/sub [:get-screen-params])]
     [rn/view {:style style/camera-permission-container}
      [quo/text
       {:size   :paragraph-1
@@ -102,7 +104,9 @@
        :accessibility-label accessibility-label
        :override-theme      :dark
        :customization-color :blue
-       :on-press            on-press}
+       :on-press            (if config/qr-test-menu-enabled?
+                              #(rf/dispatch [:navigate-to :enter-qr-code-manually-page opts])
+                              on-press)}
       (i18n/label button-label)]]))
 
 (defn- qr-scan-hole-area
@@ -167,18 +171,18 @@
 
 (defn- scan-qr-code-tab
   [qr-view-finder]
-  (let [camera-permission-granted?       (rf/sub [:camera/permission-granted?])
-        preflight-check-passed?          (rf/sub [:camera/preflight-check-passed?])]
-  [:<>
-   (log/info "scan-qr-code-tab was rendered!")
-   [rn/view {:style style/scan-qr-code-container}]
-   (when (empty? @qr-view-finder)
-     [qr-scan-hole-area qr-view-finder])
-   (if (and preflight-check-passed?
-            camera-permission-granted?
-            (boolean (not-empty @qr-view-finder)))
-     [viewfinder @qr-view-finder]
-     [camera-and-local-network-access-permission-view])]))
+  (let [camera-permission-granted? (rf/sub [:camera/permission-granted?])
+        preflight-check-passed?    (rf/sub [:camera/preflight-check-passed?])]
+    [:<>
+     (log/info "scan-qr-code-tab was rendered!")
+     [rn/view {:style style/scan-qr-code-container}]
+     (when (empty? @qr-view-finder)
+       [qr-scan-hole-area qr-view-finder])
+     (if (and preflight-check-passed?
+              camera-permission-granted?
+              (boolean (not-empty @qr-view-finder)))
+       [viewfinder @qr-view-finder]
+       [camera-and-local-network-access-permission-view])]))
 
 (defn- enter-sync-code-tab
   []
@@ -273,7 +277,7 @@
          [render-camera show-camera? @qr-view-finder camera-ref on-read-code show-holes?]
          [rn/view {:style (style/root-container (:top insets))}
           [header active-tab read-qr-once? title]
-           (case @active-tab
+          (case @active-tab
             1 [scan-qr-code-tab qr-view-finder]
             2 [enter-sync-code-tab]
             nil)
@@ -282,5 +286,5 @@
 
 (defn view
   [props]
-  (log/info "status-im2.contexts.syncing.scan-sync-code.view was rendered" )
+  (log/info "status-im2.contexts.syncing.scan-sync-code.view was rendered")
   [:f> f-view props])

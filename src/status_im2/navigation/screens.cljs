@@ -34,7 +34,8 @@
     [status-im2.contexts.shell.share.view :as share]
     [status-im2.contexts.onboarding.syncing.results.view :as syncing-results]
     [status-im2.contexts.onboarding.syncing.progress.view :as syncing-devices]
-    [status-im2.contexts.chat.new-chat.view :as new-chat]))
+    [status-im2.contexts.chat.new-chat.view :as new-chat]
+    [status-im2.contexts.syncing.enter-qr-code-manually.view :as manual-qr]))
 
 (defn screens
   []
@@ -167,6 +168,10 @@
     {:name      :scan-sync-code-page
      :options   options/dark-screen
      :component scan-sync-code-page/view}
+
+    {:name      :enter-qr-code-manually-page
+     :options   options/dark-screen
+     :component manual-qr/view}
 
     {:name      :sign-in
      :options   {:layout options/onboarding-layout}

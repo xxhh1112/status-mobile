@@ -36,8 +36,8 @@
     (node/get-multiaccount-node-config db)))
 
 (rf/defn set-preflight-check-status
-{:events [:camera/set-preflight-check-status]}
- [{:keys [db]} raw-response]
+  {:events [:camera/set-preflight-check-status]}
+  [{:keys [db]} raw-response]
   (log/info "Local pairing preflight check"
             {:response raw-response
              :event    :camera/set-preflight-check-status})
@@ -52,8 +52,9 @@
    https://github.com/status-im/status-mobile/issues/16135"
   {:events [:syncing/preflight-outbound-check]}
   [_]
-  (native-module/local-pairing-preflight-outbound-check (fn [raw-response]
-                                                          (rf/dispatch [:camera/set-preflight-check-status raw-response]))))
+  (native-module/local-pairing-preflight-outbound-check
+   (fn [raw-response]
+     (rf/dispatch [:camera/set-preflight-check-status raw-response]))))
 
 (rf/defn initiate-local-pairing-with-connection-string
   {:events       [:syncing/input-connection-string-for-bootstrapping]
@@ -109,16 +110,16 @@
   {:db (assoc db :camera/permission-granted? value)})
 
 (rf/defn request-permission
- {:events [:camera/request-permission]}
- [{:keys [db]}]
-   (rf/dispatch
-    [:request-permissions
-     {:permissions [:camera]
-      :on-allowed  #(rf/dispatch [:update-camera-permission-status true])
-      :on-denied   #(rf/dispatch
-                     [:toasts/upsert
-                      {:icon           :i/info
-                       :id             :camera-permission-denied-toast
-                       :icon-color     colors/danger-50
-                       :override-theme :light
-                       :text           (i18n/label :t/camera-permission-denied)}])}]))
+  {:events [:camera/request-permission]}
+  [{:keys [db]}]
+  (rf/dispatch
+   [:request-permissions
+    {:permissions [:camera]
+     :on-allowed  #(rf/dispatch [:update-camera-permission-status true])
+     :on-denied   #(rf/dispatch
+                    [:toasts/upsert
+                     {:icon           :i/info
+                      :id             :camera-permission-denied-toast
+                      :icon-color     colors/danger-50
+                      :override-theme :light
+                      :text           (i18n/label :t/camera-permission-denied)}])}]))
