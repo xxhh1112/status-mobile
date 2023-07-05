@@ -1,10 +1,12 @@
 (ns quo2.components.dropdowns.dropdown
-  (:require [quo2.components.buttons.button.view :as button]))
+  (:require [quo2.components.dropdowns.old-button-view :as old-button]))
+;; TODO - https://github.com/status-im/status-mobile/issues/16456
+;; Should be refactored and use dropdown style & view files directly
 
 (defn dropdown
   [_ _]
   (fn [{:keys [on-change selected] :as opts} children]
-    [button/button
+    [old-button/button
      (merge
       opts
       {:after                   (if selected :i/chevron-top :i/chevron-down)

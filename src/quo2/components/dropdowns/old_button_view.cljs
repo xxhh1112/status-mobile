@@ -1,11 +1,13 @@
-(ns quo2.components.buttons.button.view
+(ns quo2.components.dropdowns.old-button-view
   (:require [quo2.components.icon :as quo2.icons]
             [quo2.components.markdown.text :as text]
             [quo2.theme :as theme]
             [react-native.core :as rn]
             [react-native.blur :as blur]
             [reagent.core :as reagent]
-            [quo2.components.buttons.button.style :as style]))
+            [quo2.components.dropdowns.old-button-style :as style]))
+;; TODO - https://github.com/status-im/status-mobile/issues/16456
+;; Should be refactored and use dropdown style & view files directly
 
 (defn- button-internal
   "with label
@@ -27,19 +29,23 @@
     (fn
       [{:keys [on-press disabled type size before after above icon-secondary-no-color
                width customization-color theme override-background-color pressed
-               on-long-press accessibility-label icon icon-no-color style inner-style test-ID]
+               on-long-press accessibility-label icon icon-no-color style inner-style test-ID
+               blur-active? override-before-margins override-after-margins icon-size icon-container-size
+               icon-container-rounded?]
         :or   {type                :primary
                size                40
-               customization-color :primary}}
+               customization-color :primary
+               blur-active?        true}}
        children]
-      (let [{:keys [icon-color icon-secondary-color background-color label-color border-color]}
+      (let [{:keys [icon-color icon-secondary-color background-color label-color border-color blur-type
+                    blur-overlay-color icon-background-color]}
             (get-in (style/themes customization-color)
                     [theme type])
             state (cond disabled                 :disabled
                         (or @pressed-in pressed) :pressed
                         :else                    :default)
-           
-            icon-size (when (= 24 size) 12)
+            blur-state (if blur-active? :blurred :default)
+            icon-size (or icon-size (when (= 24 size) 12))
             icon-secondary-color (or icon-secondary-color icon-color)]
         [rn/touchable-without-feedback
          (merge {:test-ID             test-ID
@@ -69,9 +75,17 @@
                                             :above above
                                             :width width
                                             :before before
-                                            :after after})
+                                            :after after
+                                            blur-active? blur-active?})
                     (when (= state :pressed) {:opacity 0.9})
                     inner-style)}
+           (when (and (= type :blurred)
+                      blur-active?)
+             [blur/view
+              {:blur-radius   20
+               :blur-type     blur-type
+               :overlay-color blur-overlay-color
+               :style         style/blur-view}])
            (when above
              [rn/view
               [quo2.icons/icon above
@@ -80,11 +94,16 @@
                 :size            icon-size}]])
            (when before
              [rn/view
+              {:style (style/before-icon-style
+                       {:override-margins        override-before-margins
+                        :size                    size
+                        :icon-container-size     icon-container-size
+                        :icon-background-color   (get icon-background-color blur-state)
+                        :icon-container-rounded? icon-container-rounded?
+                        :icon-size               icon-size})}
               [quo2.icons/icon before
-               {:container-style {:margin-left  (if (= size 40) 12 8)
-                                  :margin-right 4}
-                :color           icon-secondary-color
-                :size            icon-size}]])
+               {:color icon-secondary-color
+                :size  icon-size}]])
            [rn/view
             (cond
               (or icon icon-no-color)
@@ -106,11 +125,16 @@
               children)]
            (when after
              [rn/view
+              {:style (style/after-icon-style
+                       {:override-margins        override-after-margins
+                        :size                    size
+                        :icon-container-size     icon-container-size
+                        :icon-background-color   (get icon-background-color blur-state)
+                        :icon-container-rounded? icon-container-rounded?
+                        :icon-size               icon-size})}
               [quo2.icons/icon after
-               {:container-style {:margin-left  4
-                                  :margin-right (if (= size 40) 12 8)}
-                :no-color        icon-secondary-no-color
-                :color           icon-secondary-color
-                :size            icon-size}]])]]]))))
+               {:no-color icon-secondary-no-color
+                :color    icon-secondary-color
+                :size     icon-size}]])]]]))))
 
 (def button (theme/with-theme button-internal))

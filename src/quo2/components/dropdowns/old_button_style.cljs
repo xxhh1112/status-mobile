@@ -1,5 +1,48 @@
-(ns quo2.components.buttons.button.style
+(ns quo2.components.dropdowns.old-button-style
   (:require [quo2.foundations.colors :as colors]))
+;; TODO - https://github.com/status-im/status-mobile/issues/16456
+;; Should be refactored and use dropdown style & view files directly
+
+(def blur-view
+  {:position :absolute
+   :top      0
+   :left     0
+   :right    0
+   :bottom   0})
+
+(defn before-icon-style
+  [{:keys [override-margins size icon-container-size icon-background-color icon-container-rounded?
+           icon-size]}]
+  (merge
+   {:margin-left     (or (get override-margins :left)
+                         (if (= size 40) 12 8))
+    :margin-right    (or (get override-margins :right) 4)
+    :align-items     :center
+    :justify-content :center}
+   (when icon-container-size
+     {:width  icon-container-size
+      :height icon-container-size})
+   (when icon-background-color
+     {:background-color icon-background-color})
+   (when icon-container-rounded?
+     {:border-radius (/ (or icon-container-size icon-size) 2)})))
+
+(defn after-icon-style
+  [{:keys [override-margins size icon-container-size icon-background-color icon-container-rounded?
+           icon-size]}]
+  (merge
+   {:margin-left     (or (get override-margins :left) 4)
+    :margin-right    (or (get override-margins :right)
+                         (if (= size 40) 12 8))
+    :align-items     :center
+    :justify-content :center}
+   (when icon-container-size
+     {:width  icon-container-size
+      :height icon-container-size})
+   (when icon-background-color
+     {:background-color icon-background-color})
+   (when icon-container-rounded?
+     {:border-radius (/ (or icon-container-size icon-size) 2)})))
 
 (defn themes
   [customization-color]
@@ -61,6 +104,16 @@
                       :background-color     {:default  colors/neutral-80-opa-5
                                              :pressed  colors/neutral-80-opa-10
                                              :disabled colors/neutral-80-opa-5}}
+    :blurred         {:icon-color            colors/neutral-100
+                      :icon-secondary-color  colors/neutral-100
+                      :icon-background-color {:default colors/neutral-20
+                                              :blurred colors/neutral-80-opa-10}
+                      :label-color           colors/neutral-100
+                      :background-color      {:default  colors/neutral-10
+                                              :pressed  colors/neutral-10
+                                              :disabled colors/neutral-10-opa-10-blur}
+                      :blur-overlay-color    colors/neutral-10-opa-40-blur
+                      :blur-type             :light}
     :blur-bg-outline {:icon-color           colors/neutral-100
                       :icon-secondary-color colors/neutral-80-opa-40
                       :label-color          colors/neutral-100
@@ -130,6 +183,16 @@
                       :background-color     {:default  colors/white-opa-5
                                              :pressed  colors/white-opa-10
                                              :disabled colors/white-opa-5}}
+    :blurred         {:icon-color            colors/white
+                      :icon-secondary-color  colors/white
+                      :icon-background-color {:default colors/neutral-80
+                                              :blurred colors/white-opa-10}
+                      :label-color           colors/white
+                      :background-color      {:default  colors/neutral-90
+                                              :pressed  colors/neutral-90
+                                              :disabled colors/neutral-90-opa-10-blur}
+                      :blur-overlay-color    colors/neutral-80-opa-40
+                      :blur-type             :dark}
     :blur-bg-outline {:icon-color           colors/white
                       :icon-secondary-color colors/white-opa-40
                       :label-color          colors/white
@@ -152,12 +215,11 @@
                       24 8))})
 
 (defn style-container
-  [{:keys [type size disabled background-color border-color icon above width before after]}]
+  [{:keys [type size disabled background-color border-color icon above width before after blur-active?]}]
   (merge {:height             size
           :align-items        :center
           :justify-content    :center
           :flex-direction     (if above :column :row)
-          :background-color   background-color
           :padding-horizontal (when-not (or icon before after)
                                 (case size
                                   56 16
@@ -187,7 +249,11 @@
                                   56 0
                                   40 9
                                   32 5
-                                  24 4))}
+                                  24 4))
+          :overflow           :hidden}
+         (when (or (and (= type :blurred) (not blur-active?))
+                   (not= type :blurred))
+           {:background-color background-color})
          (shape-style-container type icon size)
          (when width
            {:width width})
