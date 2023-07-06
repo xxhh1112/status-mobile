@@ -108,7 +108,7 @@
         :accessibility-label :new-communities-button
         :customization-color customization-color}]
       [quo/discover-card
-       {:on-press            #(rf/dispatch [:navigate-to :discover-communities])
+       {:on-press            #(rf/dispatch [:open-modal :discover-communities])
         :title               (i18n/label :t/discover)
         :description         (i18n/label :t/favorite-communities)
         :banner              (resources/get-image :discover)

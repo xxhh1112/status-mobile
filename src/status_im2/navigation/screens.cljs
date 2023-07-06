@@ -122,9 +122,11 @@
      :component find-sync-code/view}
 
     {:name      :discover-communities
+     :options   {:modalPresentationStyle :overCurrentContext}
      :component communities.discover/discover}
 
     {:name      :community-overview
+     :options   {:modalPresentationStyle :overCurrentContext}
      :component communities.overview/overview}
 
     {:name      :settings-syncing
