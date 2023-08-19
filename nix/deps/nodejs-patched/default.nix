@@ -9,10 +9,9 @@ stdenv.mkDerivation {
   phases = [
     "unpackPhase"
     "patchGradlePhase"
-    "patchBuildIdPhase"
-    "patchHermesPhase"
-    "patchJavaPhase"
     "patchReactNativePhase"
+    "patchKeyChainPhase"
+    "patchReactNativeCameraKitPhase"
     "patchPodPhase"
     "installPhase"
   ];
@@ -49,34 +48,15 @@ stdenv.mkDerivation {
       ${patchMavenSources} $modBuildGradle
     done
   '';
-  # Do not add a BuildId to the generated libraries, for reproducibility
-  patchBuildIdPhase = ''
-    substituteInPlace ./node_modules/react-native/ReactAndroid/src/main/jni/Application.mk --replace \
-        '-Wl,--build-id' \
-        '-Wl,--build-id=none'
-  '';
-  # Fix bugs in Hermes usage:
-  # https://github.com/facebook/react-native/issues/25601#issuecomment-510856047
-  # - Make PR builds also count as release builds
-  # - Fix issue where hermes command is being called with same input/output file
-  patchHermesPhase = ''
-    substituteInPlace ./node_modules/react-native/react.gradle --replace \
-        'targetName.toLowerCase().contains("release")' \
-        '!targetName.toLowerCase().contains("debug")'
-  '';
-  # Patch Java files in modules which are not yet ported to AndroidX
-  patchJavaPhase = ''
-    ${nodejs}/bin/node ./node_modules/jetifier/bin/jetify
-  '';
 
   installPhase = ''
     mkdir -p $out
     cp -R node_modules $out/
   '';
 
-#  Fix glog configuration issue in react-native:
-#  https://github.com/facebook/react-native/issues/33966
-#  TODO: remove this patch when we reach react-native 0.71.4
+  # Fix glog configuration issue in react-native:
+  # https://github.com/facebook/react-native/issues/33966
+  # TODO: remove this patch when we reach react-native 0.71.4
   patchReactNativePhase = ''
     substituteInPlace ./node_modules/react-native/scripts/ios-configure-glog.sh --replace \
       'sed -i' \
@@ -89,9 +69,30 @@ stdenv.mkDerivation {
         'src/config.h.in && rm src/config.h.in.bak'
   '';
 
-#  Fix pod issue in react-native 0.67.5:
-#  https://stackoverflow.com/questions/71248072/no-member-named-cancelbuttontintcolor-in-jsnativeactionsheetmanagerspecsh
-#  TODO: remove this patch when maybe after 0.68.5
+  # Remove gradle-test-logger-plugin:
+  # https://github.com/oblador/react-native-keychain/issues/595
+  # TODO: remove this patch when we this library fixes above issue
+  patchKeyChainPhase = ''
+   sed -i -e '/classpath/d' \
+          -e '/apply plugin: "com\.adarshr\.test-logger"/d' \
+          ./node_modules/react-native-keychain/android/build.gradle
+  '';
+
+  # Fix for :react-native-camera-kit:compileDebugKotlin FAILED
+  # Error : CKCamera.kt: (183, 17): 'onScale' overrides nothing
+  # fix from : https://github.com/teslamotors/react-native-camera-kit/issues/535#issuecomment-1506229244
+  # note by library author : https://github.com/teslamotors/react-native-camera-kit/pull/551#issuecomment-1615305719
+  # TODO: remove this patch when we react-native-camera-kit releases a stable v14
+  patchReactNativeCameraKitPhase = ''
+    substituteInPlace ./node_modules/react-native-camera-kit/android/src/main/java/com/rncamerakit/CKCamera.kt --replace \
+      'override fun onScale(detector: ScaleGestureDetector?)' \
+      'override fun onScale(detector: ScaleGestureDetector)'
+  '';
+
+
+  # Fix pod issue in react-native 0.67.5:
+  # https://stackoverflow.com/questions/71248072/no-member-named-cancelbuttontintcolor-in-jsnativeactionsheetmanagerspecsh
+  # TODO: remove this patch when maybe after 0.68.5
   patchPodPhase = ''
     substituteInPlace ./node_modules/react-native/React/CoreModules/RCTActionSheetManager.mm --replace \
           '[RCTConvert UIColor:options.cancelButtonTintColor() ? @(*options.cancelButtonTintColor()) : nil];' \
