@@ -22,7 +22,7 @@
            :heading-2   typography/heading-2
            :heading-1   typography/heading-1
            :inherit     nil)
-         {:text-align (or align :auto)}
+;         {:text-align (or align :auto)}
          (if (:color style)
            style
            (assoc style

@@ -99,6 +99,7 @@
               :icon-name      icon-name}])
           [rn/text-input
            (cond-> {:style                  (style/input colors-by-status small? @multiple-lines?)
+                    :number-of-lines        10
                     :accessibility-label    :input
                     :placeholder-text-color (:placeholder colors-by-status)
                     :keyboard-appearance    (quo.theme/theme-value :light :dark theme)
@@ -111,8 +112,7 @@
                                               (when on-blur (on-blur))
                                               (internal-on-blur))}
              :always    (merge clean-props)
-             multiline? (assoc :multiline              true
-                               :on-content-size-change set-multiple-lines!)
+             multiline? (assoc :on-content-size-change set-multiple-lines!)
              char-limit (assoc :on-change-text #(update-char-limit! % char-limit)))]
           (when-let [{:keys [on-press icon-name style-fn]} right-icon]
             [right-accessory
