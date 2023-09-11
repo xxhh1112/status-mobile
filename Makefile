@@ -259,9 +259,54 @@ status-go-library: ##@status-go Compile status-go for node-js
 # Watch, Build & Review changes
 #--------------
 
+dev-android: export TARGET := clojure
+dev-android:
+	(yarn shadow-cljs watch mobile > output.log 2>&1 &) && tail -f output.log | while read line; do \
+	echo "$$line"; \
+	if echo "$$line" | grep -q "Build completed"; then \
+	    osascript -e 'tell application "Terminal" to activate' -e 'tell application "System Events" to keystroke "t" using command down'; \
+	    sleep 1; \
+	    osascript -e 'tell application "Terminal" to do script "make run-android-hybrid" in selected tab of the front window'; \
+	fi; \
+	done
+
+#dev-android: export TARGET := clojure
+#dev-android:
+#	(yarn shadow-cljs watch mobile > output.log 2>&1 &) && tail -f output.log | while read line; do \
+#    	echo "$$line"; \
+#    	if echo "$$line" | grep -q "Build completed"; then \
+#    	    osascript -e 'tell application "Terminal" to activate' -e 'tell application "System Events" to keystroke "t" using command down'; \
+#    	    sleep 1; \
+#    	    osascript -e 'tell application "Terminal" to do script "make run-metro" in selected tab of the front window'; \
+#    	    sleep 5; \
+#    	    osascript -e 'tell application "Terminal" to activate' -e 'tell application "System Events" to keystroke "t" using command down'; \
+#    	    sleep 1; \
+#    	    osascript -e 'tell application "Terminal" to do script "make run-android" in selected tab of the front window'; \
+#    	fi; \
+#    	done
+
+dev-ios: export TARGET := clojure
+dev-ios:
+	(yarn shadow-cljs watch mobile > output.log 2>&1 &) && tail -f output.log | while read line; do \
+	echo "$$line"; \
+	if echo "$$line" | grep -q "Build completed"; then \
+	    osascript -e 'tell application "Terminal" to activate' -e 'tell application "System Events" to keystroke "t" using command down'; \
+	    sleep 1; \
+	    osascript -e 'tell application "Terminal" to do script "make run-metro" in selected tab of the front window'; \
+	    sleep 5; \
+	    osascript -e 'tell application "Terminal" to activate' -e 'tell application "System Events" to keystroke "t" using command down'; \
+	    sleep 1; \
+	    osascript -e 'tell application "Terminal" to do script "make run-ios" in selected tab of the front window'; \
+	fi; \
+	done
+
 run-clojure: export TARGET := clojure
 run-clojure: ##@run Watch for and build Clojure changes for mobile
 	yarn shadow-cljs watch mobile
+
+run-clojure-find: export TARGET := clojure
+run-clojure-find: ##@run Watch for and build Clojure changes for mobile
+	(yarn shadow-cljs watch mobile > output.log 2>&1 &) && tail -f output.log | while read line; do echo "$$line"; if echo "$$line" | grep -q "Build Completed"; then echo "found"; fi; done
 
 run-metro: export TARGET := clojure
 run-metro: ##@run Start Metro to build React Native changes
@@ -277,6 +322,19 @@ run-android: export TARGET := android
 run-android: export ANDROID_ABI_INCLUDE ?= $(shell ./scripts/adb_devices_arch.sh)
 run-android: ##@run Build Android APK and start it on the device
 	npx react-native run-android --appIdSuffix debug
+
+run-android-hybrid: export TARGET := android
+run-android-hybrid: export ANDROID_ABI_INCLUDE ?= $(shell ./scripts/adb_devices_arch.sh)
+run-android-hybrid: ##@run Build Android APK and start it on the device
+	(npx react-native run-android --appIdSuffix debug > make-run-android.log 2>&1 &) && tail -f make-run-android.log | while read line; do \
+	echo "$$line"; \
+	  if echo "$$line" | grep -q "warn"; then \
+		  osascript -e 'tell application "Terminal" to activate' -e 'tell application "System Events" to keystroke "t" using command down'; \
+		  sleep 1; \
+		  osascript -e 'tell application "Terminal" to do script "make run-metro" in selected tab of the front window'; \
+		  sleep 5; \
+	  fi; \
+	  done
 
 SIMULATOR=iPhone 11 Pro
 run-ios: export TARGET := ios
