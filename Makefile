@@ -375,6 +375,16 @@ component-test: ##@test Run component tests once in NodeJS
 	yarn shadow-cljs compile component-test && \
 	jest --config=test/jest/jest.config.js
 
+run-flow-storm: export SHADOW_CLJS_BUILD_ID := :mobile
+run-flow-storm: export TARGET := clojure
+run-flow-storm: export GDK_DPI_SCALE := 1.0
+run-flow-storm: ##@run Start FlowStorm debugger
+	clj -Sforce -Sdeps '{:deps {com.github.jpmonettas/flow-storm-dbg {:mvn/version "3.7.5"}}}' \
+		-X flow-storm.debugger.main/start-debugger \
+		:port 7888 \
+		:repl-type :shadow \
+		:build-id $(SHADOW_CLJS_BUILD_ID)
+
 #--------------
 # Other
 #--------------
@@ -398,6 +408,7 @@ android-ports: ##@other Add proxies to Android Device/Simulator
 	adb reverse tcp:8081 tcp:8081 && \
 	adb reverse tcp:3449 tcp:3449 && \
 	adb reverse tcp:4567 tcp:4567 && \
+	adb reverse tcp:7722 tcp:7722 && \
 	adb forward tcp:5561 tcp:5561
 
 android-devices: export TARGET := android-sdk
