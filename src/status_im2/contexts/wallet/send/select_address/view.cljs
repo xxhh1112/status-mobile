@@ -136,10 +136,9 @@
         input-focused? (reagent/atom false)]
     (fn []
       (let [valid-ens-or-address? (boolean (rf/sub [:wallet/valid-ens-or-address?]))]
-        (rn/use-effect (fn []
-                         (fn []
+        #_(rn/use-effect (fn []
                            (rf/dispatch [:wallet/clean-scanned-address])
-                           (rf/dispatch [:wallet/clean-local-suggestions]))))
+                           (rf/dispatch [:wallet/clean-local-suggestions])))
         [rn/scroll-view
          {:content-container-style      (style/container margin-top)
           :keyboard-should-persist-taps :handled
@@ -173,7 +172,8 @@
                 :type                :primary
                 :disabled?           (not valid-ens-or-address?)
                 :container-style     style/button
-                :on-press            #(js/alert "Not implemented yet")}
+                :on-press            #(rf/dispatch [:navigate-to-within-stack
+                                                    [:wallet-select-asset :wallet-select-address]])}
                (i18n/label :t/continue)])]
            [:<>
             [quo/tabs

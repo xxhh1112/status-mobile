@@ -159,4 +159,7 @@
 
 (rf/reg-event-fx :wallet/select-send-address
  (fn [{:keys [db]} [address]]
-   {:db (assoc db :wallet/send-address address)}))
+   {:db (assoc db :wallet/send-address address)
+    :fx [[:dispatch
+          [:navigate-to-within-stack
+           [:wallet-select-asset :wallet-select-address]]]]}))
