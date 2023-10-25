@@ -35,8 +35,8 @@
 (defn add-category-height
   [categories-heights category height]
   (swap! categories-heights
-    (fn [heights]
-      (assoc heights category height))))
+         (fn [heights]
+           (assoc heights category height))))
 
 (defn collapse-category
   [community-id category-id collapsed?]
@@ -49,22 +49,22 @@
 (defn- channel-chat-item
   [community-id community-color
    {:keys [name emoji muted? id mentions-count unread-messages? on-press locked?] :as chat}]
-  (let [sheet-content      [actions/chat-actions
-                            (assoc chat
-                                   :chat-type constants/community-chat-type
-                                   :chat-id   (str community-id id))
-                            false]
-        notification       (cond
-                             muted?               :mute
-                             (> mentions-count 0) :mention
-                             unread-messages?     :notification
-                             :else                nil)
-        channel-options    {:name                name
-                            :emoji               emoji
-                            :customization-color community-color
-                            :mentions-count      mentions-count
-                            :locked?             locked?
-                            :notification        notification}
+  (let [sheet-content [actions/chat-actions
+                       (assoc chat
+                         :chat-type constants/community-chat-type
+                         :chat-id (str community-id id))
+                       false]
+        notification (cond
+                       muted? :mute
+                       (> mentions-count 0) :mention
+                       unread-messages? :notification
+                       :else nil)
+        channel-options {:name                name
+                         :emoji               emoji
+                         :customization-color community-color
+                         :mentions-count      mentions-count
+                         :locked?             locked?
+                         :notification        notification}
         channel-sheet-data {:selected-item (fn [] [quo/channel channel-options])
                             :content       (fn [] sheet-content)}]
     [rn/view {:key id}
@@ -78,33 +78,33 @@
    channels-list]
   [rn/view
    {:on-layout #(on-first-channel-height-changed
-                 (+ 38 (int (Math/ceil (layout-y %))))
-                 (into #{} (map (comp :name second) channels-list)))
+                  (+ 38 (int (Math/ceil (layout-y %))))
+                  (into #{} (map (comp :name second) channels-list)))
     :style     {:margin-top 8 :flex 1}}
    (doall
-    (for [[category-id {:keys [chats name collapsed?]}] channels-list]
-      [rn/view
-       {:key       category-id
-        ;; on-layout fires only when the component re-renders, so
-        ;; in case the category hasn't changed, it will not be fired
-        :on-layout #(on-category-layout name (int (layout-y %)))}
-       (when-not (= constants/empty-category-id category-id)
-         [quo/divider-label
-          {:on-press     #(collapse-category community-id category-id collapsed?)
-           :chevron-icon (if collapsed? :i/chevron-right :i/chevron-down)
-           :chevron      :left}
-          name])
-       (when-not collapsed?
-         (into [rn/view {:style {:padding-horizontal 8 :padding-bottom 8}}]
-               (map #(channel-chat-item community-id community-color %))
-               chats))]))])
+     (for [[category-id {:keys [chats name collapsed?]}] channels-list]
+       [rn/view
+        {:key       category-id
+         ;; on-layout fires only when the component re-renders, so
+         ;; in case the category hasn't changed, it will not be fired
+         :on-layout #(on-category-layout name (int (layout-y %)))}
+        (when-not (= constants/empty-category-id category-id)
+          [quo/divider-label
+           {:on-press     #(collapse-category community-id category-id collapsed?)
+            :chevron-icon (if collapsed? :i/chevron-right :i/chevron-down)
+            :chevron      :left}
+           name])
+        (when-not collapsed?
+          (into [rn/view {:style {:padding-horizontal 8 :padding-bottom 8}}]
+                (map #(channel-chat-item community-id community-color %))
+                chats))]))])
 
 (defn get-access-type
   [access]
   (condp = access
-    constants/community-no-membership-access   :open
+    constants/community-no-membership-access :open
     constants/community-invitation-only-access :invite-only
-    constants/community-on-request-access      :request-access
+    constants/community-on-request-access :request-access
     :unknown-access))
 
 (defn join-gated-community
@@ -119,15 +119,15 @@
   [rn/touchable-without-feedback
    {:on-press
     #(rf/dispatch
-      [:show-bottom-sheet
-       {:content
-        (fn []
-          [quo/documentation-drawers
-           {:title        (i18n/label :t/token-gated-communities)
-            :show-button? true
-            :button-label (i18n/label :t/read-more)
-            :button-icon  :info}
-           [quo/text (i18n/label :t/token-gated-communities-info)]])}])}
+       [:show-bottom-sheet
+        {:content
+         (fn []
+           [quo/documentation-drawers
+            {:title        (i18n/label :t/token-gated-communities)
+             :show-button? true
+             :button-label (i18n/label :t/read-more)
+             :button-icon  :info}
+            [quo/text (i18n/label :t/token-gated-communities-info)]])}])}
    [rn/view
     [quo/icon :i/info {:no-color true}]]])
 
@@ -169,9 +169,9 @@
 (defn join-community
   [{:keys [joined color permissions token-permissions] :as community}
    pending?]
-  (let [access-type     (get-access-type (:access permissions))
+  (let [access-type (get-access-type (:access permissions))
         unknown-access? (= access-type :unknown-access)
-        invite-only?    (= access-type :invite-only)]
+        invite-only? (= access-type :invite-only)]
     [:<>
      (when-not (or joined pending? invite-only? unknown-access?)
        (if (seq token-permissions)
@@ -206,16 +206,16 @@
     :or   {locked? false}
     :as   chat}]
   (merge
-   chat
-   (when (and (not locked?) id)
-     {:on-press      (fn []
-                       (rf/dispatch [:dismiss-keyboard])
-                       (rf/dispatch [:chat/navigate-to-chat (str community-id id)]))
-      :on-long-press #(rf/dispatch
-                       [:show-bottom-sheet
-                        {:content (fn []
-                                    [chat-actions/actions chat false])}])
-      :community-id  community-id})))
+    chat
+    (when (and (not locked?) id)
+      {:on-press      (fn []
+                        (rf/dispatch [:dismiss-keyboard])
+                        (rf/dispatch [:chat/navigate-to-chat (str community-id id)]))
+       :on-long-press #(rf/dispatch
+                         [:show-bottom-sheet
+                          {:content (fn []
+                                      [chat-actions/actions chat false])}])
+       :community-id  community-id})))
 
 (defn add-handlers-to-chats
   [community-id chats]
@@ -239,10 +239,10 @@
           scroll-page.style/picture-border-width
           12))
      :margin-bottom 12}
-    :avatar logo
-    :title title
-    :description description
-    :title-accessibility-label :community-title
+    :avatar                          logo
+    :title                           title
+    :description                     description
+    :title-accessibility-label       :community-title
     :description-accessibility-label :community-description}])
 
 (defn community-content
@@ -290,8 +290,8 @@
   [{:icon-name           :i/options
     :accessibility-label :community-options-for-community
     :on-press            #(rf/dispatch
-                           [:show-bottom-sheet
-                            {:content (fn [] [options/community-options-bottom-sheet id])}])}])
+                            [:show-bottom-sheet
+                             {:content (fn [] [options/community-options-bottom-sheet id])}])}])
 
 (defn pick-first-category-by-height
   [scroll-height first-channel-height categories-heights]
@@ -303,18 +303,18 @@
 
 (defn community-scroll-page
   [{:keys [joined]}]
-  (let [scroll-height        (reagent/atom 0)
-        categories-heights   (reagent/atom {})
+  (let [scroll-height (reagent/atom 0)
+        categories-heights (reagent/atom {})
         first-channel-height (reagent/atom 0)
         ;; We track the initial value of joined
         ;; as we open the page to avoid switching
         ;; from not collapsed to collapsed if the
         ;; user is on this page
-        initial-joined?      joined]
+        initial-joined? joined]
     (fn [{:keys [id name images] :as community} pending?]
-      (let [cover          {:uri (get-in images [:banner :uri])}
-            logo           {:uri (get-in images [:thumbnail :uri])}
-            collapsed?     (and initial-joined? (:joined community))
+      (let [cover {:uri (get-in images [:banner :uri])}
+            logo {:uri (get-in images [:thumbnail :uri])}
+            collapsed? (and initial-joined? (:joined community))
             overlay-shown? (boolean (:sheets (rf/sub [:bottom-sheet])))]
         [scroll-page/scroll-page
          {:cover-image    cover
@@ -332,14 +332,14 @@
           :sticky-header  [sticky-category-header
                            {:enabled (> @scroll-height @first-channel-height)
                             :label   (pick-first-category-by-height
-                                      @scroll-height
-                                      @first-channel-height
-                                      @categories-heights)}]}
+                                       @scroll-height
+                                       @first-channel-height
+                                       @categories-heights)}]}
          [community-content
           community
           pending?
-          {:on-category-layout              (partial add-category-height categories-heights)
-           :collapsed?                      collapsed?
+          {:on-category-layout (partial add-category-height categories-heights)
+           :collapsed?         collapsed?
            :on-first-channel-height-changed
            ;; Here we set the height of the component and we filter out the categories, as some
            ;; might have been removed.
@@ -351,12 +351,12 @@
   [id]
   (let [{:keys [id]
          :as   community} (rf/sub [:communities/community id])
-        pending?          (rf/sub [:communities/my-pending-request-to-join id])]
+        pending? (rf/sub [:communities/my-pending-request-to-join id])]
     [community-scroll-page community pending?]))
 
-(defn overview
+(defn overview-old
   [id]
-  (let [id                  (or id (rf/sub [:get-screen-params :community-overview]))
+  (let [id (or id (rf/sub [:get-screen-params :community-overview]))
         customization-color (rf/sub [:profile/customization-color])]
     [rn/view {:style style/community-overview-container}
      [community-card-page-view id]
@@ -366,3 +366,30 @@
                  :label               (i18n/label :t/jump-to)}}
       {:position :absolute
        :bottom   34}]]))
+
+(defn community-overview-view [{:keys [id community customization-color chats-by-category]}]
+  (let [categories-heights (reagent/atom {})
+        first-channel-height (reagent/atom 0)]
+    [rn/scroll-view
+
+
+     [channel-list-component
+      {:on-category-layout              (partial add-category-height categories-heights)
+       :community-id                    id
+       :community-color                 (:color community)
+       :on-first-channel-height-changed (fn [height categories]
+                                          (swap! categories-heights select-keys categories)
+                                          (reset! first-channel-height height))}
+      (add-handlers-to-categorized-chats id chats-by-category)]]))
+
+(defn overview
+  [id]
+  (let [id (or id (rf/sub [:get-screen-params :community-overview]))
+        customization-color (rf/sub [:profile/customization-color])
+        community (rf/sub [:communities/community id])
+        chats-by-category (rf/sub [:communities/categorized-channels id])]
+    [rn/view {:style style/community-overview-container}
+     [community-overview-view {:id                  id
+                               :customization-color customization-color
+                               :community           community
+                               :chats-by-category   chats-by-category}]]))

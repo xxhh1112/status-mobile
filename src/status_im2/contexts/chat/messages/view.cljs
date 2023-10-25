@@ -72,6 +72,7 @@
        :keyboard-shown?   keyboard-shown
        :inner-state-atoms inner-state-atoms}]
 
+     ;; TODO(alwx): this part is basically the top bar itself, shown only when scrolled
      [messages.navigation/navigation-view
       {:scroll-y            scroll-y
        :back-icon           back-icon
