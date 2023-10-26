@@ -4,11 +4,13 @@
     [re-frame.core :as re-frame]
     [status-im2.contexts.profile.config :as profile.config]
     [utils.re-frame :as rf]
-    [utils.security.core :as security]))
+    [utils.security.core :as security]
+    [taoensso.timbre :as log]))
 
 (re-frame/reg-fx
  ::create-profile-and-login
  (fn [request]
+   (log/info "request parameters of create-profile-and-login ->" request)
    ;;"node.login" signal will be triggered as a callback
    (native-module/create-account-and-login request)))
 
