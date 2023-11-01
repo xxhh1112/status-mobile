@@ -7,18 +7,22 @@
     [reagent.core :as reagent]
     [status-im2.contexts.wallet.send.select-asset.style :as style]
     [utils.i18n :as i18n]
-    [utils.re-frame :as rf]))
+    [utils.re-frame :as rf]
+    [quo.foundations.resources :as quo.resources]
+    [status-im2.contexts.quo-preview.list-items.token-network :as token-network]))
 
 (def tabs-data
   [{:id :tab/assets :label (i18n/label :t/assets) :accessibility-label :assets-tab}
    {:id :tab/collectibles :label (i18n/label :t/collectibles) :accessibility-label :collectibles-tab}])
 
+
 (defn- asset-component
   []
-  (fn [_ _ _ _]
+  (fn [token-network _ _ _]
     (let [_ {:on-press      #(js/alert "Not implemented yet")
              :active-state? false}]
-      [rn/view])))
+      [quo/token-network
+       token-network])))
 
 (defn- asset-list
   []

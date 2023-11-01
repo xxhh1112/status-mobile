@@ -1,7 +1,8 @@
 (ns status-im2.contexts.wallet.temp
   (:require [clojure.string :as string]
             [status-im2.common.resources :as resources]
-            [status-im2.contexts.wallet.item-types :as types]))
+            [status-im2.contexts.wallet.item-types :as types]
+            [quo.foundations.resources :as quo.resources]))
 
 (def ens-local-suggestion-saved-address-mock
   {:type     types/saved-address
@@ -44,3 +45,17 @@
   (let [all-addresses [address-local-suggestion-saved-address-mock
                        address-local-suggestion-mock]]
     (vec (filter #(string/starts-with? (:address %) substring) all-addresses))))
+
+(def networks-list
+  [{:source (quo.resources/get-network :ethereum)}
+   {:source (quo.resources/get-network :optimism)}
+   {:source (quo.resources/get-network :arbitrum)}
+   {:source (quo.resources/get-network :zksync)}
+   {:source (quo.resources/get-network :polygon)}])
+
+(def token-value-eth
+  {:token       (quo.resources/get-token :eth)
+   :label       "Ethereum"
+   :token-value "0.00 ETH"
+   :fiat-value  "€0.00"
+   :networks    networks-list})

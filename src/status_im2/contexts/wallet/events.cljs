@@ -163,3 +163,7 @@
     :fx [[:dispatch
           [:navigate-to-within-stack
            [:wallet-select-asset :wallet-select-address]]]]}))
+
+(rf/reg-event-fx :wallet/assets-for-account
+ (fn [{:keys [db]} [account]]
+   {:db (assoc db :wallet/account-assets {account [temp/token-value-eth]})}))
