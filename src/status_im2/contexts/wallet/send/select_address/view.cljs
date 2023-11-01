@@ -98,8 +98,7 @@
   (fn [{:keys [type ens address accounts] :as local-suggestion} _ _ _]
     (let [props {:on-press      (fn []
                                   (let [address (if accounts (:address (first accounts)) address)]
-                                    (when-not ens (rf/dispatch [:wallet/select-send-address address]))
-                                    (js/alert "Not implemented yet")))
+                                    (when-not ens (rf/dispatch [:wallet/select-send-address address]))))
                  :active-state? false}]
       (cond
         (= type types/saved-address)
@@ -118,11 +117,12 @@
     (let [local-suggestion (rf/sub [:wallet/local-suggestions])]
       [rn/view {:style {:flex 1}}
        [rn/flat-list
-        {:data                      local-suggestion
-         :content-container-style   {:flex-grow 1}
-         :key-fn                    :id
-         :on-scroll-to-index-failed identity
-         :render-fn                 suggestion-component}]])))
+        {:data                         local-suggestion
+         :content-container-style      {:flex-grow 1}
+         :key-fn                       :id
+         :on-scroll-to-index-failed    identity
+         :keyboard-should-persist-taps :handled
+         :render-fn                    suggestion-component}]])))
 
 (defn- f-view-internal
   []
@@ -140,7 +140,7 @@
                            (rf/dispatch [:wallet/clean-local-suggestions]))))
         [rn/scroll-view
          {:content-container-style      (style/container margin-top)
-          :keyboard-should-persist-taps :never
+          :keyboard-should-persist-taps :handled
           :scroll-enabled               false}
          [quo/page-nav
           {:icon-name           :i/close
