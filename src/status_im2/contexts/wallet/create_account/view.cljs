@@ -21,7 +21,7 @@
     (i18n/label :t/keypair-title {:name first-name})))
 
 (defn get-keypair-data
-  [name derivation-path]
+  [name derivation-path color]
   [{:title             (keypair-string name)
 <<<<<<< HEAD
     :left-icon         :i/placeholder
@@ -29,9 +29,9 @@
     :action-props      {:on-press    #(js/alert "Button pressed!")
 =======
     :image             :avatar
-    :image-props       {:full-name           "A Y"
+    :image-props       {:full-name           (utils/get-initials name)
                         :size                :xxs
-                        :customization-color :blue}
+                        :customization-color color}
     :action            :button
     :action-props      {:on-press    #(rf/dispatch [:navigate-to :wallet-select-keypair])
 >>>>>>> 7ee3de610 (wallet: keypair screen)
@@ -126,7 +126,11 @@
        [quo/category
         {:list-type :settings
          :label     (i18n/label :t/origin)
+<<<<<<< HEAD
          :data      (get-keypair-data primary-name @derivation-path)}]
+=======
+         :data      (get-keypair-data display-name @derivation-path @account-color)}]
+>>>>>>> a4f1672b7 (review)
        [standard-auth/view
         {:size                :size-48
          :track-text          (i18n/label :t/slide-to-create-account)
