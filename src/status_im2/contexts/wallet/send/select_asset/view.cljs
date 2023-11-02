@@ -29,12 +29,15 @@
         :fiat-value  "€0.00"}])))
 
 (defn- asset-list
-  [account-address]
+  [account-address search-text]
+  (println search-text)
   (fn []
-    (let [tokens (rf/sub [:wallet/tokens])]
+    (let [tokens          (rf/sub [:wallet/tokens])
+          account-tokens  (get tokens (keyword account-address))
+          filtered-tokens (filter #(string/starts-with? (:name %) search-text) account-tokens)]
       [rn/view {:style {:flex 1}}
        [rn/flat-list
-        {:data                      (get tokens (keyword account-address))
+        {:data                      filtered-tokens
          :content-container-style   {:flex-grow          1
                                      :padding-horizontal 8}
          :key-fn                    :id
@@ -42,9 +45,9 @@
          :render-fn                 asset-component}]])))
 
 (defn- tab-view
-  [account selected-tab]
+  [account search-text selected-tab]
   (case selected-tab
-    :tab/assets       [asset-list account]
+    :tab/assets       [asset-list account search-text]
     :tab/collectibles [quo/empty-state
                        {:title           (i18n/label :t/no-collectibles)
                         :description     (i18n/label :t/no-collectibles-description)
@@ -52,13 +55,23 @@
                         :container-style style/empty-container-style}]))
 
 (defn- search-input
-  []
-  (fn []
-    [rn/view]))
+  [search-text]
+  (let [on-change-text (fn [text]
+                         (println text)
+                         (reset! search-text text))]
+    (fn []
+      [rn/view {:style style/search-input-container}
+       [quo/input
+        {:small?         true
+         :placeholder    (i18n/label :t/search-assets)
+         :icon-name      :i/search
+         :value          @search-text
+         :on-change-text on-change-text}]])))
 
 (defn- f-view-internal
   [account-address]
   (let [margin-top      (safe-area/get-top)
+        search-text     (reagent/atom "")
         selected-tab    (reagent/atom (:id (first tabs-data)))
         account-address (string/lower-case (or account-address
                                                (rf/sub [:get-screen-params :wallet-accounts])))
@@ -86,11 +99,12 @@
          :blur?           false
          :symbol          false
          :default-active  :tab/assets
-         :container-style {:margin-horizontal 20}
+         :container-style {:margin-horizontal 20
+                           :margin-vertical   8}
          :data            tabs-data
          :on-change       #(reset! selected-tab %)}]
-       [search-input]
-       [tab-view account-address @selected-tab]])))
+       [search-input search-text]
+       [tab-view account-address @search-text @selected-tab]])))
 
 (defn- view-internal
   [{:keys [account-address]}]
