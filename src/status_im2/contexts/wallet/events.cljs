@@ -1,8 +1,8 @@
 (ns status-im2.contexts.wallet.events
   (:require
     [native-module.core :as native-module]
-    [status-im2.common.data-store.wallet :as data-store]
     [react-native.background-timer :as background-timer]
+    [status-im2.common.data-store.wallet :as data-store]
     [status-im2.contexts.wallet.temp :as temp]
     [taoensso.timbre :as log]
     [utils.re-frame :as rf]
