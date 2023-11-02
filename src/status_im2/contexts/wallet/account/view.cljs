@@ -85,7 +85,7 @@
            :customization-color :blue}]
          [quo/wallet-graph {:time-frame :empty}]
          [quo/wallet-ctas
-          {:send-action #(rf/dispatch [:open-modal :wallet-select-address])
+          {:send-action #(rf/dispatch [:open-modal :wallet-select-address (:address account)])
            :buy-action  #(rf/dispatch [:show-bottom-sheet
                                        {:content buy-drawer}])}]
          [quo/tabs

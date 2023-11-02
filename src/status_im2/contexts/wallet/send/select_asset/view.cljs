@@ -1,5 +1,6 @@
 (ns status-im2.contexts.wallet.send.select-asset.view
   (:require
+    [clojure.string :as string]
     [quo.core :as quo]
     [quo.theme :as quo.theme]
     [react-native.core :as rn]
@@ -7,9 +8,7 @@
     [reagent.core :as reagent]
     [status-im2.contexts.wallet.send.select-asset.style :as style]
     [utils.i18n :as i18n]
-    [utils.re-frame :as rf]
-    [quo.foundations.resources :as quo.resources]
-    [status-im2.contexts.quo-preview.list-items.token-network :as token-network]))
+    [utils.re-frame :as rf]))
 
 (def tabs-data
   [{:id :tab/assets :label (i18n/label :t/assets) :accessibility-label :assets-tab}
@@ -18,28 +17,28 @@
 
 (defn- asset-component
   []
-  (fn [token-network _ _ _]
+  (fn [token _ _ _]
     (let [_ {:on-press      #(js/alert "Not implemented yet")
              :active-state? false}]
-      [quo/token-network
-       token-network])))
+      (println token "token")
+      [quo/token-network token])))
 
 (defn- asset-list
-  []
+  [account-address]
   (fn []
-    (let [local-suggestion (rf/sub [:wallet/local-suggestions])]
+    (let [tokens (rf/sub [:wallet/tokens])]
       [rn/view {:style {:flex 1}}
        [rn/flat-list
-        {:data                      local-suggestion
+        {:data                      (get tokens (keyword account-address))
          :content-container-style   {:flex-grow 1}
          :key-fn                    :id
          :on-scroll-to-index-failed identity
          :render-fn                 asset-component}]])))
 
 (defn- tab-view
-  [selected-tab]
+  [account selected-tab]
   (case selected-tab
-    :tab/assets       [asset-list]
+    :tab/assets       [asset-list account]
     :tab/collectibles [quo/empty-state
                        {:title           (i18n/label :t/no-collectibles)
                         :description     (i18n/label :t/no-collectibles-description)
@@ -52,10 +51,12 @@
     [rn/view]))
 
 (defn- f-view-internal
-  []
-  (let [margin-top   (safe-area/get-top)
-        selected-tab (reagent/atom (:id (first tabs-data)))
-        on-close     #(rf/dispatch [:navigate-back-within-stack :wallet-select-asset])]
+  [account-address]
+  (let [margin-top      (safe-area/get-top)
+        selected-tab    (reagent/atom (:id (first tabs-data)))
+        account-address (string/lower-case (or account-address
+                                               (rf/sub [:get-screen-params :wallet-accounts])))
+        on-close        #(rf/dispatch [:navigate-back-within-stack :wallet-select-asset])]
     (fn []
       [rn/scroll-view
        {:content-container-style      (style/container margin-top)
@@ -83,10 +84,10 @@
          :data            tabs-data
          :on-change       #(reset! selected-tab %)}]
        [search-input]
-       [tab-view @selected-tab]])))
+       [tab-view account-address @selected-tab]])))
 
 (defn- view-internal
-  []
-  [:f> f-view-internal])
+  [{:keys [account-address]}]
+  [:f> f-view-internal account-address])
 
 (def view (quo.theme/with-theme view-internal))
