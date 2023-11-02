@@ -179,8 +179,8 @@
          (logout!)
          (rf-test/wait-for [::logout/logout-method]))))))
 
-(deftest delete-chat-test
-  (log/info "========= delete-chat-test ==================")
+(deftest close-chat-test
+  (log/info "========= close-chat-test ==================")
   (rf-test/run-test-async
    (initialize-app!)
    (rf-test/wait-for
@@ -195,8 +195,8 @@
          (rf/dispatch-sync [:chat/navigate-to-chat chat-id])
          (is (= chat-id @(rf/subscribe [:chats/current-chat-id])))
          (is @(rf/subscribe [:chats/chat chat-id]))
-         (rf/dispatch-sync [:chat.ui/show-remove-confirmation chat-id])
-         (rf/dispatch-sync [:chat.ui/remove-chat chat-id])
+         (rf/dispatch-sync [:chat.ui/show-close-confirmation chat-id])
+         (rf/dispatch-sync [:chat.ui/close-chat chat-id])
          (logout!)
          (rf-test/wait-for [::logout/logout-method]))))))
 
