@@ -8,7 +8,8 @@
     [reagent.core :as reagent]
     [status-im2.contexts.wallet.send.select-asset.style :as style]
     [utils.i18n :as i18n]
-    [utils.re-frame :as rf]))
+    [utils.re-frame :as rf]
+    [quo.foundations.resources :as quo.resources]))
 
 (def tabs-data
   [{:id :tab/assets :label (i18n/label :t/assets) :accessibility-label :assets-tab}
@@ -21,7 +22,11 @@
     (let [_ {:on-press      #(js/alert "Not implemented yet")
              :active-state? false}]
       (println token "token")
-      [quo/token-network token])))
+      [quo/token-network
+       {:token       (quo.resources/get-token (keyword (string/lower-case (:symbol token))))
+        :label       (:name token)
+        :token-value (str "0.00 " (:symbol token))
+        :fiat-value  "€0.00"}])))
 
 (defn- asset-list
   [account-address]
@@ -30,7 +35,8 @@
       [rn/view {:style {:flex 1}}
        [rn/flat-list
         {:data                      (get tokens (keyword account-address))
-         :content-container-style   {:flex-grow 1}
+         :content-container-style   {:flex-grow          1
+                                     :padding-horizontal 8}
          :key-fn                    :id
          :on-scroll-to-index-failed identity
          :render-fn                 asset-component}]])))
