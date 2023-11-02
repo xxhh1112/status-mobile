@@ -52,7 +52,9 @@
       [quo/address-input
        {:on-focus              #(reset! input-focused? true)
         :on-blur               #(reset! input-focused? false)
-        :on-scan               #(rf/dispatch [:open-modal :scan-address])
+        :on-scan               (fn []
+                                 (rn/dismiss-keyboard!)
+                                 (rf/dispatch [:open-modal :scan-address]))
         :ens-regex             constants/regx-ens
         :address-regex         constants/regx-address
         :scanned-value         (or send-address scanned-address)
