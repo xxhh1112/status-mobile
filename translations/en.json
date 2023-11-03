@@ -2370,9 +2370,13 @@
     "sign transactions": "sign transactions",
     "edit-derivation-path": "Edit derivation path",
     "path-format": "Path format",
-    "derivation-path": "Derivation path",
     "reset": "Reset",
     "reveal-address": "Reveal address",
     "derive-addresses": "Derive addresses",
-    "address-activity": "This address has activity"
+    "address-activity": "This address has activity",
+    "account-created": "{{name}} created",
+    "update-account-name": "Update account name",
+    "edit-wallet-account-emoji-updated-message": "Account emoji has been updated",
+    "edit-wallet-account-name-updated-message": "Account name has been updated",
+    "edit-wallet-account-colour-updated-message": "Account colour has been updated"
 }

@@ -9,7 +9,7 @@
     [utils.re-frame :as rf]))
 
 (defn view
-  [{:keys [on-enter-password button-label button-icon-left customization-color]}]
+  [{:keys [on-enter-password button-label button-icon-left profile-color customization-color]}]
   (let [{:keys [key-uid display-name] :as account} (rf/sub [:profile/multiaccount])
         {:keys [error processing password]}        (rf/sub [:profile/login])
         sign-in-enabled?                           (rf/sub [:sign-in-enabled?])
@@ -30,7 +30,7 @@
           :blur?               true
           :profile-picture     profile-picture
           :full-name           display-name
-          :customization-color customization-color
+          :customization-color profile-color
           :size                24}]]
        [password-input/view
         {:processing       processing

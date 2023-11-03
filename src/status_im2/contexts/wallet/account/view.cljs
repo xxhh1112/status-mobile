@@ -12,31 +12,40 @@
 
 (defn account-options
   []
-  [:<>
-   [quo/drawer-top temp/account-data]
-   [quo/action-drawer
-    [[{:icon                :i/edit
-       :accessibility-label :edit
-       :label               (i18n/label :t/edit-account)
-       :on-press            #(rf/dispatch [:navigate-to :wallet-edit-account])}
-      {:icon                :i/copy
-       :accessibility-label :copy-address
-       :label               (i18n/label :t/copy-address)}
-      {:icon                :i/share
-       :accessibility-label :share-account
-       :label               (i18n/label :t/share-account)}
-      {:icon                :i/delete
-       :accessibility-label :remove-account
-       :label               (i18n/label :t/remove-account)
-       :danger?             true}]]]
-   [quo/divider-line {:container-style {:margin-top 8}}]
-   [quo/section-label
-    {:section         (i18n/label :t/select-another-account)
-     :container-style style/drawer-section-label}]
-   [rn/flat-list
-    {:data      temp/other-accounts
-     :render-fn (fn [account] [quo/account-item {:account-props account}])
-     :style     {:margin-horizontal 8}}]])
+  (let [{:keys [name customization-color emoji address]} (rf/sub [:wallet/current-viewing-account])]
+    [:<>
+     [quo/drawer-top
+      {:title                name
+       :type                 :account
+       :networks             [{:name :ethereum :short-name "eth"}
+                              {:name :optimism :short-name "opt"}
+                              {:name :arbitrum :short-name "arb1"}]
+       :description          address
+       :account-avatar-emoji emoji
+       :customization-color  customization-color}]
+     [quo/action-drawer
+      [[{:icon                :i/edit
+         :accessibility-label :edit
+         :label               (i18n/label :t/edit-account)
+         :on-press            #(rf/dispatch [:navigate-to :wallet-edit-account])}
+        {:icon                :i/copy
+         :accessibility-label :copy-address
+         :label               (i18n/label :t/copy-address)}
+        {:icon                :i/share
+         :accessibility-label :share-account
+         :label               (i18n/label :t/share-account)}
+        {:icon                :i/delete
+         :accessibility-label :remove-account
+         :label               (i18n/label :t/remove-account)
+         :danger?             true}]]]
+     [quo/divider-line {:container-style {:margin-top 8}}]
+     [quo/section-label
+      {:section         (i18n/label :t/select-another-account)
+       :container-style style/drawer-section-label}]
+     [rn/flat-list
+      {:data      temp/other-accounts
+       :render-fn (fn [account] [quo/account-item {:account-props account}])
+       :style     {:margin-horizontal 8}}]]))
 
 (defn buy-drawer
   []
@@ -57,32 +66,32 @@
    {:id :about :label (i18n/label :t/about) :accessibility-label :about}])
 
 (defn view
-  [account-address]
+  []
   (let [selected-tab (reagent/atom (:id (first tabs-data)))]
     (fn []
-      (let [account-address (or account-address (rf/sub [:get-screen-params :wallet-accounts]))
-            account         (rf/sub [:wallet/account account-address])
-            networks        (rf/sub [:wallet/network-details])]
+      (let [{:keys [name customization-color emoji balance]} (rf/sub [:wallet/current-viewing-account])
+            networks                                         (rf/sub [:wallet/network-details])]
         [rn/view {:style style/container}
          [quo/page-nav
           {:type              :wallet-networks
            :background        :blur
            :icon-name         :i/close
-           :on-press          #(rf/dispatch [:navigate-back])
+           :on-press          #(rf/dispatch [:wallet/close-account-page])
            :networks          networks
            :networks-on-press #(js/alert "Pressed Networks")
            :right-side        :account-switcher
-           :account-switcher  {:customization-color :purple
+           :account-switcher  {:customization-color customization-color
                                :on-press            #(rf/dispatch [:show-bottom-sheet
-                                                                   {:content             account-options
-                                                                    :gradient-cover?     true
-                                                                    :customization-color :purple}])
-                               :emoji               "🍑"}}]
+                                                                   {:content account-options
+                                                                    :gradient-cover? true
+                                                                    :customization-color
+                                                                    customization-color}])
+                               :emoji               emoji}}]
          [quo/account-overview
-          {:current-value       (utils/prettify-balance (:balance account))
-           :account-name        (:name account)
+          {:current-value       (utils/prettify-balance balance)
+           :account-name        name
            :account             :default
-           :customization-color :blue}]
+           :customization-color customization-color}]
          [quo/wallet-graph {:time-frame :empty}]
          [quo/wallet-ctas
           {:send-action #(rf/dispatch [:open-modal :wallet-select-address])
