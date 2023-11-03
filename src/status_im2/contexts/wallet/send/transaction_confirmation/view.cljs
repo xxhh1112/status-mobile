@@ -1,4 +1,4 @@
-(ns status-im2.contexts.wallet.send.select-asset.view
+(ns status-im2.contexts.wallet.send.transaction-confirmation.view
   (:require
     [clojure.string :as string]
     [quo.core :as quo]
@@ -7,7 +7,7 @@
     [react-native.core :as rn]
     [react-native.safe-area :as safe-area]
     [reagent.core :as reagent]
-    [status-im2.contexts.wallet.send.select-asset.style :as style]
+    [status-im2.contexts.wallet.send.transaction-confirmation.style :as style]
     [utils.i18n :as i18n]
     [utils.re-frame :as rf]))
 
@@ -31,9 +31,7 @@
 (defn- asset-component
   []
   (fn [token _ _ _]
-    (let [on-press                #(rf/dispatch [:navigate-to-within-stack
-                                                 [:wallet-transaction-confirmation
-                                                  :wallet-select-asset]])
+    (let [on-press                #(js/alert "Not implemented yet")
           total-balance           (reduce +
                                           (map #(js/parseFloat (:balance %))
                                                (vals (:balancesPerChain token))))
