@@ -60,7 +60,6 @@
                                      (string/starts-with? (string/lower-case (:symbol %))
                                                           (string/lower-case search-text)))
                                 sorted-tokens)]
-    (println sorted-tokens)
     [rn/view {:style {:flex 1}}
      [rn/flat-list
       {:data                         filtered-tokens
