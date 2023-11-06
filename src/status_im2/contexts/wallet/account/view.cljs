@@ -1,6 +1,5 @@
 (ns status-im2.contexts.wallet.account.view
   (:require
-    [clojure.string :as string]
     [quo.core :as quo]
     [react-native.core :as rn]
     [reagent.core :as reagent]
@@ -96,6 +95,7 @@
            :data           tabs-data
            :on-change      #(reset! selected-tab %)
            :scrollable?    true}]
-         [tabs/view {:selected-tab @selected-tab
-                     :account-address account-address
-                     :account account}]]))))
+         [tabs/view
+          {:selected-tab    @selected-tab
+           :account-address account-address
+           :account         account}]]))))
