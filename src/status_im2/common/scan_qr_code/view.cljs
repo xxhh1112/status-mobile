@@ -21,7 +21,7 @@
 (defonce camera-permission-granted? (reagent/atom false))
 
 (defn- header
-  [{:keys [title subtitle show-subtitle? bottom-padding?]}]
+  [{:keys [title subtitle bottom-padding?]}]
   [:<>
    [rn/view {:style style/header-container}
     [quo/button
@@ -37,7 +37,7 @@
      :weight :semi-bold
      :style  (style/header-text bottom-padding?)}
     title]
-   (when show-subtitle?
+   (when subtitle
      [quo/text
       {:size   :paragraph-1
        :weight :regular
@@ -178,7 +178,7 @@
     #(.remove app-state-listener)))
 
 (defn f-view-internal
-  [{:keys [title subtitle validate-fn on-success-scan error-message show-subtitle? bottom-padding?]}]
+  [{:keys [title subtitle validate-fn on-success-scan error-message bottom-padding?]}]
   (let [insets             (safe-area/get-insets)
         qr-code-succeed?   (reagent/atom false)
         qr-view-finder     (reagent/atom {})
@@ -221,13 +221,12 @@
           [header
            {:title           title
             :subtitle        subtitle
-            :show-subtitle?  show-subtitle?
             :bottom-padding? bottom-padding?}]
           (when (empty? @qr-view-finder)
             [:<>
              [rn/view {:style style/scan-qr-code-container}]
              [qr-scan-hole-area qr-view-finder]])
-          [scan-qr-code-tab @qr-view-finder show-subtitle?]
+          [scan-qr-code-tab @qr-view-finder (when subtitle true)]
           [rn/view {:style style/flex-spacer}]
           (when show-camera?
             [quo.theme/provider {:theme :light}

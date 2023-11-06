@@ -2,6 +2,7 @@
   (:require
     [status-im.ui.screens.screens :as old-screens]
     [status-im2.config :as config]
+    [status-im2.contexts.add-new-contact.scan-profile-qr :as scan-profile-qr-code]
     [status-im2.contexts.add-new-contact.views :as add-new-contact]
     [status-im2.contexts.chat.camera.view :as camera-screen]
     [status-im2.contexts.chat.group-details.view :as group-details]
@@ -276,7 +277,13 @@
      :options   (merge
                  options/dark-screen
                  {:modalPresentationStyle :overCurrentContext})
-     :component scan-address/view}]
+     :component scan-address/view}
+
+    {:name      :scan-profile-qr-code
+     :options   (merge
+                 options/dark-screen
+                 {:modalPresentationStyle :overCurrentContext})
+     :component scan-profile-qr-code/view}]
 
    (when js/goog.DEBUG
      [{:name      :dev-component-preview
