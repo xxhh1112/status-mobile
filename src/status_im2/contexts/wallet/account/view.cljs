@@ -62,10 +62,8 @@
   (let [selected-tab (reagent/atom (:id (first tabs-data)))]
     (fn []
       (let [account-address (or account-address (rf/sub [:get-screen-params :wallet-accounts]))
-            tokens (rf/sub [:wallet/tokens])
             account         (rf/sub [:wallet/account account-address])
             networks        (rf/sub [:wallet/network-details])]
-        (println "tokens" (get tokens (keyword (string/lower-case account-address))))
         [rn/view {:style style/container}
          [quo/page-nav
           {:type              :wallet-networks
@@ -98,4 +96,6 @@
            :data           tabs-data
            :on-change      #(reset! selected-tab %)
            :scrollable?    true}]
-         [tabs/view {:selected-tab @selected-tab}]]))))
+         [tabs/view {:selected-tab @selected-tab
+                     :account-address account-address
+                     :account account}]]))))

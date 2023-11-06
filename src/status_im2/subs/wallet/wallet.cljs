@@ -4,27 +4,12 @@
             [status-im2.contexts.wallet.common.utils :as utils]
             [utils.number]))
 
-(defn- calculate-raw-balance
-  [raw-balance decimals]
-  (if-let [n (utils.number/parse-int raw-balance nil)]
-    (/ n (Math/pow 10 (utils.number/parse-int decimals)))
-    0))
-
-(defn- total-per-token
-  [item]
-  (reduce (fn [ac balances]
-            (+ (calculate-raw-balance (:rawBalance balances)
-                                      (:decimals item))
-               ac))
-          0
-          (vals (:balancesPerChain item))))
-
 (defn- calculate-balance
   [address tokens]
   (let [token  (get tokens (keyword (string/lower-case address)))
         result (reduce
                 (fn [acc item]
-                  (let [total-values (* (total-per-token item)
+                  (let [total-values (* (utils/total-per-token item)
                                         (get-in item [:marketValuesPerCurrency :USD :price]))]
                     (+ acc total-values)))
                 0
