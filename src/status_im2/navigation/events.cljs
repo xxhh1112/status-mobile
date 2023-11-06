@@ -1,6 +1,7 @@
 (ns status-im2.navigation.events
   (:require
     [re-frame.core :as re-frame]
+    [status-im2.contexts.shell.jump-to.constants :as shell.constants]
     [status-im2.contexts.shell.jump-to.events :as shell.events]
     [status-im2.contexts.shell.jump-to.state :as shell.state]
     [status-im2.contexts.shell.jump-to.utils :as shell.utils]
@@ -21,7 +22,9 @@
   (rf/merge
    cofx
    {:db         (all-screens-params db go-to-view-id screen-params)
-    :dispatch-n [[:hide-bottom-sheet]]}
+    :dispatch-n [[:hide-bottom-sheet]
+                 (when (= go-to-view-id shell.constants/community-screen)
+                   [:chat.ui/mark-all-read-in-community-pressed screen-params])]}
    (shell.events/shell-navigate-to go-to-view-id screen-params nil nil)))
 
 (rf/defn navigate-to-within-stack
