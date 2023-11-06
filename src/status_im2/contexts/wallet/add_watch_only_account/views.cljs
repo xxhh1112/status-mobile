@@ -1,17 +1,17 @@
 (ns status-im2.contexts.wallet.add-watch-only-account.views
   (:require
-    [reagent.core :as reagent]
     [clojure.string :as string]
-    [utils.i18n :as i18n]
-    [re-frame.core :as re-frame]
-    [react-native.core :as rn]
     [quo.core :as quo]
     [quo.theme :as quo.theme]
+    [re-frame.core :as re-frame]
+    [react-native.core :as rn]
+    [reagent.core :as reagent]
+    [status-im2.contexts.emoji-picker.utils :as emoji-picker.utils]
+    [status-im2.contexts.wallet.add-watch-only-account.style :as style]
     [status-im2.contexts.wallet.common.screen-base.create-or-edit-account.view :as
      create-or-edit-account]
-    [utils.re-frame :as rf]
-    [status-im2.contexts.emoji-picker.utils :as emoji-picker.utils]
-    [status-im2.contexts.wallet.add-watch-only-account.style :as style]))
+    [utils.i18n :as i18n]
+    [utils.re-frame :as rf]))
 
 (defn- view-internal
   []

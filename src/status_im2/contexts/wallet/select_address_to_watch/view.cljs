@@ -1,24 +1,49 @@
 (ns status-im2.contexts.wallet.select-address-to-watch.view
   (:require
-    [clojure.string :as string]
+    clojure.string
     [quo.core :as quo]
-    [quo.theme :as quo.theme]
     [re-frame.core :as re-frame]
-    [react-native.clipboard :as clipboard]
     [react-native.core :as rn]
     [react-native.safe-area :as safe-area]
     [reagent.core :as reagent]
+    [status-im2.constants :as constants]
     [status-im2.contexts.wallet.select-address-to-watch.style :as style]
     [utils.i18n :as i18n]
     [utils.re-frame :as rf]))
 
-(defn view-internal
+(defn- address-input
+  []
+  (let [timer                    (atom nil)
+        valid-ens-or-address?    (reagent/atom false)
+        on-detect-address-or-ens (fn [_]
+                                   (reset! valid-ens-or-address? false)
+                                   (when @timer (js/clearTimeout @timer))
+                                   (reset! timer (js/setTimeout #(reset! valid-ens-or-address? true)
+                                                                2000)))]
+    (fn [input-value]
+      (let [scanned-address (rf/sub [:wallet/scanned-address])]
+        [quo/address-input
+         {:on-scan               #(rf/dispatch [:open-modal :scan-address])
+          :ens-regex             constants/regx-ens
+          :address-regex         constants/regx-address
+          :scanned-value         scanned-address
+          :on-detect-ens         on-detect-address-or-ens
+          :on-detect-address     on-detect-address-or-ens
+          :on-change-text        (fn [text]
+                                   (when-not (= scanned-address text)
+                                     (rf/dispatch [:wallet/clean-scanned-address]))
+                                   (reset! input-value text))
+          :on-clear              #(rf/dispatch [:wallet/clean-scanned-address])
+          :valid-ens-or-address? @valid-ens-or-address?}]))))
+
+(defn f-view
   []
   (let [top                 (safe-area/get-top)
         bottom              (safe-area/get-bottom)
-        input-value         (reagent/atom "")
-        customization-color (rf/sub [:profile/customization-color])]
+        customization-color (rf/sub [:profile/customization-color])
+        input-value         (atom "")]
     (fn []
+      (rn/use-effect (fn [] #(rf/dispatch [:wallet/clean-scanned-address])))
       [rn/view
        {:style {:flex       1
                 :margin-top top}}
@@ -30,20 +55,7 @@
         {:container-style style/header-container
          :title           (i18n/label :t/add-address)
          :description     (i18n/label :t/enter-eth)}]
-       [rn/view {:style style/input-container}
-        [quo/input
-         {:label           (i18n/label :t/eth-or-ens)
-          :button          {:on-press (fn [] (clipboard/get-string #(reset! input-value %)))
-                            :text     (i18n/label :t/paste)}
-          :placeholder     (str "0x123abc... " (string/lower-case (i18n/label :t/or)) " bob.eth")
-          :container-style {:margin-right 12
-                            :flex         1}
-          :weight          :monospace
-          :on-change-text  #(reset! input-value %)
-          :default-value   @input-value}]
-        [quo/button
-         {:icon-only? true
-          :type       :outline} :i/scan]]
+       [address-input input-value]
        [quo/button
         {:customization-color customization-color
          :disabled?           (clojure.string/blank? @input-value)
@@ -53,4 +65,6 @@
          :container-style     (style/button-container bottom)}
         (i18n/label :t/continue)]])))
 
-(def view (quo.theme/with-theme view-internal))
+(defn view
+  []
+  [:f> f-view])

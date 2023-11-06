@@ -38,7 +38,6 @@
     [status-im2.contexts.syncing.setup-syncing.view :as settings-setup-syncing]
     [status-im2.contexts.syncing.syncing-devices-list.view :as settings-syncing]
     [status-im2.contexts.wallet.account.view :as wallet-accounts]
-    [status-im2.contexts.wallet.select-address-to-watch.view :as wallet-address-watch]
     [status-im2.contexts.wallet.collectible.view :as wallet-collectible]
     [status-im2.contexts.wallet.create-account.edit-derivation-path.view :as wallet-edit-derivation-path]
     [status-im2.contexts.wallet.create-account.view :as wallet-create-account]
@@ -46,6 +45,7 @@
     [status-im2.contexts.wallet.saved-address.view :as wallet-saved-address]
     [status-im2.contexts.wallet.saved-addresses.view :as wallet-saved-addresses]
     [status-im2.contexts.wallet.scan-account.view :as scan-address]
+    [status-im2.contexts.wallet.select-address-to-watch.view :as wallet-address-watch]
     [status-im2.contexts.wallet.send.select-address.view :as wallet-select-address]
     [status-im2.navigation.options :as options]
     [status-im2.navigation.transitions :as transitions]))
@@ -269,7 +269,8 @@
      :component wallet-saved-addresses/view}
 
     {:name      :wallet-select-address
-     :options   {:modalPresentationStyle :overCurrentContext}
+     :options   {:insets                 {:top true :bottom true}
+                 :modalPresentationStyle :overCurrentContext}
      :component wallet-select-address/view}
 
     {:name      :scan-address
